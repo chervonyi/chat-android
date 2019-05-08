@@ -20,6 +20,13 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
+                android:text="+"
+                android:onClick="onClickSearch"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
