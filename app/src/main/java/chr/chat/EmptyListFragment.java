@@ -14,7 +14,7 @@ public class EmptyListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.emptylist_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_emptylist, container, false);
 
         return view;
     }
