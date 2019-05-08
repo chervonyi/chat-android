@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Chat</string>
+    <string name="empty_list_text">You do not have any chat yet. \nPress “+” to find a new chat</string>
 </resources>

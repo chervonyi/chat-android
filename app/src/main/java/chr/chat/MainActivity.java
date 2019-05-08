@@ -5,13 +5,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static final int CHAT_FRAGMENT_ID = 0;
+    public static final int EMPTY_LIST_FRAGMENT_ID = 1;
+
     private List<Fragment> mFragments = new ArrayList<>();
+
+    private List<String> mChats = new ArrayList<>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -19,10 +26,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Add in order according to appropriate ID
         mFragments.add(new ChatFragment());
         mFragments.add(new EmptyListFragment());
 
-        changeFragment(0, false);
+        if (mChats.size() == 0) {
+            changeFragment(EMPTY_LIST_FRAGMENT_ID, false);
+            Log.d("CHR_GAMES_TEST", "EMPTY LIST FRAGMENT");
+        } else {
+            changeFragment(CHAT_FRAGMENT_ID, false);
+            Log.d("CHR_GAMES_TEST", "CHAT FRAGMENT");
+        }
     }
 
     @SuppressLint("ResourceType")
