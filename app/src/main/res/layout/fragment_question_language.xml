@@ -39,24 +39,18 @@
                 android:id="@+id/button_answer_english"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
                 android:layout_marginRight="20dp"
-                android:textSize="16sp"
                 android:text="English"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button"/>
 
             <Button
                 android:id="@+id/button_answer_french"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
-                android:textSize="16sp"
                 android:text="French"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,24 +63,18 @@
                 android:id="@+id/button_answer_spanish"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
                 android:layout_marginRight="20dp"
-                android:textSize="16sp"
                 android:text="Spanish"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button"/>
 
             <Button
                 android:id="@+id/button_answer_russian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
-                android:textSize="16sp"
                 android:text="Russian"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button"/>
         </LinearLayout>
 
         <LinearLayout
@@ -99,36 +87,27 @@
                 android:id="@+id/button_answer_german"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
                 android:layout_marginRight="20dp"
-                android:textSize="16sp"
                 android:text="German"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button"/>
 
             <Button
                 android:id="@+id/button_answer_ukrainian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:background="@drawable/button"
-                android:fontFamily="sans-serif-black"
-                android:textSize="16sp"
                 android:text="Ukrainian"
                 android:textAllCaps="false"
-                android:textColor="@color/gray" />
+                style="@style/Button"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/button_answer_other"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:background="@drawable/button"
-            android:fontFamily="sans-serif-black"
-            android:textSize="16sp"
             android:text="Other"
             android:textAllCaps="false"
-            android:textColor="@color/gray" />
+            style="@style/Button"/>
 
 
 
@@ -143,13 +122,11 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/button_start_searching"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:background="@drawable/highlighted_button"
-            android:fontFamily="sans-serif-black"
             android:text="go"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
+            style="@style/HighlightedButton"/>
     </LinearLayout>
 
 </LinearLayout>

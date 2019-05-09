@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GenderQuestionFragment extends Fragment implements View.OnClickListener {
 
@@ -41,6 +42,22 @@ public class GenderQuestionFragment extends Fragment implements View.OnClickList
         view.findViewById(R.id.button_answer_man).setOnClickListener(this);
         view.findViewById(R.id.button_answer_woman).setOnClickListener(this);
         view.findViewById(R.id.button_answer_anybody).setOnClickListener(this);
+
+        view.findViewById(R.id.button_next_question).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String answer = "anybody";
+
+                switch (selection) {
+                    case R.id.button_answer_man: answer = "man"; break;
+                    case R.id.button_answer_woman: answer = "woman"; break;
+                    case R.id.button_answer_anybody: answer = "anybody"; break;
+                }
+
+                ((SearchActivity) Objects.requireNonNull(getActivity())).answeredOnGender(answer);
+            }
+        });
 
         return view;
     }

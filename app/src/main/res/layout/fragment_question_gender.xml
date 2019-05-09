@@ -63,6 +63,7 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/button_next_question"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:text="next"
