@@ -3,4 +3,16 @@
     <string name="empty_list_text">You do not have any chat yet. \nPress “+” to find a new chat</string>
     <string name="question_gender">Who would you like to chat with?</string>
     <string name="question_language">What language should it be?</string>
+    <string name="answer_man">a man</string>
+    <string name="answer_woman">a woman</string>
+    <string name="answer_anybody">anybody</string>
+    <string name="button_next">next</string>
+    <string name="language_english">English</string>
+    <string name="language_french">French</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_german">German</string>
+    <string name="language_ukrainian">Ukrainian</string>
+    <string name="language_other">Other</string>
+    <string name="button_go">go</string>
 </resources>

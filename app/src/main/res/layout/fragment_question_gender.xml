@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,32 +26,25 @@
             android:textColor="@color/gray"
             android:textSize="22sp" />
 
-        <Button
+        <chr.chat.ChatButton
             android:id="@+id/button_answer_man"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_marginBottom="20dp"
-            android:text="a man"
-            android:textAllCaps="false"
-            style="@style/Button"/>
+            android:text="@string/answer_man"/>
 
-        <Button
+        <chr.chat.ChatButton
             android:id="@+id/button_answer_woman"
             android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="40dp"
             android:layout_marginBottom="20dp"
-            android:text="a woman"
-            android:textAllCaps="false"
-            style="@style/Button"/>
+            android:text="@string/answer_woman" />
 
-        <Button
+        <chr.chat.ChatButton
             android:id="@+id/button_answer_anybody"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:background="@drawable/button"
-            android:text="anybody"
-            android:textAllCaps="false"
-            style="@style/Button"/>
+            android:text="@string/answer_anybody"/>
 
     </LinearLayout>
 
@@ -66,7 +58,7 @@
             android:id="@+id/button_next_question"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:text="next"
+            android:text="@string/button_next"
             style="@style/HighlightedButton"/>
     </LinearLayout>
 

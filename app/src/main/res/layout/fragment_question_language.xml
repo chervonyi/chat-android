@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,7 +26,6 @@
             android:textColor="@color/gray"
             android:textSize="24sp" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,22 +33,18 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_english"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginRight="20dp"
-                android:text="English"
-                android:textAllCaps="false"
-                style="@style/Button"/>
+                android:layout_marginEnd="20dp"
+                android:text="@string/language_english"/>
 
-            <Button
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_french"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:text="French"
-                android:textAllCaps="false"
-                style="@style/Button" />
+                android:text="@string/language_french" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,22 +53,19 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal">
-            <Button
+
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_spanish"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginRight="20dp"
-                android:text="Spanish"
-                android:textAllCaps="false"
-                style="@style/Button"/>
+                android:layout_marginEnd="20dp"
+                android:text="@string/language_spanish"/>
 
-            <Button
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_russian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:text="Russian"
-                android:textAllCaps="false"
-                style="@style/Button"/>
+                android:text="@string/language_russian"/>
         </LinearLayout>
 
         <LinearLayout
@@ -83,37 +74,28 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal">
-            <Button
+
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_german"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginRight="20dp"
-                android:text="German"
-                android:textAllCaps="false"
-                style="@style/Button"/>
+                android:layout_marginEnd="20dp"
+                android:text="@string/language_german"/>
 
-            <Button
+            <chr.chat.ChatButton
                 android:id="@+id/button_answer_ukrainian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:text="Ukrainian"
-                android:textAllCaps="false"
-                style="@style/Button"/>
+                android:text="@string/language_ukrainian"/>
         </LinearLayout>
 
-        <Button
+        <chr.chat.ChatButton
             android:id="@+id/button_answer_other"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:text="Other"
-            android:textAllCaps="false"
-            style="@style/Button"/>
-
-
+            android:text="@string/language_other"/>
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -125,7 +107,7 @@
             android:id="@+id/button_start_searching"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:text="go"
+            android:text="@string/button_go"
             style="@style/HighlightedButton"/>
     </LinearLayout>
 
