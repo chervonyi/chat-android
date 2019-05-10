@@ -2,10 +2,13 @@ package chr.chat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
@@ -57,9 +60,26 @@ public class ChangeInfoActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        hideKeyboard();
+    }
 
+    private void hideKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
 
+    public void goToInputGender(View view) {
+        changeFragment(INPUT_GENDER_FRAGMENT_ID, true);
+        String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
+        Log.d("CHR_GAMES_TEST", "Input: " + input);
+        hideKeyboard();
+    }
+
+    public void finishInput(String gender) {
+        Log.d("CHR_GAMES_TEST", "Gender: " + gender);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 }

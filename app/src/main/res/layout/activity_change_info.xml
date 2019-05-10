@@ -25,6 +25,13 @@
                 android:text="Personal Info"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
+                android:text="->"
+                android:onClick="goToInputGender"/>
         </LinearLayout>
 
 

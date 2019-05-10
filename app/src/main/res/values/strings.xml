@@ -16,4 +16,8 @@
     <string name="language_other">Other</string>
     <string name="button_go">go</string>
     <string name="input_hint_name">Input your pretty name..</string>
+    <string name="question_input_gender">What is your gender?</string>
+    <string name="gender_man">MAN</string>
+    <string name="gender_woman">WOMAN</string>
+    <string name="button_save">SAVE</string>
 </resources>
