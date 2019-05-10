@@ -1,10 +1,12 @@
 package chr.chat;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
         // Add fragments according to appropriate IDs
         mFragments.add(new InputNameFragment());
         mFragments.add(new InputGenderFragment());
+
+        changeFragment(INPUT_NAME_FRAGMENT_ID, false);
     }
 
     @SuppressLint("ResourceType")
@@ -48,5 +52,14 @@ public class ChangeInfoActivity extends AppCompatActivity {
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
     }
 }

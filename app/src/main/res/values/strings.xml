@@ -15,4 +15,5 @@
     <string name="language_ukrainian">Ukrainian</string>
     <string name="language_other">Other</string>
     <string name="button_go">go</string>
+    <string name="input_hint_name">Input your pretty name..</string>
 </resources>
