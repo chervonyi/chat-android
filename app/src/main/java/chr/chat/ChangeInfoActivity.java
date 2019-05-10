@@ -1,36 +1,29 @@
 package chr.chat;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class ChangeInfoActivity extends AppCompatActivity {
 
-    public static final int QUESTION_GENDER_FRAGMENT_ID = 0;
-    public static final int QUESTION_LANGUAGE_FRAGMENT_ID = 1;
+    public static final int INPUT_NAME_FRAGMENT_ID = 0;
+    public static final int INPUT_GENDER_FRAGMENT_ID = 1;
 
     private List<Fragment> mFragments = new ArrayList<>();
-
-    private String selectedGender;
-    private String selectedLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_change_info);
 
-        // Add in order according to ID numbers
-        mFragments.add(new GenderQuestionFragment());
-        mFragments.add(new LanguageQuestionFragment());
-
-        changeFragment(QUESTION_GENDER_FRAGMENT_ID, false);
+        // Add fragments according to appropriate IDs
+        mFragments.add(new InputNameFragment());
+        mFragments.add(new InputGenderFragment());
     }
 
     @SuppressLint("ResourceType")
@@ -48,30 +41,12 @@ public class SearchActivity extends AppCompatActivity {
 
         if (animation) {
             fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
-        } else {
-            fragmentTransaction.setCustomAnimations(0, 0);
         }
 
         // Add current fragment
         fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-    public void answeredOnGender(String gender) {
-        selectedGender = gender;
-        Log.d("CHR_GAMES_TEST", "selected gender is: " + gender);
-        changeFragment(QUESTION_LANGUAGE_FRAGMENT_ID, true);
-    }
-
-    public void startSearching(String language) {
-        selectedLanguage = language;
-        Log.d("CHR_GAMES_TEST", "selected language is: " + language);
-        // TODO - change fragment and start searching for a chat
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
-    }
-
 }

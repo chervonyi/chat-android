@@ -44,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
+    // TODO - Remove then
+    public void onClickInput(View view) {
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
+    }
+
     @SuppressLint("ResourceType")
     public void changeFragment(int position, boolean animation) {
 
