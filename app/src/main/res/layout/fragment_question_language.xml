@@ -33,14 +33,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_english"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginEnd="20dp"
                 android:text="@string/language_english"/>
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_french"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
@@ -54,14 +54,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_spanish"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginEnd="20dp"
                 android:text="@string/language_spanish"/>
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_russian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
@@ -75,21 +75,21 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_german"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginEnd="20dp"
                 android:text="@string/language_german"/>
 
-            <chr.chat.ChatButton
+            <chr.chat.views.ChatButton
                 android:id="@+id/button_answer_ukrainian"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
                 android:text="@string/language_ukrainian"/>
         </LinearLayout>
 
-        <chr.chat.ChatButton
+        <chr.chat.views.ChatButton
             android:id="@+id/button_answer_other"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"

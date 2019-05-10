@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.Button;
+
+import chr.chat.R;
 
 @SuppressLint("AppCompatCustomView")
 public class ChatButton extends Button {

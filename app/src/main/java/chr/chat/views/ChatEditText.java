@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import chr.chat.R;
 
 @SuppressLint("AppCompatCustomView")
 public class ChatEditText extends EditText {

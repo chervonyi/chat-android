@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,31 +6,53 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+import chr.chat.fragments.ChatFragment;
+import chr.chat.fragments.EmptyListFragment;
+import chr.chat.R;
 
-    public static final int QUESTION_GENDER_FRAGMENT_ID = 0;
-    public static final int QUESTION_LANGUAGE_FRAGMENT_ID = 1;
+public class MainActivity extends AppCompatActivity {
+
+
+    private static final int CHAT_FRAGMENT_ID = 0;
+    private static final int EMPTY_LIST_FRAGMENT_ID = 1;
 
     private List<Fragment> mFragments = new ArrayList<>();
 
-    private String selectedGender;
-    private String selectedLanguage;
+    private List<String> mChats = new ArrayList<>();
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_main);
 
         // Add in order according to ID numbers
-        mFragments.add(new GenderQuestionFragment());
-        mFragments.add(new LanguageQuestionFragment());
+        mFragments.add(new ChatFragment());
+        mFragments.add(new EmptyListFragment());
 
-        changeFragment(QUESTION_GENDER_FRAGMENT_ID, false);
+        if (mChats.size() == 0) {
+            changeFragment(EMPTY_LIST_FRAGMENT_ID, false);
+        } else {
+            changeFragment(CHAT_FRAGMENT_ID, false);
+        }
+    }
+
+    public void onClickSearch(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
+    }
+
+    // TODO - Remove then
+    public void onClickInput(View view) {
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     @SuppressLint("ResourceType")
@@ -48,30 +70,12 @@ public class SearchActivity extends AppCompatActivity {
 
         if (animation) {
             fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
-        } else {
-            fragmentTransaction.setCustomAnimations(0, 0);
         }
 
         // Add current fragment
         fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-    public void answeredOnGender(String gender) {
-        selectedGender = gender;
-        Log.d("CHR_GAMES_TEST", "selected gender is: " + gender);
-        changeFragment(QUESTION_LANGUAGE_FRAGMENT_ID, true);
-    }
-
-    public void startSearching(String language) {
-        selectedLanguage = language;
-        Log.d("CHR_GAMES_TEST", "selected language is: " + language);
-        // TODO - change fragment and start searching for a chat
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
-    }
-
 }

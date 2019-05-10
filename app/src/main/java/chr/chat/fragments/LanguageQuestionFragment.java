@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import chr.chat.views.ChatButton;
+import chr.chat.R;
+import chr.chat.activities.SearchActivity;
 
 public class LanguageQuestionFragment extends Fragment implements View.OnClickListener {
 

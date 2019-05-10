@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
+import chr.chat.views.ChatButton;
+import chr.chat.R;
+import chr.chat.activities.ChangeInfoActivity;
 
 public class InputGenderFragment extends Fragment implements View.OnClickListener {
 

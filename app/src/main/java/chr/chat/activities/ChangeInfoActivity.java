@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import chr.chat.views.ChatEditText;
+import chr.chat.fragments.InputGenderFragment;
+import chr.chat.fragments.InputNameFragment;
+import chr.chat.R;
 
 public class ChangeInfoActivity extends AppCompatActivity {
 
