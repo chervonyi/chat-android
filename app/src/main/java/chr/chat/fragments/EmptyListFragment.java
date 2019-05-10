@@ -18,6 +18,9 @@ public class EmptyListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_emptylist, container, false);
 
+        view.setTag("EmptyListFragmentTAG");
+
         return view;
     }
+
 }

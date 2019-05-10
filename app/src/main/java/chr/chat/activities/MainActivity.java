@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
+import chr.chat.fragments.HeaderChatListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new EmptyListFragment());
 
         if (mChats.size() == 0) {
-            changeFragment(EMPTY_LIST_FRAGMENT_ID, false);
+            changeFragment(R.id.container, mFragments.get(EMPTY_LIST_FRAGMENT_ID), "EmptyListFragment", false);
         } else {
-            changeFragment(CHAT_FRAGMENT_ID, false);
+            changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
         }
+
+        changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
     }
 
     public void onClickSearch(View view) {
@@ -56,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceType")
-    public void changeFragment(int position, boolean animation) {
+    public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
         // Remove current fragment if it has been added before
-        if (getSupportFragmentManager().findFragmentByTag(position + "") != null) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .remove(mFragments.get(position))
+                    .remove(newFragment)
                     .commit();
         }
 
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Add current fragment
-        fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
+        fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

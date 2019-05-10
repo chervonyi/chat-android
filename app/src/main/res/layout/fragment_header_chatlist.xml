@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/header_color"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="18sp"
+            android:text="Jon Snow"/>
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_settings"
+            android:layout_gravity="center_vertical|end"
+            android:translationZ="2dp"
+            android:background="@null"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:layout_marginEnd="6dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:background="@drawable/round_chat_icon"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginEnd="10dp"
+            android:text="JS"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:background="@drawable/round_chat_icon_green"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginEnd="10dp"
+            android:text="YC"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:background="@drawable/round_chat_icon_blue"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="MS"/>
+
+    </LinearLayout>
+</LinearLayout>

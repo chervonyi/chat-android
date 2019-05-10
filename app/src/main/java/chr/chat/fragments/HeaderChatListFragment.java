@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 
 import chr.chat.R;
 
-public class ChatFragment extends Fragment {
+public class HeaderChatListFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_header_chatlist, container, false);
 
-        view.setTag("ChatFragmentTAG");
+        view.setTag("HeaderChatListFragmentTAG");
 
         return view;
     }
