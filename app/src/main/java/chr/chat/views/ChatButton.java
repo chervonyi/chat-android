@@ -38,10 +38,10 @@ public class ChatButton extends Button {
     @SuppressLint("ResourceAsColor")
     public void renderButton() {
         setBackground(context.getResources().getDrawable(R.drawable.button));
-        setPadding(0,0,0,2);
+        setPadding(0,0,0,1);
         setTextColor(context.getResources().getColor(R.color.gray));
         setStateListAnimator(null);
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         setAllCaps(false);
     }

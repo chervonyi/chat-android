@@ -2,6 +2,7 @@
 <resources>
     <dimen name="header_size">100dp</dimen>
     <dimen name="header_size_small">70dp</dimen>
-    <dimen name="button_width">120dp</dimen>
-    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_width">100dp</dimen>
+    <dimen name="button_height">36dp</dimen>
+    <dimen name="button_text_size">15sp</dimen>
 </resources>

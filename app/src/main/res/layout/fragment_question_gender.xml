@@ -24,7 +24,7 @@
             android:text="@string/question_gender"
             android:textAlignment="center"
             android:textColor="@color/gray"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <chr.chat.views.ChatButton
             android:id="@+id/button_answer_man"
@@ -36,7 +36,7 @@
         <chr.chat.views.ChatButton
             android:id="@+id/button_answer_woman"
             android:layout_width="@dimen/button_width"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:layout_marginBottom="20dp"
             android:text="@string/answer_woman" />
 
