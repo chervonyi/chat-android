@@ -54,7 +54,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         if (animation) {
-            fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, 0);
         } else {
             fragmentTransaction.setCustomAnimations(0, 0);
         }
@@ -88,6 +88,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+    public void onClickBack(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 }

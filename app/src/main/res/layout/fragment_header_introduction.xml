@@ -21,7 +21,8 @@
             android:translationZ="2dp"
             android:layout_marginStart="5dp"
             android:scaleType="centerCrop"
-            android:background="@null"/>
+            android:background="@null"
+            android:onClick="onClickBack"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -30,7 +31,7 @@
             android:textColor="@color/white"
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:text="Introduction"/>
 
         <ImageButton

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -51,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSearch(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
     // TODO - Remove then
     public void onClickInput(View view) {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
     @SuppressLint("ResourceType")
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         if (animation) {
-            fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, 0);
         } else {
             fragmentTransaction.setCustomAnimations(0, 0);
         }
