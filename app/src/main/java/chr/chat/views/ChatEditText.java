@@ -3,8 +3,6 @@ package chr.chat.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -37,8 +35,6 @@ public class ChatEditText extends EditText {
     public void render() {
         // Color for underline line
         getBackground().mutate().setColorFilter(getResources().getColor(R.color.accent), PorterDuff.Mode.SRC_ATOP);
-
-        setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         requestFocus();
 

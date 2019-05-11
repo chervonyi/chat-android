@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="30dp">
 
     <chr.chat.views.ChatEditText
         android:id="@+id/editTextName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textCursorDrawable="@drawable/cursor"
         android:maxLength="30"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         android:hint="@string/input_hint_name"
         tools:ignore="Autofill" />
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewLeftCharacters"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:layout_alignEnd="@id/editTextName"
+        android:gravity="center"
+        android:textColor="@color/light_gray"
+        android:textAlignment="center"
+        android:text="30"/>
+</RelativeLayout>

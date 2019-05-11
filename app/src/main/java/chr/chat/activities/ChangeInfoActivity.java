@@ -27,6 +27,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
+    public static final int MAX_LENGTH = 30;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
         String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
         Log.d("CHR_GAMES_TEST", "Input: " + input);
         hideKeyboard();
+
+        // Hide button "Done"
+        view.setVisibility(View.INVISIBLE);
     }
 
     public void finishInput(String gender) {
