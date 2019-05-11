@@ -20,4 +20,7 @@
     <string name="gender_man">MAN</string>
     <string name="gender_woman">WOMAN</string>
     <string name="button_save">SAVE</string>
+    <string name="menu_report_user">Report user</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_change_name">Change name</string>
 </resources>

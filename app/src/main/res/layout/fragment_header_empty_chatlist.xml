@@ -40,6 +40,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_settings"
             android:layout_gravity="center_vertical|end"
-            android:background="@null"/>
+            android:background="@null"
+            android:onClick="onClickMenu"/>
     </RelativeLayout>
 </LinearLayout>

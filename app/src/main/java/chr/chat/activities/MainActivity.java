@@ -1,12 +1,22 @@
 package chr.chat.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.MenuPopupWindow;
+import android.support.v7.widget.PopupMenu;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +26,7 @@ import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
 import chr.chat.fragments.HeaderChatListFragment;
 import chr.chat.fragments.HeaderEmptyChatListFragment;
+import chr.chat.views.ChatPopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSearch(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
-    // TODO - Remove then
-    public void onClickInput(View view) {
+    public void goToPersonalInfo() {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
@@ -83,5 +95,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+
+    public void onClickMenu(View view) {
+        // Show menu
+        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+        popupMenu.show();
     }
 }

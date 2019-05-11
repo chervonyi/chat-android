@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import chr.chat.fragments.GenderQuestionFragment;
 import chr.chat.fragments.HeaderSearchingFragment;
 import chr.chat.fragments.LanguageQuestionFragment;
 import chr.chat.R;
+import chr.chat.views.ChatPopupMenu;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -79,13 +81,29 @@ public class SearchActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, MainActivity.class);
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
     public void onClickBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 
+    public void onClickMenu(View view) {
+        // Show menu
+        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+        popupMenu.show();
+    }
+
+    public void goToPersonalInfo() {
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
 }

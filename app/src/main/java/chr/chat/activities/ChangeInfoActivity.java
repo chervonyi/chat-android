@@ -88,12 +88,14 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
     public void onClickBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 }

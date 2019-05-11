@@ -29,7 +29,8 @@
             android:layout_marginEnd="5dp"
             android:src="@drawable/ic_settings"
             android:layout_gravity="center_vertical|end"
-            android:background="@null"/>
+            android:background="@null"
+            android:onClick="onClickMenu"/>
     </FrameLayout>
 
     <LinearLayout
