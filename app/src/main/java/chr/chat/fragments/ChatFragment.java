@@ -17,9 +17,6 @@ public class ChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-
-        view.setTag("ChatFragmentTAG");
-
         return view;
     }
 }

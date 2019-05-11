@@ -31,15 +31,16 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
             android:textSize="16sp"
-            android:text="Searching for a new chat"/>
+            android:text="Introduction"/>
 
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_settings"
+            android:src="@drawable/ic_done"
             android:layout_gravity="center_vertical|end"
-            android:background="@null"/>
+            android:background="@null"
+            android:onClick="goToInputGender"/>
     </FrameLayout>
 
 </LinearLayout>

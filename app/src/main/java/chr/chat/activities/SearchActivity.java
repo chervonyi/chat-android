@@ -75,7 +75,8 @@ public class SearchActivity extends AppCompatActivity {
         Log.d("CHR_GAMES_TEST", "selected language is: " + language);
         // TODO - change fragment and start searching for a chat
 
-        Intent intent = new Intent(this, MainActivity.class);
+        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }

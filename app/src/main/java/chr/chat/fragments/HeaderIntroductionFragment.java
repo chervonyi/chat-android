@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import chr.chat.R;
 
-public class HeaderSearchingFragment extends Fragment {
+public class HeaderIntroductionFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_header_searching, container, false);
+        View view = inflater.inflate(R.layout.fragment_header_introduction, container, false);
         return view;
     }
 }

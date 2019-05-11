@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import chr.chat.fragments.HeaderIntroductionFragment;
 import chr.chat.views.ChatEditText;
 import chr.chat.fragments.InputGenderFragment;
 import chr.chat.fragments.InputNameFragment;
@@ -35,17 +36,18 @@ public class ChangeInfoActivity extends AppCompatActivity {
         mFragments.add(new InputNameFragment());
         mFragments.add(new InputGenderFragment());
 
-        changeFragment(INPUT_NAME_FRAGMENT_ID, false);
+        changeFragment(R.id.container, mFragments.get(INPUT_NAME_FRAGMENT_ID), "InputNameFragment", false);
+        changeFragment(R.id.header, new HeaderIntroductionFragment(), "HeaderIntroductionFragment", false);
     }
 
     @SuppressLint("ResourceType")
-    public void changeFragment(int position, boolean animation) {
+    public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
         // Remove current fragment if it has been added before
-        if (getSupportFragmentManager().findFragmentByTag(position + "") != null) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .remove(mFragments.get(position))
+                    .remove(newFragment)
                     .commit();
         }
 
@@ -53,11 +55,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
         if (animation) {
             fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
+        } else {
+            fragmentTransaction.setCustomAnimations(0, 0);
         }
 
         // Add current fragment
-        fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
-        //fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -74,7 +77,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     }
 
     public void goToInputGender(View view) {
-        changeFragment(INPUT_GENDER_FRAGMENT_ID, true);
+        changeFragment(R.id.container, mFragments.get(INPUT_GENDER_FRAGMENT_ID), "InputGenderFragment", true);
         String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
         Log.d("CHR_GAMES_TEST", "Input: " + input);
         hideKeyboard();

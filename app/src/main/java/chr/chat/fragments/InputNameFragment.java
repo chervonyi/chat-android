@@ -17,7 +17,6 @@ public class InputNameFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_input_name, container, false);
-
         return view;
     }
 }
