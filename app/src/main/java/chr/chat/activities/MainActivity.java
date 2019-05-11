@@ -74,11 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (animation) {
             fragmentTransaction.setCustomAnimations(R.anim.enter, 0);
+        } else {
+            fragmentTransaction.setCustomAnimations(0, 0);
         }
 
         // Add current fragment
         fragmentTransaction.add(destination, newFragment, tag);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

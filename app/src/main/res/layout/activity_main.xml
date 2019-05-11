@@ -19,7 +19,6 @@
             android:layout_height="@dimen/header_size"/>
 
 
-
         <!-- BODY -->
         <FrameLayout
             android:id="@+id/container"

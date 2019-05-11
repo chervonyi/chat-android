@@ -57,7 +57,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
         // Add current fragment
         fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        //fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chr.chat.fragments.GenderQuestionFragment;
+import chr.chat.fragments.HeaderSearchingFragment;
 import chr.chat.fragments.LanguageQuestionFragment;
 import chr.chat.R;
 
@@ -34,17 +35,18 @@ public class SearchActivity extends AppCompatActivity {
         mFragments.add(new GenderQuestionFragment());
         mFragments.add(new LanguageQuestionFragment());
 
-        changeFragment(QUESTION_GENDER_FRAGMENT_ID, false);
+        changeFragment(R.id.container, mFragments.get(QUESTION_GENDER_FRAGMENT_ID), "GenderQuestionFragment", false);
+        changeFragment(R.id.header, new HeaderSearchingFragment(), "HeaderSearchingFragment", false);
     }
 
     @SuppressLint("ResourceType")
-    public void changeFragment(int position, boolean animation) {
+    public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
         // Remove current fragment if it has been added before
-        if (getSupportFragmentManager().findFragmentByTag(position + "") != null) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .remove(mFragments.get(position))
+                    .remove(newFragment)
                     .commit();
         }
 
@@ -57,7 +59,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         // Add current fragment
-        fragmentTransaction.add(R.id.container, mFragments.get(position), position + "");
+        fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -65,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
     public void answeredOnGender(String gender) {
         selectedGender = gender;
         Log.d("CHR_GAMES_TEST", "selected gender is: " + gender);
-        changeFragment(QUESTION_LANGUAGE_FRAGMENT_ID, true);
+        changeFragment(R.id.container, mFragments.get(QUESTION_LANGUAGE_FRAGMENT_ID), "LanguageQuestionFragment", true);
     }
 
     public void startSearching(String language) {
