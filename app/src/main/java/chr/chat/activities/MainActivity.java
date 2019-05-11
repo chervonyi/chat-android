@@ -16,9 +16,9 @@ import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
 import chr.chat.fragments.HeaderChatListFragment;
+import chr.chat.fragments.HeaderEmptyChatListFragment;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private static final int CHAT_FRAGMENT_ID = 0;
     private static final int EMPTY_LIST_FRAGMENT_ID = 1;
@@ -39,11 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (mChats.size() == 0) {
             changeFragment(R.id.container, mFragments.get(EMPTY_LIST_FRAGMENT_ID), "EmptyListFragment", false);
+            findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size_small);
+            changeFragment(R.id.header, new HeaderEmptyChatListFragment(), "HeaderEmptyChatListFragment",false);
         } else {
             changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
+            findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
+            changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
         }
-
-        changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
     }
 
     public void onClickSearch(View view) {
