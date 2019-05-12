@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new ChatFragment());
         mFragments.add(new EmptyListFragment());
 
+        /*
         // Check if chat-list is empty or not
         if (mChats.size() == 0) {
             // Show header and body  fragments according to EMPTY chat-list
@@ -59,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
             changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
         }
+        */
+
+        // TODO - remove:
+        changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
+        findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
+        changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
     }
 
     /**

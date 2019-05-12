@@ -12,6 +12,8 @@
     <color name="header_color">#032D50</color>
     <color name="header_color_dark">#032038</color>
     <color name="accent">#257DC7</color>
+    <color name="chat_block_gray">#F2F3F4</color>
+    <color name="chat_block_text_color_gray">#4A4444</color>
 
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
