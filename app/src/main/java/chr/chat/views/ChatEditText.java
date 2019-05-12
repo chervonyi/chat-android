@@ -36,6 +36,7 @@ public class ChatEditText extends EditText {
         // Color for underline line
         getBackground().mutate().setColorFilter(getResources().getColor(R.color.accent), PorterDuff.Mode.SRC_ATOP);
 
+        // Auto-focus on current EditText
         requestFocus();
 
         // Show keyboard

@@ -42,6 +42,13 @@ public class SearchActivity extends AppCompatActivity {
         changeFragment(R.id.header, new HeaderSearchingFragment(), "HeaderSearchingFragment", false);
     }
 
+    /**
+     * Method for change any fragment on current activity
+     * @param destination place of fragment
+     * @param newFragment instance of necessary fragment
+     * @param tag tag of string type
+     * @param animation boolean value to use animation or not
+     */
     @SuppressLint("ResourceType")
     public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
@@ -67,12 +74,20 @@ public class SearchActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Listener for "NEXT" button to change fragment with another question
+     * @param gender selected gender
+     */
     public void answeredOnGender(String gender) {
         selectedGender = gender;
         Log.d("CHR_GAMES_TEST", "selected gender is: " + gender);
         changeFragment(R.id.container, mFragments.get(QUESTION_LANGUAGE_FRAGMENT_ID), "LanguageQuestionFragment", true);
     }
 
+    /**
+     * Listener for "GO" button to move into another fragment and start searching of a new chat.
+     * @param language selected language
+     */
     public void startSearching(String language) {
         selectedLanguage = language;
         Log.d("CHR_GAMES_TEST", "selected language is: " + language);
@@ -85,6 +100,10 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
+    /**
+     * Listener for "Back" button to move to previous activity (MainActivity)
+     * @param view "Back" button
+     */
     public void onClickBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -92,6 +111,10 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 
+    /**
+     * Listener for "Menu" button (...) to show PopupMenu
+     * @param view "Menu" button
+     */
     public void onClickMenu(View view) {
         // Show menu
         ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
@@ -100,6 +123,9 @@ public class SearchActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+    /**
+     * Redirection to ChangeInfoActivity
+     */
     public void goToPersonalInfo() {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);

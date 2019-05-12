@@ -60,6 +60,7 @@ public class GenderQuestionFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        // Highlight selected button and remove highlighting for others
         for (ChatButton button : answerButtons) {
             button.setHighlight(button.getId() == v.getId());
         }

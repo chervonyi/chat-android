@@ -47,17 +47,23 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new ChatFragment());
         mFragments.add(new EmptyListFragment());
 
+        // Check if chat-list is empty or not
         if (mChats.size() == 0) {
+            // Show header and body  fragments according to EMPTY chat-list
             changeFragment(R.id.container, mFragments.get(EMPTY_LIST_FRAGMENT_ID), "EmptyListFragment", false);
             findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size_small);
             changeFragment(R.id.header, new HeaderEmptyChatListFragment(), "HeaderEmptyChatListFragment",false);
         } else {
+            // Show header and body fragments according to NOT EMPTY chat-list
             changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
             findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
             changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
         }
     }
 
+    /**
+     * Redirection to SearchActivity
+     */
     public void onClickSearch(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
@@ -65,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
+    /**
+     * Redirection to ChangeInfoActivity
+     */
     public void goToPersonalInfo() {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         startActivity(intent);
@@ -72,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
+    /**
+     * Method for change any fragment on current activity
+     * @param destination place of fragment
+     * @param newFragment instance of necessary fragment
+     * @param tag tag of string type
+     * @param animation boolean value to use animation or not
+     */
     @SuppressLint("ResourceType")
     public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
@@ -97,7 +113,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
+    /**
+     * Listener on Menu button
+     * @param view "Menu" button
+     */
     public void onClickMenu(View view) {
         // Show menu
         ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);

@@ -20,7 +20,6 @@ public class LanguageQuestionFragment extends Fragment implements View.OnClickLi
 
     private List<ChatButton> answerButtons = new ArrayList<>();
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +30,7 @@ public class LanguageQuestionFragment extends Fragment implements View.OnClickLi
         // Highlight appropriate button
         ((ChatButton)view.findViewById(R.id.button_answer_english)).setHighlight(true);
 
+        // Connect all buttons
         answerButtons.add((ChatButton)view.findViewById(R.id.button_answer_english));
         answerButtons.add((ChatButton)view.findViewById(R.id.button_answer_spanish));
         answerButtons.add((ChatButton)view.findViewById(R.id.button_answer_german));
@@ -39,6 +39,7 @@ public class LanguageQuestionFragment extends Fragment implements View.OnClickLi
         answerButtons.add((ChatButton)view.findViewById(R.id.button_answer_ukrainian));
         answerButtons.add((ChatButton)view.findViewById(R.id.button_answer_other));
 
+        // Set clickListeners
         view.findViewById(R.id.button_answer_english).setOnClickListener(this);
         view.findViewById(R.id.button_answer_spanish).setOnClickListener(this);
         view.findViewById(R.id.button_answer_german).setOnClickListener(this);
@@ -59,6 +60,7 @@ public class LanguageQuestionFragment extends Fragment implements View.OnClickLi
                     }
                 }
 
+                // Go to another fragment to start searching for a new chat
                 ((SearchActivity) Objects.requireNonNull(getActivity())).startSearching(answer);
             }
         });
@@ -68,6 +70,7 @@ public class LanguageQuestionFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        // Set highlight for a selected button and remove it for others
         for (ChatButton button : answerButtons) {
             button.setHighlight(button.getId() == v.getId());
         }

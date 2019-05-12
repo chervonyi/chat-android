@@ -27,6 +27,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
+    // Max length of input string (EditView)
     public static final int MAX_LENGTH = 30;
 
     @Override
@@ -42,6 +43,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
         changeFragment(R.id.header, new HeaderIntroductionFragment(), "HeaderIntroductionFragment", false);
     }
 
+    /**
+     * Method for change any fragment on current activity
+     * @param destination place of fragment
+     * @param newFragment instance of necessary fragment
+     * @param tag tag of string type
+     * @param animation boolean value to use animation or not
+     */
     @SuppressLint("ResourceType")
     public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
 
@@ -73,11 +81,18 @@ public class ChangeInfoActivity extends AppCompatActivity {
         hideKeyboard();
     }
 
+    /**
+     * Hides the forced shown keyboard.
+     */
     private void hideKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
+    /**
+     * Listener on click "Done" button.
+     * @param view "Done" button
+     */
     public void goToInputGender(View view) {
         changeFragment(R.id.container, mFragments.get(INPUT_GENDER_FRAGMENT_ID), "InputGenderFragment", true);
         String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
@@ -88,15 +103,24 @@ public class ChangeInfoActivity extends AppCompatActivity {
         view.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Listener on click "Save" button
+     * @param gender selected gender
+     */
     public void finishInput(String gender) {
         Log.d("CHR_GAMES_TEST", "Gender: " + gender);
 
+        // Go to MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
+    /**
+     * Listener on click "Back" button
+     * @param view "Back" button
+     */
     public void onClickBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

@@ -35,6 +35,9 @@ public class ChatButton extends Button {
         renderButton();
     }
 
+    /**
+     * Update button with necessary options
+     */
     @SuppressLint("ResourceAsColor")
     public void renderButton() {
         setBackground(context.getResources().getDrawable(R.drawable.button));
@@ -46,6 +49,11 @@ public class ChatButton extends Button {
         setAllCaps(false);
     }
 
+    /**
+     * Set state of highlight. <br>
+     * According to a new value this method changes background and text color.
+     * @param newValue tate of necessary highlight
+     */
     public void setHighlight(boolean newValue) {
         isHighlighted = newValue;
 
@@ -56,6 +64,11 @@ public class ChatButton extends Button {
         }
     }
 
+    /**
+     * Change background and color of current button
+     * @param background resource id of required background
+     * @param color resource id of required text color
+     */
     public void setHighlight(int background, int color) {
         setBackground(context.getResources().getDrawable(background));
         setTextColor(context.getResources().getColor(color));
