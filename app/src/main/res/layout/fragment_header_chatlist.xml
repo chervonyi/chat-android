@@ -34,6 +34,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/chat_list_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -46,39 +47,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@null"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="5dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_add"
             android:onClick="onClickSearch"/>
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textAlignment="center"
-            android:background="@drawable/round_chat_icon"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:layout_marginEnd="10dp"
-            android:text="JS"/>
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textAlignment="center"
-            android:background="@drawable/round_chat_icon_green"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:layout_marginEnd="10dp"
-            android:text="YC"/>
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textAlignment="center"
-            android:background="@drawable/round_chat_icon_blue"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:text="MS"/>
 
     </LinearLayout>
 </LinearLayout>
