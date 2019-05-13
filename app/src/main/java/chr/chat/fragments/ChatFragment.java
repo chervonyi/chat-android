@@ -1,23 +1,31 @@
 package chr.chat.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import chr.chat.R;
+import chr.chat.activities.MainActivity;
 import chr.chat.views.ChatBlockView;
+import chr.chat.views.ChatInputMessageView;
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements View.OnTouchListener {
 
     private LinearLayout chatContainer;
     private ScrollView scrollView;
+    private ChatInputMessageView inputView;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,6 +34,9 @@ public class ChatFragment extends Fragment {
 
         chatContainer = view.findViewById(R.id.chat_container);
         scrollView = view.findViewById(R.id.scrollViewChat);
+        inputView = view.findViewById(R.id.input_message_view);
+
+        chatContainer.setOnTouchListener(this);
 
         ChatBlockView blockView = new ChatBlockView(getContext());
         blockView.setText("My custom text!");
@@ -95,7 +106,6 @@ public class ChatFragment extends Fragment {
     }
 
     private void scrollDown() {
-
         scrollView.post(new Runnable() {
             @Override
             public void run() {
@@ -103,6 +113,11 @@ public class ChatFragment extends Fragment {
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        inputView.clearFocus();
+        return false;
     }
 }

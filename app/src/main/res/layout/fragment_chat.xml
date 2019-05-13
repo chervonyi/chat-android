@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,8 +10,8 @@
     <ScrollView
         android:id="@+id/scrollViewChat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:touchscreenBlocksFocus="true"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
@@ -26,8 +25,43 @@
             android:showDividers="middle"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/message_input_panel_height"
+        android:background="@drawable/message_input_panel">
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/ic_add_black"/>
+
+        <chr.chat.views.ChatInputMessageView
+            android:id="@+id/input_message_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:ems="10"
+            android:textCursorDrawable="@drawable/cursor"
+            android:hint="@string/message_input_hint"
+            android:inputType="textCapSentences"/>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/ic_send"/>
+    </RelativeLayout>
 </LinearLayout>

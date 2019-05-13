@@ -23,6 +23,7 @@ public class InputNameFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_input_name, container, false);
 
+
         final ChatEditText editText = view.findViewById(R.id.editTextName);
 
         editText.addTextChangedListener(new TextWatcher() {
