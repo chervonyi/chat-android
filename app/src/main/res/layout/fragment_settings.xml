@@ -22,6 +22,7 @@
         android:layout_height="50dp"
         android:textSize="17sp"
         android:text="@string/settings_new_chats"
+        android:theme="@style/SwitchTheme"
         style="@style/SettingsInnerPadding" />
 
     <View
@@ -46,6 +47,7 @@
         android:textSize="17sp"
         android:checked="true"
         android:text="@string/settings_blur_all_images"
+        android:theme="@style/SwitchTheme"
         android:background="@drawable/thin_settings_divider"
         style="@style/SettingsInnerPadding" />
 
@@ -55,6 +57,7 @@
         android:layout_height="50dp"
         android:textSize="17sp"
         android:checked="true"
+        android:theme="@style/SwitchTheme"
         android:text="@string/settings_check_text_on_adult_content"
         style="@style/SettingsInnerPadding" />
 
@@ -79,6 +82,7 @@
         android:layout_height="50dp"
         android:textSize="17sp"
         android:text="@string/settings_dark_mode"
+        android:theme="@style/SwitchTheme"
         style="@style/SettingsInnerPadding" />
 
     <View
