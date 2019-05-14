@@ -102,6 +102,9 @@ public class ChatFragment extends Fragment implements View.OnTouchListener {
         scrollDown();
 
 
+        // Set listeners
+
+
         return view;
     }
 
@@ -114,6 +117,7 @@ public class ChatFragment extends Fragment implements View.OnTouchListener {
             }
         });
     }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
