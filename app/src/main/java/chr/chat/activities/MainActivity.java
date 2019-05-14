@@ -132,4 +132,11 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
         popupMenu.show();
     }
+
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
 }

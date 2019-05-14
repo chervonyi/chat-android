@@ -132,4 +132,11 @@ public class SearchActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
+
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
 }

@@ -24,4 +24,11 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_change_name">Change name</string>
     <string name="message_input_hint">Write message...</string>
+    <string name="settings_notification">Notification</string>
+    <string name="settings_new_chats">New chats</string>
+    <string name="settings_safety">Safety</string>
+    <string name="settings_blur_all_images">Blur all images</string>
+    <string name="settings_check_text_on_adult_content">Check text on adult content</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_dark_mode">Dark mode</string>
 </resources>

@@ -29,7 +29,11 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
                 return true;
 
             case R.id.menu_settings:
-                Toast.makeText(context, "SETTINGS", Toast.LENGTH_SHORT).show();
+                if (context instanceof MainActivity) {
+                    ((MainActivity)context).goToSettings();
+                } else if (context instanceof SearchActivity) {
+                    ((SearchActivity)context).goToSettings();
+                }
                 return true;
 
             case R.id.menu_change_name:
