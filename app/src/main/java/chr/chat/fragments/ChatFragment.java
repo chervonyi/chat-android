@@ -40,66 +40,12 @@ public class ChatFragment extends Fragment {
         inputView = view.findViewById(R.id.input_message_view);
         //inputView.requestFocus();
 
-        ChatBlockView blockView = new ChatBlockView(getContext());
-        blockView.setText("My custom text!");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My another user custom text! Long very long some random text. My another user custom text! Long very long some random text");
-        blockView.setOwner(false);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("And little text");
-        blockView.setOwner(false);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("Ok, sure.");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("What do you want?");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My another user custom text! Long very long some random text.");
-        blockView.setOwner(false);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My another user custom text! Long very long some random text.");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("Yeah! Great!");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My custom text!");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My another user custom text! Long very long some random text. My another user custom text! Long very long some random text");
-        blockView.setOwner(false);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My custom text!");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
-
-        blockView = new ChatBlockView(getContext());
-        blockView.setText("My another user custom text! Long very long some random text. My another user custom text! Long very long some random text");
-        blockView.setOwner(true);
-        chatContainer.addView(blockView);
+        appendMessage("Anyway, I keep picturing all these little kids playing some game in this big field of rye and all.", false);
+        appendMessage("Thousands of little kids, and nobody's around, nobody big, I mean, except me. ", false);
+        appendMessage("What I have to do, I have to catch everybody if they start to go over the cliff", false);
+        appendMessage("I know it's crazy, but that's the only thing I'd really like to be.", false);
+        appendMessage("I know it's crazy.", false);
+        appendMessage("Daddy's going to kill you", true);
 
         scrollDown();
 
