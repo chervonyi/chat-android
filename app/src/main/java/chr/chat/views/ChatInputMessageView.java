@@ -38,17 +38,6 @@ public class ChatInputMessageView extends EditText  {
     public void render() {
         // Remove underline
         setBackgroundResource(android.R.color.transparent);
-    }
-
-
-    @Override
-    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
-        super.onFocusChanged(focused, direction, previouslyFocusedRect);
-
-        requestFocus();
-
-        // Hide keyboard
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        clearAnimation();
     }
 }
