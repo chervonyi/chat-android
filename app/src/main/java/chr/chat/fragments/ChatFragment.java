@@ -16,6 +16,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import chr.chat.R;
 import chr.chat.activities.MainActivity;
@@ -28,6 +32,20 @@ public class ChatFragment extends Fragment {
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
 
+    // List of forbidden words that may contain adult content, offend somebody etc.
+    // TODO - Fill the list up when the app will be connected to the DB.
+    private ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(
+            // English
+            "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", //...
+
+            // Russian
+            "ебать", "трахать", "сосать", "член", //...
+
+            // Ukrainian
+            "їбати", "трахати", "сосати" //...
+    ));
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
@@ -38,7 +56,6 @@ public class ChatFragment extends Fragment {
         chatContainer = view.findViewById(R.id.chat_container);
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
-        //inputView.requestFocus();
 
         appendMessage("Anyway, I keep picturing all these little kids playing some game in this big field of rye and all.", false);
         appendMessage("Thousands of little kids, and nobody's around, nobody big, I mean, except me. ", false);
@@ -71,6 +88,14 @@ public class ChatFragment extends Fragment {
 
 
     private void appendMessage(String message, boolean isUserMessage) {
+
+        // TODO - add check for 'isUserMessage' == false
+
+        if (isContainedAdultContent(message)) {
+            Toast.makeText(getContext(), "ADULT CONTENT", Toast.LENGTH_SHORT).show();
+            // TODO - move to the special MessageDialog
+        }
+
         ChatBlockView blockView = new ChatBlockView(getContext());
         blockView.setText(message);
         blockView.setOwner(isUserMessage);
@@ -86,5 +111,20 @@ public class ChatFragment extends Fragment {
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
+
+
+    private boolean isContainedAdultContent(String text) {
+
+        text = text.toLowerCase();
+
+        // Check for contains of forbidden words
+        for (String word : forbiddenWords) {
+            if (text.contains(word)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
