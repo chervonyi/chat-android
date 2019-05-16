@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import chr.chat.R;
 import chr.chat.activities.MainActivity;
@@ -34,7 +35,7 @@ public class ChatFragment extends Fragment {
 
     // List of forbidden words that may contain adult content, offend somebody etc.
     // TODO - Fill the list up when the app will be connected to the DB.
-    private ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(
             // English
             "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", //...
 
@@ -44,6 +45,18 @@ public class ChatFragment extends Fragment {
             // Ukrainian
             "їбати", "трахати", "сосати" //...
     ));
+
+    private final String END_PHRASE = "END_PHRASE_CODE";
+
+
+    private HashMap<String, String> phrasees_EN = new HashMap<String, String>() {{
+        put("Hey, what's up?", "Fine. Have you seen Avengers: EndGame?");
+        put("Fine. Have you seen Avengers: EndGame?", END_PHRASE);
+
+        put("Hi! How are you doing?", "Well. What about you?");
+        put("Well. What about you?", END_PHRASE);
+        // ....
+    }};
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -111,6 +124,14 @@ public class ChatFragment extends Fragment {
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
+
+    private void printBotMessages() {
+        // TODO (after DB connection):
+        // If creator
+        //     Get a random phrase from a vault
+        // else
+        //     Get a message from your companion and find an answer in the same vault
     }
 
 
