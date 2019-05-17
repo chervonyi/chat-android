@@ -31,7 +31,6 @@ public class HeaderChatListFragment extends Fragment {
         chatIconButton.setName("Yuri Chervonyi");
         chatListContainer.addView(chatIconButton);
 
-
         chatIconButton = new ChatIconButton(getContext());
         chatIconButton.setBackgroundColor(R.color.blue);
         chatIconButton.setName("Jon Snow");

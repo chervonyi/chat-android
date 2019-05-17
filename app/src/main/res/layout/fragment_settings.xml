@@ -92,14 +92,8 @@
             android:layout_centerVertical="true"
             android:checked="true"
             android:theme="@style/SwitchTheme"
-            style="@style/SettingsInnerPadding" >
-
-
-        </Switch>
-
-
+            style="@style/SettingsInnerPadding"/>
     </RelativeLayout>
-
 
 
     <View

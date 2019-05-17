@@ -23,34 +23,18 @@ import chr.chat.views.ChatInputMessageView;
 
 public class ChatFragment extends Fragment {
 
+    private final String END_PHRASE = "END_PHRASE_CODE";
+
+
     private LinearLayout chatContainer;
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
 
     // List of forbidden words that may contain adult content, offend somebody etc.
-    // TODO - Fill the list up when the app will be connected to the DB.
-    private final ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(
-            // English
-            "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", //...
+    private final ArrayList<String> forbiddenWords = getForbiddenWords();
 
-            // Russian
-            "ебать", "трахать", "сосать", "член", //...
-
-            // Ukrainian
-            "їбати", "трахати", "сосати" //...
-    ));
-
-    private final String END_PHRASE = "END_PHRASE_CODE";
-
-
-    private HashMap<String, String> phrasees_EN = new HashMap<String, String>() {{
-        put("Hey, what's up?", "Fine. Have you seen Avengers: EndGame?");
-        put("Fine. Have you seen Avengers: EndGame?", END_PHRASE);
-
-        put("Hi! How are you doing?", "Well. What about you?");
-        put("Well. What about you?", END_PHRASE);
-        // ....
-    }};
+    // List of phrases
+    private HashMap<String, String> phrases_EN = getPhrases();
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -93,11 +77,16 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Append given message to chat
+     * @param message necessary message
+     * @param isUserMessage
+     * <b>true</b> - it is user's message (Right)
+     * <b>false</b> - it is companion's message (Left)
+     */
     private void appendMessage(String message, boolean isUserMessage) {
 
         // TODO - add check for 'isUserMessage' == false
-
         if (isContainedAdultContent(message)) {
             Toast.makeText(getContext(), "ADULT CONTENT", Toast.LENGTH_SHORT).show();
             // TODO - move to the special MessageDialog
@@ -109,7 +98,9 @@ public class ChatFragment extends Fragment {
         chatContainer.addView(blockView);
     }
 
-
+    /**
+     * Scroll main chat list to down position
+     */
     private void scrollDown() {
         scrollView.post(new Runnable() {
             @Override
@@ -120,6 +111,10 @@ public class ChatFragment extends Fragment {
         });
     }
 
+    /**
+     * [Not finished]
+     * Calls on the beginning of the chat to print some pattern of phrases
+     */
     private void printBotMessages() {
         // TODO (after DB connection):
         // If creator
@@ -128,9 +123,15 @@ public class ChatFragment extends Fragment {
         //     Get a message from your companion and find an answer in the same vault
     }
 
-
+    /**
+     * Check if given text contains at least one of forbidden words. <br>
+     * {@link #forbiddenWords} <br>
+     * {@link #getForbiddenWords()}
+     * @param text interested text
+     * @return <b>true</b> if text contains one of forbidden words.
+     * <b>false</b> if it does not contain any forbidden words.
+     */
     private boolean isContainedAdultContent(String text) {
-
         text = text.toLowerCase();
 
         // Check for contains of forbidden words
@@ -139,7 +140,32 @@ public class ChatFragment extends Fragment {
                 return true;
             }
         }
-
         return false;
+    }
+
+    // TODO - Fill the list up when the app will be connected to the DB.
+    private HashMap<String, String> getPhrases() {
+        return new HashMap<String, String>() {{
+            put("Hey, what's up?", "Fine. Have you seen Avengers: EndGame?");
+            put("Fine. Have you seen Avengers: EndGame?", END_PHRASE);
+
+            put("Hi! How are you doing?", "Well. What about you?");
+            put("Well. What about you?", END_PHRASE);
+            // ....
+        }};
+    }
+
+    // TODO - Fill the list up when the app will be connected to the DB.
+    private ArrayList<String> getForbiddenWords() {
+        return new ArrayList<>(Arrays.asList(
+                // English
+                "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", //...
+
+                // Russian
+                "ебать", "трахать", "сосать", "член", //...
+
+                // Ukrainian
+                "їбати", "трахати", "сосати" //...
+        ));
     }
 }

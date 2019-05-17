@@ -23,7 +23,7 @@
     <string name="menu_report_user">Report user</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_change_name">Change name</string>
-    <string name="message_input_hint">Write message...</string>
+    <string name="message_input_hint">Write a message...</string>
     <string name="settings_notification">Notification</string>
     <string name="settings_new_chats">New chats</string>
     <string name="settings_safety">Safety</string>
