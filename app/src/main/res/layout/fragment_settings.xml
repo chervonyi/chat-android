@@ -51,15 +51,56 @@
         android:background="@drawable/thin_settings_divider"
         style="@style/SettingsInnerPadding" />
 
-    <Switch
-        android:id="@+id/switch_adult_content"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="17sp"
-        android:checked="true"
-        android:theme="@style/SwitchTheme"
-        android:text="@string/settings_check_text_on_adult_content"
-        style="@style/SettingsInnerPadding" />
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="@string/settings_check_text_on_adult_content"
+                style="@style/SettingsInnerPadding"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginRight="100dp"
+                android:layout_marginTop="-10dp"
+                android:textColor="@color/light_gray"
+                android:text="@string/settings_adult_content_hint"
+                style="@style/SettingsInnerPadding"/>
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_adult_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:theme="@style/SwitchTheme"
+            style="@style/SettingsInnerPadding" >
+
+
+        </Switch>
+
+
+    </RelativeLayout>
+
+
 
     <View
         android:layout_width="match_parent"
@@ -84,6 +125,36 @@
         android:text="@string/settings_dark_mode"
         android:theme="@style/SwitchTheme"
         style="@style/SettingsInnerPadding" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_divider_height"
+        android:background="@drawable/settings_divider"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:text="@string/settings_interactive"
+        style="@style/SettingsInnerPadding"/>
+
+    <Switch
+        android:id="@+id/switch_bot_message"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="17sp"
+        android:checked="true"
+        android:text="@string/settings_bot_messages"
+        android:theme="@style/SwitchTheme"
+        style="@style/SettingsInnerPadding" />
+
+
+
+
 
     <View
         android:layout_width="match_parent"

@@ -1,18 +1,13 @@
 package chr.chat.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -23,7 +18,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import chr.chat.R;
-import chr.chat.activities.MainActivity;
 import chr.chat.views.ChatBlockView;
 import chr.chat.views.ChatInputMessageView;
 
