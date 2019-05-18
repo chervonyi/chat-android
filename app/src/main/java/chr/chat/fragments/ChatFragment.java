@@ -17,14 +17,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import chr.chat.BotAttachments;
 import chr.chat.R;
 import chr.chat.views.ChatBlockView;
+import chr.chat.views.ChatBotBlockView;
 import chr.chat.views.ChatInputMessageView;
 
 public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
 
+
+    public static final int CHAT_BLOT_USER = 40001;
+    public static final int CHAT_BLOT_COMPANION = 40002;
+    public static final int CHAT_BLOT_BOT = 40003;
+
+
+    private BotAttachments botAttachments = new BotAttachments();
 
     private LinearLayout chatContainer;
     private ScrollView scrollView;
@@ -49,8 +58,15 @@ public class ChatFragment extends Fragment {
         inputView = view.findViewById(R.id.input_message_view);
 
         appendMessage("Anyway, I keep picturing all these little kids playing some game in this big field of rye and all.", false);
+
+
+        printBotMessage("Topic: Films");
+
         appendMessage("Thousands of little kids, and nobody's around, nobody big, I mean, except me. ", false);
         appendMessage("What I have to do, I have to catch everybody if they start to go over the cliff", false);
+
+        printBotMessage("Question: Cats or dogs?");
+
         appendMessage("I know it's crazy, but that's the only thing I'd really like to be.", false);
         appendMessage("I know it's crazy.", false);
         appendMessage("Daddy's going to kill you", true);
@@ -75,6 +91,13 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void printBotMessage(String message) {
+        ChatBotBlockView botBlockView = new ChatBotBlockView(getContext());
+        botBlockView.setText(message);
+        chatContainer.addView(botBlockView);
+        scrollDown();
     }
 
     /**
@@ -112,18 +135,6 @@ public class ChatFragment extends Fragment {
     }
 
     /**
-     * [Not finished]
-     * Calls on the beginning of the chat to print some pattern of phrases
-     */
-    private void printBotMessages() {
-        // TODO (after DB connection):
-        // If creator
-        //     Get a random phrase from a vault
-        // else
-        //     Get a message from your companion and find an answer in the same vault
-    }
-
-    /**
      * Check if given text contains at least one of forbidden words. <br>
      * {@link #forbiddenWords} <br>
      * {@link #getForbiddenWords()}
@@ -142,6 +153,12 @@ public class ChatFragment extends Fragment {
         }
         return false;
     }
+
+    public void attachBotMessage(int type) {
+        String botMessage = botAttachments.getRandom(type);
+        printBotMessage(botMessage);
+    }
+
 
     // TODO - Fill the list up when the app will be connected to the DB.
     private HashMap<String, String> getPhrases() {

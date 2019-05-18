@@ -27,14 +27,18 @@ import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
 import chr.chat.fragments.HeaderChatListFragment;
 import chr.chat.fragments.HeaderEmptyChatListFragment;
+import chr.chat.views.ChatPopupAttachMenu;
 import chr.chat.views.ChatPopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int CHAT_FRAGMENT_ID = 0;
-    private static final int EMPTY_LIST_FRAGMENT_ID = 1;
 
-    private List<Fragment> mFragments = new ArrayList<>();
+    // Fragments:
+    private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
+    private HeaderEmptyChatListFragment headerEmptyChatListFragment = new HeaderEmptyChatListFragment();
+    private EmptyListFragment emptyListFragment = new EmptyListFragment();
+    private ChatFragment chatFragment = new ChatFragment();
+
 
     private List<String> mChats = new ArrayList<>();
 
@@ -44,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Add in order according to ID numbers
-        mFragments.add(new ChatFragment());
-        mFragments.add(new EmptyListFragment());
 
         /*
         // Check if chat-list is empty or not
@@ -63,10 +64,13 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
-        // TODO - remove:
-        changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
+        // TODO - remove
+        changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+
+        // Set small header size
         findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
-        changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
+
+        changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
     }
 
     /**
@@ -131,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
         popupMenu.show();
+    }
+
+    public void onClickAttach(View view) {
+        ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
+
+        popupMenu.show();
+    }
+
+    public void attachBotMessage(int attachmentType) {
+        chatFragment.attachBotMessage(attachmentType);
     }
 
     public void goToSettings() {

@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="android:popupAnimationStyle">@anim/enter_from_right</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/header_color</item>
         <item name="colorPrimaryDark">@color/header_color_dark</item>
@@ -32,5 +33,9 @@
 
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">@color/accent</item>
+    </style>
+
+    <style name="AttachPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">@color/accent</item>
     </style>
 </resources>

@@ -34,4 +34,7 @@
     <string name="settings_interactive">Interactive</string>
     <string name="settings_bot_messages">Start a chat with Bot messages</string>
     <string name="settings_adult_content_hint">Only for English, Russian and Ukrainian languages.</string>
+    <string name="attach_topic">Get a topic</string>
+    <string name="attach_question">Get neutral question</string>
+    <string name="attach_question_for_couple">Get question for a couple</string>
 </resources>

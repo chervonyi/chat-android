@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/attach_topic"
+        android:title="@string/attach_topic"/>
+
+    <item
+        android:id="@+id/attach_question"
+        android:title="@string/attach_question"/>
+
+    <item
+        android:id="@+id/attach_question_for_couple"
+        android:title="@string/attach_question_for_couple"/>
+</menu>
