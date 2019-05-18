@@ -3,7 +3,6 @@ package chr.chat.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.MenuPopupWindow;
 import android.support.v7.widget.PopupMenu;
-import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
@@ -43,12 +40,13 @@ public class MainActivity extends AppCompatActivity {
     private ChatFragment chatFragment = new ChatFragment();
 
 
+    private List<String> mChats = new ArrayList<>();
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         /*
