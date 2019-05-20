@@ -8,9 +8,9 @@ public class User {
 
 
     private String ID;
-    public String name;
-    public String sex;
-    public boolean available;
+    private String name;
+    private String sex;
+    private boolean available;
 
     public User() {}
 
@@ -31,6 +31,18 @@ public class User {
     @Exclude
     public String getID() {
         return this.ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public boolean isAvailable() {
+        return available;
     }
 
     @Override

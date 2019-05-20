@@ -93,8 +93,16 @@ public class ChatFragment extends Fragment {
                 scrollDown();
             }
         });
-        
-        database.searchFor("man", "English");
+
+        //Line line = new Line("Hf22-1Fas4fa(Lana)", "woman", "man", "English");
+
+        //database.putUserInLine(line);
+
+        User user = new User("Lsk22-Fa2dF-SAd23d(current)", "Yuri Chervonyi", "man");
+
+        database.registerNewUser(user);
+
+        //database.searchSomebodyFor(user, "man", "English");
 
         return view;
     }

@@ -42,19 +42,31 @@ public class Database {
         mDatabase.child(USERS).child(ID).child("name").setValue(newName);
     }
 
-    private void lookForMatches(ArrayList<Line> lineNodes, String sex, String language) {
+    private void lookForMatches(User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
+
+
+        boolean foundSmd = false;
 
         for (Line line : lineNodes) {
-            if (line.sex == sex || line.sex == "any") {
-                if (line.language == language) {
-                    // TODO - remove user 'line.userID' from line
-                    // TODO - call some (static) method to create chat with current user id and line.userID'
+            if (language.equals(line.getLanguage())) {
+
+                if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
+                    if (sex.equals(line.getUserSex()) || sex.equals("any")) {
+                        foundSmd = true;
+                        /// TODO - remove user 'line.userID' from line using:
+                        //        removeUserFromLine(line.userID);
+                        // TODO - call some (static) method to create chat with current user id and line.userID'
+                    }
                 }
             }
         }
+
+        if (!foundSmd) {
+            // TODO - Add 'userWhichSearching' with 'sex' and 'language' to Line table
+        }
     }
 
-    public void searchFor(final String sex, final String language) {
+    public void searchSomebodyFor(final User user, final String sex, final String language) {
 
         mDatabase.child(LINE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -65,7 +77,7 @@ public class Database {
                     arrayList.add(lineNode.getValue(Line.class));
                 }
 
-                lookForMatches(arrayList, sex, language);
+                lookForMatches(user, arrayList, sex, language);
             }
 
             @Override

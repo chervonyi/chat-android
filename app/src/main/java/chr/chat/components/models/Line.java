@@ -5,23 +5,30 @@ import com.google.firebase.database.Exclude;
 public class Line {
 
     private int ID;
-    public String userID;
-    public String sex;
-    public String language;
+    private String userID;
+    private String sex;
+    private String language;
+    private String userSex;
 
     public Line() {}
 
-    public Line(String userID, String sex, String language) {
+    public Line(String userID, String userSex, String sex, String language) {
         this.userID = userID;
+        this.userSex = userSex;
         this.sex = sex;
         this.language = language;
     }
 
-    public Line(int ID, String userID, String sex, String language) {
+    public Line(int ID, String userSex, String userID, String sex, String language) {
         this.ID = ID;
         this.userID = userID;
+        this.userSex = userSex;
         this.sex = sex;
         this.language = language;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     @Exclude
@@ -29,12 +36,24 @@ public class Line {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getUserSex() {
+        return userSex;
     }
 
     @Override
     public String toString() {
-        return userID + " looking for " + sex + " and " + language;
+        return userID + "(" + userSex + "), looking for " + sex + " and " + language;
     }
 }
