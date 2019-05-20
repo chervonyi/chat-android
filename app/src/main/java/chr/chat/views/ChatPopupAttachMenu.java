@@ -5,12 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import chr.chat.BotAttachments;
+import chr.chat.components.BotAttachments;
 import chr.chat.R;
 import chr.chat.activities.MainActivity;
-import chr.chat.activities.SearchActivity;
 
 public class ChatPopupAttachMenu extends PopupMenu implements PopupMenu.OnMenuItemClickListener {
 

@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.components;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

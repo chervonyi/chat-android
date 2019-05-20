@@ -1,4 +1,4 @@
-package chr.chat;
+package chr.chat.components;
 
 public class BotAttachments {
 

@@ -17,8 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import chr.chat.BotAttachments;
+import chr.chat.components.BotAttachments;
 import chr.chat.R;
+import chr.chat.components.Database;
+import chr.chat.components.models.Line;
+import chr.chat.components.models.User;
 import chr.chat.views.ChatBlockView;
 import chr.chat.views.ChatBotBlockView;
 import chr.chat.views.ChatInputMessageView;
@@ -27,6 +30,7 @@ public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
 
+    private Database database = new Database();
 
     public static final int CHAT_BLOT_USER = 40001;
     public static final int CHAT_BLOT_COMPANION = 40002;
@@ -89,6 +93,8 @@ public class ChatFragment extends Fragment {
                 scrollDown();
             }
         });
+        
+        database.searchFor("man", "English");
 
         return view;
     }
