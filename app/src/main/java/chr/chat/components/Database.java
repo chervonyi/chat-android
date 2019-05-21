@@ -20,7 +20,7 @@ public class Database {
 
     private DatabaseReference mDatabase;
 
-    // Tables
+    // Table names
     private final String USERS = "users";
     private final String LINE = "line";
     private final String CHATS = "chats";
@@ -29,78 +29,16 @@ public class Database {
 
     public Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
     }
 
-    public void registerNewUser(User user) {
-        mDatabase.child("users").child(user.getID()).setValue(user);
-    }
 
-    public void registerNewUser(String ID, String name, String sex) {
-        User user = new User(ID, name, sex);
-        registerNewUser(user);
-    }
-
-    public void updateName(String ID, String newName) {
-        mDatabase.child(USERS).child(ID).child("name").setValue(newName);
-    }
-
-    private void lookForMatches(User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
-
-        for (Line line : lineNodes) {
-            if (language.equals(line.getLanguage())) {
-
-                if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
-                    if (sex.equals(line.getUserSex()) || sex.equals("any")) {
-
-                        // Remove current user from line
-                        removeUserFromLine(line.getUserID());
-
-                        // TODO - call some (static) method to start chat with:
-                        //       userWhichSearching.getID() and
-                        //       line.getUserID()
-
-                        // Create chat with userWhichSearching and currentUser('line' instance)
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        // Add userWhichSearching to Line
-        Line line = new Line(userWhichSearching.getID(), userWhichSearching.getSex(), sex, language);
-        putUserInLine(line);
-
-    }
+    // -------------------------
+    // ------  MESSAGES  -------
+    // -------------------------
 
     public void appendNewMessage(Message messageNode) {
         DatabaseReference lineRef = mDatabase.child(MESSAGES);
         lineRef.push().setValue(messageNode);
-    }
-
-    public void createChat(Chat chatNode) {
-        DatabaseReference lineRef = mDatabase.child(CHATS);
-        lineRef.push().setValue(chatNode);
-    }
-
-    public void searchSomebodyFor(final User user, final String sex, final String language) {
-
-        mDatabase.child(LINE).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Line> arrayList = new ArrayList<>();
-
-                for (DataSnapshot lineNode : dataSnapshot.getChildren()) {
-                    arrayList.add(lineNode.getValue(Line.class));
-                }
-
-                lookForMatches(user, arrayList, sex, language);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
     }
 
     public void loadListOfMessages(String chatID) {
@@ -119,6 +57,16 @@ public class Database {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+    }
+
+
+    // -------------------------
+    // ------    CHATS   -------
+    // -------------------------
+
+    public void createChat(Chat chatNode) {
+        DatabaseReference lineRef = mDatabase.child(CHATS);
+        lineRef.push().setValue(chatNode);
     }
 
     public void loadAllChatsFor(final String userID) {
@@ -151,11 +99,10 @@ public class Database {
         });
     }
 
-    public void reportMessage(String messageID) {
-        DatabaseReference lineRef = mDatabase.child(REPORT);
-        lineRef.push().setValue(messageID);
-        //mDatabase.child("report").setValue(messageID);
-    }
+
+    // -------------------------
+    // ------    LINE    -------
+    // -------------------------
 
     public void removeUserFromLine(String ID) {
         mDatabase.child(LINE).orderByChild("userID").equalTo(ID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -178,9 +125,59 @@ public class Database {
         lineRef.push().setValue(lineNode);
     }
 
-    public void loadUserData(String ID) {
+    public void searchSomebodyFor(final User user, final String sex, final String language) {
 
-        final String currentID = ID;
+        mDatabase.child(LINE).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Line> arrayList = new ArrayList<>();
+
+                for (DataSnapshot lineNode : dataSnapshot.getChildren()) {
+                    arrayList.add(lineNode.getValue(Line.class));
+                }
+
+                lookForMatches(user, arrayList, sex, language);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+    }
+
+    private void lookForMatches(User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
+
+        for (Line line : lineNodes) {
+            if (language.equals(line.getLanguage())) {
+
+                if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
+                    if (sex.equals(line.getUserSex()) || sex.equals("any")) {
+
+                        // Remove current user from line
+                        removeUserFromLine(line.getUserID());
+
+                        // TODO - call some (static) method to start chat with:
+                        //       userWhichSearching.getID() and
+                        //       line.getUserID()
+
+                        // Create chat with userWhichSearching and currentUser('line' instance)
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Add userWhichSearching to Line
+        Line line = new Line(userWhichSearching.getID(), userWhichSearching.getSex(), sex, language);
+        putUserInLine(line);
+    }
+
+
+    // -------------------------
+    // ------    USERS   -------
+    // -------------------------
+
+    public void loadUserData(String ID) {
 
         ValueEventListener loadUserListener = new ValueEventListener() {
             @Override
@@ -199,5 +196,26 @@ public class Database {
         mDatabase.child("users").child(ID).addValueEventListener(loadUserListener);
     }
 
+    public void updateName(String ID, String newName) {
+        mDatabase.child(USERS).child(ID).child("name").setValue(newName);
+    }
+
+    public void registerNewUser(User user) {
+        mDatabase.child(USERS).child(user.getID()).setValue(user);
+    }
+
+    public void registerNewUser(String ID, String name, String sex) {
+        User user = new User(ID, name, sex);
+        registerNewUser(user);
+    }
+
+    // -------------------------
+    // ------    REPORT   ------
+    // -------------------------
+
+    public void reportMessage(String messageID) {
+        DatabaseReference lineRef = mDatabase.child(REPORT);
+        lineRef.push().setValue(messageID);
+    }
 
 }
