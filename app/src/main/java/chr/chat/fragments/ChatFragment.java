@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ServerValue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,7 +23,9 @@ import java.util.HashMap;
 import chr.chat.components.BotAttachments;
 import chr.chat.R;
 import chr.chat.components.Database;
+import chr.chat.components.models.Chat;
 import chr.chat.components.models.Line;
+import chr.chat.components.models.Message;
 import chr.chat.components.models.User;
 import chr.chat.views.ChatBlockView;
 import chr.chat.views.ChatBotBlockView;
@@ -98,10 +103,17 @@ public class ChatFragment extends Fragment {
 
         //database.putUserInLine(line);
 
-        User user = new User("Lsk22-Fa2dF-SAd23d(current)", "Yuri Chervonyi", "man");
+        //Chat chat = new Chat("user1_some_id", "user2_some_id");
+        //database.createChat(chat);
 
-        database.registerNewUser(user);
+        //Message message = new Message("jdhahsjk-chatID", "Some cool message", "h3Hd4-ownerID");
 
+
+        database.reportMessage("msID_1");
+        database.reportMessage("msID_2");
+        database.reportMessage("msID_3");
+        //database.appendNewMessage(message);
+        //database.loadListOfMessages("jdhahsjk-chatID");
         //database.searchSomebodyFor(user, "man", "English");
 
         return view;

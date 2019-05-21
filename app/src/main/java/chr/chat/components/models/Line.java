@@ -1,7 +1,9 @@
 package chr.chat.components.models;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+@IgnoreExtraProperties
 public class Line {
 
     private int ID;
