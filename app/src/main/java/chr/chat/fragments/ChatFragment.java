@@ -35,8 +35,6 @@ public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
 
-    private Database database = new Database();
-
     public static final int CHAT_BLOT_USER = 40001;
     public static final int CHAT_BLOT_COMPANION = 40002;
     public static final int CHAT_BLOT_BOT = 40003;
@@ -98,23 +96,6 @@ public class ChatFragment extends Fragment {
                 scrollDown();
             }
         });
-
-        //Line line = new Line("Hf22-1Fas4fa(Lana)", "woman", "man", "English");
-
-        //database.putUserInLine(line);
-
-        //Chat chat = new Chat("user1_some_id", "user2_some_id");
-        //database.createChat(chat);
-
-        //Message message = new Message("jdhahsjk-chatID", "Some cool message", "h3Hd4-ownerID");
-
-
-        database.reportMessage("msID_1");
-        database.reportMessage("msID_2");
-        database.reportMessage("msID_3");
-        //database.appendNewMessage(message);
-        //database.loadListOfMessages("jdhahsjk-chatID");
-        //database.searchSomebodyFor(user, "man", "English");
 
         return view;
     }

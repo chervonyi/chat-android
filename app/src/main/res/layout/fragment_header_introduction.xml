@@ -41,7 +41,7 @@
             android:src="@drawable/ic_done"
             android:layout_gravity="center_vertical|end"
             android:background="@null"
-            android:onClick="goToInputGender"/>
+            android:onClick="onInputName"/>
     </FrameLayout>
 
 </LinearLayout>

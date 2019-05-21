@@ -7,13 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import chr.chat.components.Database;
+import chr.chat.components.UniqueIdentifier;
 import chr.chat.fragments.HeaderIntroductionFragment;
 import chr.chat.views.ChatEditText;
 import chr.chat.fragments.InputGenderFragment;
@@ -22,10 +20,17 @@ import chr.chat.R;
 
 public class ChangeInfoActivity extends AppCompatActivity {
 
-    public static final int INPUT_NAME_FRAGMENT_ID = 0;
-    public static final int INPUT_GENDER_FRAGMENT_ID = 1;
+    private InputNameFragment inputNameFragment = new InputNameFragment();
+    private InputGenderFragment inputGenderFragment = new InputGenderFragment();
+    private HeaderIntroductionFragment headerIntroductionFragment = new HeaderIntroductionFragment();
 
-    private List<Fragment> mFragments = new ArrayList<>();
+    public static final int INPUT_ALL_INFO_CODE = 50001;
+    public static final int CHANGE_NAME_CODE = 50002;
+    public static final String ENTER_CODE = "ENTER_CODE";
+
+    private int currentEnterCode;
+
+    private String enteredName;
 
     // Max length of input string (EditView)
     public static final int MAX_LENGTH = 30;
@@ -35,12 +40,14 @@ public class ChangeInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_info);
 
-        // Add fragments according to appropriate IDs
-        mFragments.add(new InputNameFragment());
-        mFragments.add(new InputGenderFragment());
+        Intent intent = getIntent();
 
-        changeFragment(R.id.container, mFragments.get(INPUT_NAME_FRAGMENT_ID), "InputNameFragment", false);
-        changeFragment(R.id.header, new HeaderIntroductionFragment(), "HeaderIntroductionFragment", false);
+        // Read enter code
+        currentEnterCode = intent.getIntExtra(ENTER_CODE, INPUT_ALL_INFO_CODE);
+
+        // Go to Input Name fragment
+        changeFragment(R.id.container, inputNameFragment, "InputNameFragment", false);
+        changeFragment(R.id.header, headerIntroductionFragment, "HeaderIntroductionFragment", false);
     }
 
     /**
@@ -93,28 +100,41 @@ public class ChangeInfoActivity extends AppCompatActivity {
      * Listener on click "Done" button.
      * @param view "Done" button
      */
-    public void goToInputGender(View view) {
-        changeFragment(R.id.container, mFragments.get(INPUT_GENDER_FRAGMENT_ID), "InputGenderFragment", true);
+    public void onInputName(View view) {
+
         String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
-        Log.d("CHR_GAMES_TEST", "Input: " + input);
+
         hideKeyboard();
 
-        // Hide button "Done"
-        view.setVisibility(View.INVISIBLE);
+        if (currentEnterCode == INPUT_ALL_INFO_CODE) {
+            // First run ever
+
+            enteredName = input;
+
+            // Go to input gender fragment
+            changeFragment(R.id.container, inputGenderFragment, "InputGenderFragment", true);
+
+            // Hide button "Done"
+            view.setVisibility(View.INVISIBLE);
+        } else if (currentEnterCode == CHANGE_NAME_CODE) {
+            // Changing info
+
+            // Update user name in Database
+            Database.instance.changeUserName(UniqueIdentifier.identifier, input);
+
+            goToMainActivity();
+        }
     }
 
     /**
      * Listener on click "Save" button
      * @param gender selected gender
      */
-    public void finishInput(String gender) {
-        Log.d("CHR_GAMES_TEST", "Gender: " + gender);
+    public void onInputGender(String gender) {
+        // Register a new user into Database
+        Database.instance.registerNewUser(UniqueIdentifier.identifier, enteredName, gender);
 
-        // Go to MainActivity
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+        goToMainActivity();
     }
 
     /**
@@ -122,6 +142,10 @@ public class ChangeInfoActivity extends AppCompatActivity {
      * @param view "Back" button
      */
     public void onClickBack(View view) {
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

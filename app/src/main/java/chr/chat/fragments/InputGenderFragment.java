@@ -44,7 +44,7 @@ public class InputGenderFragment extends Fragment implements View.OnClickListene
                 selectedGender = "woman";
             }
 
-            ((ChangeInfoActivity)getActivity()).finishInput(selectedGender);
+            ((ChangeInfoActivity)getActivity()).onInputGender(selectedGender);
             }
         });
         return view;

@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import chr.chat.components.Database;
+import chr.chat.components.UniqueIdentifier;
+import chr.chat.components.models.User;
 import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
@@ -36,12 +40,17 @@ import chr.chat.views.ChatPopupMenu;
 public class MainActivity extends AppCompatActivity {
 
 
+    // User data
+    public static User currentUser;
+
+
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
     private HeaderEmptyChatListFragment headerEmptyChatListFragment = new HeaderEmptyChatListFragment();
     private EmptyListFragment emptyListFragment = new EmptyListFragment();
     private ChatFragment chatFragment = new ChatFragment();
 
+    private FrameLayout headerLayout;
 
     private List<String> mChats = new ArrayList<>();
 
@@ -51,28 +60,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
+        loadUserDataFromPhoneMemory();
+
+        Log.d("CHR_GAMES_TEST", "MainActivity: onCreate: user is: " + currentUser);
+
+        headerLayout = findViewById(R.id.header);
+
         // Check if chat-list is empty or not
         if (mChats.size() == 0) {
             // Show header and body  fragments according to EMPTY chat-list
-            changeFragment(R.id.container, mFragments.get(EMPTY_LIST_FRAGMENT_ID), "EmptyListFragment", false);
-            findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size_small);
+            changeFragment(R.id.container, emptyListFragment, "EmptyListFragment", false);
+            setHeaderSize(R.dimen.header_size_small);
             changeFragment(R.id.header, new HeaderEmptyChatListFragment(), "HeaderEmptyChatListFragment",false);
         } else {
             // Show header and body fragments according to NOT EMPTY chat-list
-            changeFragment(R.id.container, mFragments.get(CHAT_FRAGMENT_ID), "ChatFragment", false);
-            findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
+            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+            setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, new HeaderChatListFragment(), "HeaderChatListFragment",false);
         }
-        */
+    }
 
-        // TODO - remove
-        changeFragment(R.id.container, chatFragment, "ChatFragment", false);
 
-        // Set small header size
-        findViewById(R.id.header).getLayoutParams().height = (int) getResources().getDimension(R.dimen.header_size);
+    private void loadUserDataFromPhoneMemory() {
 
-        changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
+        if (!UniqueIdentifier.isCreatedBefore(this)) {
+            // The first start ever
+            // Go to INPUT_ALL_INFO to get required data to register a new user
+            Intent intent = new Intent(this, ChangeInfoActivity.class);
+            intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.INPUT_ALL_INFO_CODE);
+            startActivity(intent);
+            finish();
+        }
+
+        Database.instance.loadUserData(UniqueIdentifier.identifier);
+    }
+
+    private void setHeaderSize(int height) {
+        headerLayout.getLayoutParams().height = (int) getResources().getDimension(height);
     }
 
     /**

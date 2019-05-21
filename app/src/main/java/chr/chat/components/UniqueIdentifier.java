@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class UniqueIdentifier {
 
-    private final String IDENTIFIER_KEY = "idf_key_2019";
-    private final String NOT_FOUND_VALUE = "idf_not_found_key_2019";
+    private static final String IDENTIFIER_KEY = "idf_key_2019";
+    private static final String NOT_FOUND_VALUE = "idf_not_found_key_2019";
 
     public static String identifier;
 
@@ -22,7 +22,7 @@ public class UniqueIdentifier {
      * if <b>false</b> then program should register a new user
      * in database using the static variable.
      */
-    public boolean isCreatedBefore(Context context) {
+    public static boolean isCreatedBefore(Context context) {
 
         String readIdf = readIdentifier(context);
 
@@ -45,16 +45,16 @@ public class UniqueIdentifier {
         return true;
     }
 
-    private String getRandomIdentifier() {
+    private static String getRandomIdentifier() {
         return UUID.randomUUID().toString();
     }
 
-    private String readIdentifier(Context context) {
+    private static String readIdentifier(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(IDENTIFIER_KEY, NOT_FOUND_VALUE);
     }
 
-    private void saveIdentifier(Context context, String identifier) {
+    private static void saveIdentifier(Context context, String identifier) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(IDENTIFIER_KEY, identifier)

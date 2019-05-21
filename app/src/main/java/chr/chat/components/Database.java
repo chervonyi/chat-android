@@ -11,12 +11,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import chr.chat.activities.MainActivity;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Line;
 import chr.chat.components.models.Message;
 import chr.chat.components.models.User;
 
 public class Database {
+
+    public static final Database instance = new Database();
 
     private DatabaseReference mDatabase;
 
@@ -27,7 +30,7 @@ public class Database {
     private final String MESSAGES = "messages";
     private final String REPORT = "report";
 
-    public Database() {
+    private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -177,6 +180,10 @@ public class Database {
     // ------    USERS   -------
     // -------------------------
 
+    public void changeUserName(String ID, String name) {
+        mDatabase.child(USERS).child(ID).child("name").setValue(name);
+    }
+
     public void loadUserData(String ID) {
 
         ValueEventListener loadUserListener = new ValueEventListener() {
@@ -185,8 +192,12 @@ public class Database {
 
                 User user = dataSnapshot.getValue(User.class);
 
-                // TODO - check on 'null'
-                // TODO - call some static variable and assign 'user'
+                if (user != null) {
+                    // or use UniqueIdentifier
+                    user.setID(dataSnapshot.getKey());
+                }
+
+                MainActivity.currentUser = user;
             }
 
             @Override
