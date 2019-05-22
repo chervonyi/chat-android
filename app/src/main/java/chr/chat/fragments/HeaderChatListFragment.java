@@ -10,7 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import chr.chat.R;
+import chr.chat.activities.MainActivity;
+import chr.chat.components.UniqueIdentifier;
+import chr.chat.components.models.Chat;
+import chr.chat.components.models.User;
 import chr.chat.views.ChatIconButton;
 
 public class HeaderChatListFragment extends Fragment {
@@ -26,35 +32,22 @@ public class HeaderChatListFragment extends Fragment {
 
         chatListContainer = view.findViewById(R.id.chat_list_container);
 
-        ChatIconButton chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.red);
-        chatIconButton.setName("Yuri Chervonyi");
-        chatListContainer.addView(chatIconButton);
 
-        chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.blue);
-        chatIconButton.setName("Jon Snow");
-        chatListContainer.addView(chatIconButton);
+        ChatIconButton chatIconButton;
 
-        chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.orange);
-        chatIconButton.setName("Dak Noise");
-        chatListContainer.addView(chatIconButton);
+        for (Chat chat : ((MainActivity)getActivity()).chatList) {
+            chatIconButton = new ChatIconButton(getContext());
+            chatIconButton.setBackgroundColor(R.color.red);
+            // TODO - set RANDOM background
 
-        chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.green);
-        chatIconButton.setName("Tark Morbund");
-        chatListContainer.addView(chatIconButton);
+            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
+                chatIconButton.setName(chat.getUserName2());
+            } else {
+                chatIconButton.setName(chat.getUserName1());
+            }
 
-        chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.violet);
-        chatIconButton.setName("Sansa Snow");
-        chatListContainer.addView(chatIconButton);
-
-        chatIconButton = new ChatIconButton(getContext());
-        chatIconButton.setBackgroundColor(R.color.yellow);
-        chatIconButton.setName("Khal Drogo");
-        chatListContainer.addView(chatIconButton);
+            chatListContainer.addView(chatIconButton);
+        }
 
         return view;
     }

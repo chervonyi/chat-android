@@ -1,6 +1,7 @@
 package chr.chat.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,18 +14,28 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import chr.chat.components.Database;
+import chr.chat.components.UniqueIdentifier;
+import chr.chat.components.models.Chat;
 import chr.chat.fragments.GenderQuestionFragment;
 import chr.chat.fragments.HeaderSearchingFragment;
 import chr.chat.fragments.LanguageQuestionFragment;
 import chr.chat.R;
+import chr.chat.fragments.SearchingFragment;
 import chr.chat.views.ChatPopupMenu;
 
 public class SearchActivity extends AppCompatActivity {
 
-    public static final int QUESTION_GENDER_FRAGMENT_ID = 0;
-    public static final int QUESTION_LANGUAGE_FRAGMENT_ID = 1;
 
-    private List<Fragment> mFragments = new ArrayList<>();
+    private static Context context;
+
+    // Fragments
+    private GenderQuestionFragment genderQuestionFragment = new GenderQuestionFragment();
+    private LanguageQuestionFragment languageQuestionFragment = new LanguageQuestionFragment();
+    private SearchingFragment searchingFragment = new SearchingFragment();
+
+    // Headers
+    private HeaderSearchingFragment headerSearchingFragment = new HeaderSearchingFragment();
 
     private String selectedGender;
     private String selectedLanguage;
@@ -34,12 +45,10 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Add in order according to ID numbers
-        mFragments.add(new GenderQuestionFragment());
-        mFragments.add(new LanguageQuestionFragment());
+        context = this;
 
-        changeFragment(R.id.container, mFragments.get(QUESTION_GENDER_FRAGMENT_ID), "GenderQuestionFragment", false);
-        changeFragment(R.id.header, new HeaderSearchingFragment(), "HeaderSearchingFragment", false);
+        changeFragment(R.id.container, genderQuestionFragment, "GenderQuestionFragment", false);
+        changeFragment(R.id.header,headerSearchingFragment, "HeaderSearchingFragment", false);
     }
 
     /**
@@ -78,10 +87,10 @@ public class SearchActivity extends AppCompatActivity {
      * Listener for "NEXT" button to change fragment with another question
      * @param gender selected gender
      */
-    public void answeredOnGender(String gender) {
+    public void onInputGender(String gender) {
         selectedGender = gender;
-        Log.d("CHR_GAMES_TEST", "selected gender is: " + gender);
-        changeFragment(R.id.container, mFragments.get(QUESTION_LANGUAGE_FRAGMENT_ID), "LanguageQuestionFragment", true);
+
+        changeFragment(R.id.container, languageQuestionFragment, "LanguageQuestionFragment", true);
     }
 
     /**
@@ -90,14 +99,11 @@ public class SearchActivity extends AppCompatActivity {
      */
     public void startSearching(String language) {
         selectedLanguage = language;
-        Log.d("CHR_GAMES_TEST", "selected language is: " + language);
-        // TODO - change fragment and start searching for a chat
 
-        //Intent intent = new Intent(this, MainActivity.class);
-        Intent intent = new Intent(this, ChangeInfoActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+        // Start searching
+        Database.instance.searchSomebodyFor(MainActivity.currentUser, selectedGender, selectedLanguage);
+
+        changeFragment(R.id.container, searchingFragment, "SearchingFragment", true);
     }
 
     /**
@@ -105,10 +111,11 @@ public class SearchActivity extends AppCompatActivity {
      * @param view "Back" button
      */
     public void onClickBack(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
+        goToMainActivity();
+    }
+
+    public static void goToChat() {
+        ((SearchActivity)context).goToMainActivity();
     }
 
     /**
@@ -121,6 +128,13 @@ public class SearchActivity extends AppCompatActivity {
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
         popupMenu.show();
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 
     /**

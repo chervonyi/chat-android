@@ -20,6 +20,8 @@ public class GenderQuestionFragment extends Fragment implements View.OnClickList
 
     private List<ChatButton> answerButtons = new ArrayList<>();
 
+    private int selectedButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,16 +44,15 @@ public class GenderQuestionFragment extends Fragment implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                String answer = "anybody";
+                String answer = "any";
 
-                for (ChatButton button : answerButtons) {
-                    if (button.isHighlighted()) {
-                        answer = button.getText().toString();
-                        break;
-                    }
+                if (selectedButton == R.id.button_answer_man) {
+                    answer = "man";
+                } else if (selectedButton == R.id.button_answer_woman) {
+                    answer = "woman";
                 }
 
-                ((SearchActivity) Objects.requireNonNull(getActivity())).answeredOnGender(answer);
+                ((SearchActivity) Objects.requireNonNull(getActivity())).onInputGender(answer);
             }
         });
 
@@ -60,6 +61,7 @@ public class GenderQuestionFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        selectedButton = v.getId();
         // Highlight selected button and remove highlighting for others
         for (ChatButton button : answerButtons) {
             button.setHighlight(button.getId() == v.getId());

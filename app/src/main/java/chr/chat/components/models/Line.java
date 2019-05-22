@@ -11,22 +11,25 @@ public class Line {
     private String sex;
     private String language;
     private String userSex;
+    private String userName;
 
     public Line() {}
 
-    public Line(String userID, String userSex, String sex, String language) {
+    public Line(String userID, String userName, String userSex, String sex, String language) {
         this.userID = userID;
         this.userSex = userSex;
         this.sex = sex;
         this.language = language;
+        this.userName = userName;
     }
 
-    public Line(int ID, String userSex, String userID, String sex, String language) {
+    public Line(int ID, String userName, String userSex, String userID, String sex, String language) {
         this.ID = ID;
         this.userID = userID;
         this.userSex = userSex;
         this.sex = sex;
         this.language = language;
+        this.userName = userName;
     }
 
     public void setID(int ID) {
@@ -52,6 +55,10 @@ public class Line {
 
     public String getUserSex() {
         return userSex;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     @Override
