@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(newFragment)
-                    .commit();
+                    //.commit();
+                    .commitAllowingStateLoss();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -166,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
             // Show header and body fragments according to NOT EMPTY chat-list
             if (currentChatID == null) {
                 currentChatID = chatList.get(0).getID();
-                Log.d("CHR_GAMES_TEST", "Selected currentChatID: " + currentChatID);
             }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
             setHeaderSize(R.dimen.header_size);
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setMessages(String chatID, ArrayList<Message> messages) {
         // Update messages only for current chat
-        if (currentChatID.equals(chatID)) {
+        if (currentChatID != null && currentChatID.equals(chatID)) {
             ((MainActivity)context).currentMessages = messages;
             ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
         }

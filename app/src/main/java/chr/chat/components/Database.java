@@ -97,9 +97,17 @@ public class Database {
                 for (Chat foundChat: chats) {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
-                        requiredChatList.add(foundChat);
-                        assignListenerOnMessagesForChat(foundChat.getID());
-                        Log.d("CHR_GAMES_TEST", "On app start - Assign listeners for all chats: " + foundChat.getID());
+
+                        Log.d("CHR_GAMES_TEST", "foundChat.isOpen(): " + foundChat.isOpen());
+                        Log.d("CHR_GAMES_TEST", "foundChat: " + foundChat);
+                        if (foundChat.isOpen()) {
+
+                            // Append found chat to chat-list of currentUser
+                            requiredChatList.add(foundChat);
+
+                            // Assign listener to load all messages for current chat
+                            assignListenerOnMessagesForChat(foundChat.getID());
+                        }
                     }
                 }
 
@@ -168,7 +176,7 @@ public class Database {
                         // Remove current user from line
                         removeUserFromLine(line.getUserID());
 
-                        Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName());
+                        Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName(), true);
 
                         // Create chat in database
                         Database.instance.createChat(currentChat);
