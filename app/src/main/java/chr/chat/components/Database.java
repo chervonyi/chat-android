@@ -76,6 +76,36 @@ public class Database {
         });
     }
 
+    public void getMessagesForNewChat(final String chatID) {
+
+        mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Message> messages = new ArrayList<>();
+
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    messages.add(messageSnapshot.getValue(Message.class));
+                }
+
+                // Sort messages by date and time manually
+                // because Firebase does not support order by 2+ keys
+                Collections.sort(messages, new Comparator<Message>() {
+                    @Override
+                    public int compare(Message o1, Message o2) {
+                        return (int)((long)o1.getDatetime() - (long)o2.getDatetime());
+                    }
+                });
+
+                MainActivity.setMessages(chatID, messages);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+    }
+
+
+
 
     // -------------------------
     // ------    CHATS   -------
@@ -110,8 +140,6 @@ public class Database {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
 
-                        Log.d("CHR_GAMES_TEST", "foundChat.isOpen(): " + foundChat.isOpen());
-                        Log.d("CHR_GAMES_TEST", "foundChat: " + foundChat);
                         if (foundChat.isOpen()) {
 
                             // Append found chat to chat-list of currentUser

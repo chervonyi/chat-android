@@ -175,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
-        //...
-        // currentChatID = ...
+
+        currentChatID = view.getTag().toString();
+
+        Database.instance.getMessagesForNewChat(currentChatID);
     }
 
     public static void setChatList(ArrayList<Chat> chatList) {

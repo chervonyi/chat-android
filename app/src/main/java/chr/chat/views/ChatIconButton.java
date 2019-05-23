@@ -3,16 +3,19 @@ package chr.chat.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.Random;
 
 import chr.chat.R;
+import chr.chat.activities.MainActivity;
 
 @SuppressLint("AppCompatCustomView")
-public class ChatIconButton extends Button {
+public class ChatIconButton extends Button implements View.OnClickListener {
 
     private Context context;
 
@@ -45,14 +48,11 @@ public class ChatIconButton extends Button {
         params.setMargins(0, 0, divider, 0);
         setLayoutParams(params);
 
-
-        //setBackground(getResources().getDrawable(R.drawable.chat_icon_red));
         setTextColor(getResources().getColor(R.color.white));
         setStateListAnimator(null);
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        setText("YC");
 
-        // TODO change text
+        setOnClickListener(this);
     }
 
     public void setName(String name) {
@@ -84,5 +84,10 @@ public class ChatIconButton extends Button {
             case R.color.orange:    setBackgroundResource(R.drawable.chat_icon_orange); break;
             default:                setBackgroundResource(R.drawable.chat_icon_red);    break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        ((MainActivity)context).onSelectChat(v);
     }
 }
