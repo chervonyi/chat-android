@@ -25,7 +25,7 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_report_user:
-                Toast.makeText(context, "REPORT USER", Toast.LENGTH_SHORT).show();
+                ((MainActivity)context).reportUser();
                 return true;
 
             case R.id.menu_settings:

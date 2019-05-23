@@ -19,6 +19,7 @@ import chr.chat.components.Database;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Message;
+import chr.chat.components.models.Report;
 import chr.chat.components.models.User;
 import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
@@ -207,5 +208,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+
+    public void reportUser() {
+
+        Chat chat = getChatByID(currentChatID);
+
+        if (chat != null) {
+            String suspectID = chat.getUserID1();
+
+            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
+                suspectID = chat.getUserID2();
+            }
+
+            Report report = new Report(suspectID, currentChatID);
+
+            Database.instance.reportUser(report);
+        }
+    }
+
+    public Chat getChatByID(String requiredID) {
+        for (Chat chat : chatList) {
+            if (chat.getID().equals(requiredID)) {
+                return chat;
+            }
+        }
+        return null;
     }
 }

@@ -16,6 +16,7 @@ import chr.chat.activities.SearchActivity;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Line;
 import chr.chat.components.models.Message;
+import chr.chat.components.models.Report;
 import chr.chat.components.models.User;
 
 public class Database {
@@ -235,9 +236,9 @@ public class Database {
     // ------    REPORT   ------
     // -------------------------
 
-    public void reportMessage(String messageID) {
+    public void reportUser(Report report) {
         DatabaseReference lineRef = mDatabase.child(REPORT);
-        lineRef.push().setValue(messageID);
+        lineRef.push().setValue(report);
     }
 
 }
