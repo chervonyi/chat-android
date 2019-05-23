@@ -37,7 +37,7 @@ public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
 
-    public static final String BOT_MESSAGES_CODE = "BOT_MESSAGES_1984";
+    public static final String BOT_MESSAGES_CODE = "BOT_MESSAGES_ID_1984";
 
 
     private BotAttachments botAttachments = new BotAttachments();
@@ -160,7 +160,11 @@ public class ChatFragment extends Fragment {
 
     public void attachBotMessage(int type) {
         String botMessage = botAttachments.getRandom(type);
-        printBotMessage(botMessage);
+
+        Message message = new Message(MainActivity.currentChatID, botMessage, BOT_MESSAGES_CODE);
+        Database.instance.appendNewMessage(message);
+
+        //printBotMessage(botMessage);
     }
 
 

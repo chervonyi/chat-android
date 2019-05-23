@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import chr.chat.activities.MainActivity;
 import chr.chat.activities.SearchActivity;
@@ -47,6 +49,7 @@ public class Database {
     }
 
     public void assignListenerOnMessagesForChat(final String chatID) {
+
         mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,6 +58,15 @@ public class Database {
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     messages.add(messageSnapshot.getValue(Message.class));
                 }
+
+                // Sort messages by date and time manually
+                // because Firebase does not support order by 2+ keys
+                Collections.sort(messages, new Comparator<Message>() {
+                    @Override
+                    public int compare(Message o1, Message o2) {
+                        return (int)((long)o1.getDatetime() - (long)o2.getDatetime());
+                    }
+                });
 
                 MainActivity.setMessages(chatID, messages);
             }
