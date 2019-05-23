@@ -20,9 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import chr.chat.activities.MainActivity;
 import chr.chat.components.BotAttachments;
 import chr.chat.R;
 import chr.chat.components.Database;
+import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Line;
 import chr.chat.components.models.Message;
@@ -35,9 +37,7 @@ public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
 
-    public static final int CHAT_BLOT_USER = 40001;
-    public static final int CHAT_BLOT_COMPANION = 40002;
-    public static final int CHAT_BLOT_BOT = 40003;
+    public static final String BOT_MESSAGES_CODE = "BOT_MESSAGES_1984";
 
 
     private BotAttachments botAttachments = new BotAttachments();
@@ -64,21 +64,17 @@ public class ChatFragment extends Fragment {
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
 
-        appendMessage("Anyway, I keep picturing all these little kids playing some game in this big field of rye and all.", false);
 
+        for (Message message : ((MainActivity)getActivity()).currentMessages) {
+            if (message.getOwner().equals(BOT_MESSAGES_CODE)) {
+                printBotMessage(message.getMessage());
+            } else if (message.getOwner().equals(UniqueIdentifier.identifier)) {
+                appendMessage(message.getMessage(), true);
+            } else {
+                appendMessage(message.getMessage(), false);
+            }
+        }
 
-        printBotMessage("Topic: Films");
-
-        appendMessage("Thousands of little kids, and nobody's around, nobody big, I mean, except me. ", false);
-        appendMessage("What I have to do, I have to catch everybody if they start to go over the cliff", false);
-
-        printBotMessage("Question: Cats or dogs?");
-
-        appendMessage("I know it's crazy, but that's the only thing I'd really like to be.", false);
-        appendMessage("I know it's crazy.", false);
-        appendMessage("Daddy's going to kill you", true);
-
-        scrollDown();
 
         // On click 'SEND'
         final ImageButton buttonSend = view.findViewById(R.id.button_send);
@@ -90,7 +86,8 @@ public class ChatFragment extends Fragment {
                 if (inputMessage.length() > 0) {
                     inputView.setText("");
 
-                    appendMessage(inputMessage, true);
+                    Message message = new Message(MainActivity.currentChatID, inputMessage, UniqueIdentifier.identifier);
+                    Database.instance.appendNewMessage(message);
                 }
 
                 scrollDown();

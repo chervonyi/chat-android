@@ -45,7 +45,7 @@ public class Database {
         lineRef.push().setValue(messageNode);
     }
 
-    public void loadListOfMessages(String chatID) {
+    public void assignListenerOnMessagesForChat(final String chatID) {
         mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,7 +55,7 @@ public class Database {
                     messages.add(messageSnapshot.getValue(Message.class));
                 }
 
-                // TODO - Call some (static) method to set this list to update view of chat-view (MainActivity)
+                MainActivity.setMessages(chatID, messages);
             }
 
             @Override
@@ -69,8 +69,13 @@ public class Database {
     // -------------------------
 
     public void createChat(Chat chatNode) {
-        DatabaseReference lineRef = mDatabase.child(CHATS);
-        lineRef.push().setValue(chatNode);
+        DatabaseReference lineRef = mDatabase.child(CHATS).push();
+
+        String pushedUniqueID = lineRef.getKey();
+
+        lineRef.setValue(chatNode);
+
+        assignListenerOnMessagesForChat(pushedUniqueID);
     }
 
     public void loadAllChats(final String userID) {
@@ -92,6 +97,8 @@ public class Database {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
                         requiredChatList.add(foundChat);
+                        assignListenerOnMessagesForChat(foundChat.getID());
+                        Log.d("CHR_GAMES_TEST", "On app start - Assign listeners for all chats: " + foundChat.getID());
                     }
                 }
 

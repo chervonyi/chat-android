@@ -18,6 +18,7 @@ import java.util.List;
 import chr.chat.components.Database;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
+import chr.chat.components.models.Message;
 import chr.chat.components.models.User;
 import chr.chat.fragments.ChatFragment;
 import chr.chat.fragments.EmptyListFragment;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     // User data
     public static User currentUser;
+
+    public ArrayList<Message> currentMessages = new ArrayList<>();
+
+    public static String currentChatID;
 
 
     // Fragments:
@@ -158,14 +163,31 @@ public class MainActivity extends AppCompatActivity {
             changeFragment(R.id.header, headerEmptyChatListFragment, "HeaderEmptyChatListFragment",false);
         } else {
             // Show header and body fragments according to NOT EMPTY chat-list
+            if (currentChatID == null) {
+                currentChatID = chatList.get(0).getID();
+                Log.d("CHR_GAMES_TEST", "Selected currentChatID: " + currentChatID);
+            }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
             setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
         }
     }
 
+    public void onSelectChat(View view) {
+        //...
+        // currentChatID = ...
+    }
+
     public static void setChatList(ArrayList<Chat> chatList) {
         ((MainActivity)context).updateActivityView(chatList);
+    }
+
+    public static void setMessages(String chatID, ArrayList<Message> messages) {
+        // Update messages only for current chat
+        if (currentChatID.equals(chatID)) {
+            ((MainActivity)context).currentMessages = messages;
+            ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
+        }
     }
 
     public void onClickAttach(View view) {
