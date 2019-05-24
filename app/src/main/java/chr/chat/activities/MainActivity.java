@@ -103,8 +103,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Redirection to ChangeInfoActivity
      */
-    public void goToPersonalInfo() {
+    public void goToChangePersonalName() {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
+        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             if (currentChatID == null) {
                 currentChatID = chatList.get(0).getID();
             }
-            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+            //changeFragment(R.id.container, chatFragment, "ChatFragment", false);
             setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
         }
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentChatID != null && currentChatID.equals(chatID)) {
             ((MainActivity)context).currentMessages = messages;
             ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
+            //((MainActivity)context).chatFragment.setMessages(messages);
         }
     }
 

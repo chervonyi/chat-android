@@ -64,17 +64,7 @@ public class ChatFragment extends Fragment {
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
 
-
-        for (Message message : ((MainActivity)getActivity()).currentMessages) {
-            if (message.getOwner().equals(BOT_MESSAGES_CODE)) {
-                printBotMessage(message.getMessage());
-            } else if (message.getOwner().equals(UniqueIdentifier.identifier)) {
-                appendMessage(message.getMessage(), true);
-            } else {
-                appendMessage(message.getMessage(), false);
-            }
-        }
-
+        setMessages(((MainActivity)getActivity()).currentMessages);
 
         // On click 'SEND'
         final ImageButton buttonSend = view.findViewById(R.id.button_send);
@@ -95,6 +85,22 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void setMessages(ArrayList<Message> messages) {
+
+        if (chatContainer == null) { return; }
+
+        chatContainer.removeAllViews();
+        for (Message message : messages) {
+            if (message.getOwner().equals(BOT_MESSAGES_CODE)) {
+                printBotMessage(message.getMessage());
+            } else if (message.getOwner().equals(UniqueIdentifier.identifier)) {
+                appendMessage(message.getMessage(), true);
+            } else {
+                appendMessage(message.getMessage(), false);
+            }
+        }
     }
 
     private void printBotMessage(String message) {

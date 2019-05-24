@@ -140,8 +140,9 @@ public class SearchActivity extends AppCompatActivity {
     /**
      * Redirection to ChangeInfoActivity
      */
-    public void goToPersonalInfo() {
+    public void goToChangePersonalName() {
         Intent intent = new Intent(this, ChangeInfoActivity.class);
+        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);

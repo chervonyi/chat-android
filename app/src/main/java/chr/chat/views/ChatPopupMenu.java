@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import chr.chat.R;
 import chr.chat.activities.MainActivity;
@@ -39,9 +38,9 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
             case R.id.menu_change_name:
 
                 if (context instanceof MainActivity) {
-                    ((MainActivity)context).goToPersonalInfo();
+                    ((MainActivity)context).goToChangePersonalName();
                 } else if (context instanceof SearchActivity) {
-                    ((SearchActivity)context).goToPersonalInfo();
+                    ((SearchActivity)context).goToChangePersonalName();
                 }
 
                 return true;
