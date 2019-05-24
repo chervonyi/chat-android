@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import chr.chat.R;
 import chr.chat.activities.MainActivity;
@@ -26,6 +27,16 @@ public class HeaderChatListFragment extends Fragment {
     private LinearLayout chatListContainer;
 
     private TextView companionName;
+
+
+    private int[] COLORS = new int[] {
+            R.color.blue,
+            R.color.yellow,
+            R.color.red,
+            R.color.violet,
+            R.color.green,
+            R.color.orange
+    };
 
     @SuppressLint("ResourceAsColor")
     @Nullable
@@ -46,8 +57,11 @@ public class HeaderChatListFragment extends Fragment {
 
         for (Chat chat : ((MainActivity)getActivity()).chatList) {
             chatIconButton = new ChatIconButton(getContext());
-            chatIconButton.setBackgroundColor(R.color.red);
-            // TODO - set RANDOM background
+
+            // Random set background color
+            int randomNum = new Random().nextInt(COLORS.length);
+            int randomColor = COLORS[randomNum];
+            chatIconButton.setBackgroundColor(randomColor);
 
             if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
                 chatIconButton.setName(chat.getUserName2());
