@@ -2,9 +2,12 @@ package chr.chat.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,6 +56,25 @@ public class ChatIconButton extends Button implements View.OnClickListener {
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
         setOnClickListener(this);
+
+
+        Button button = new Button(context);
+        button.setText("MY BUTTONs");
+
+//        setOnLongClickListener(new OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//
+////                PopupMenu popup = new PopupMenu(wrapper, view, Gravity.END);
+//
+//                ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(context, v, Gravity.END);
+//                MenuInflater inflater = popupMenu.getMenuInflater();
+//                inflater.inflate(R.menu.remove_chat_menu, popupMenu.getMenu());
+//                popupMenu.show();
+//
+//                return false;
+//            }
+//        });
     }
 
     public void setName(String name) {

@@ -50,6 +50,7 @@ public class HeaderChatListFragment extends Fragment {
             chatIconButton.setTag(chat.getID());
 
             chatListContainer.addView(chatIconButton);
+            registerForContextMenu(chatIconButton);
         }
 
         return view;

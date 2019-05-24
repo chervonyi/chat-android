@@ -111,6 +111,10 @@ public class Database {
     // ------    CHATS   -------
     // -------------------------
 
+    public void closeChat(String chatID) {
+        mDatabase.child(CHATS).child(chatID).child("open").setValue(false);
+    }
+
     public void createChat(Chat chatNode) {
         DatabaseReference lineRef = mDatabase.child(CHATS).push();
 

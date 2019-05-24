@@ -8,9 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String currentChatID;
 
+    private String contextMenuForChatID;
 
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
@@ -181,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.getMessagesForNewChat(currentChatID);
     }
 
+
     public static void setChatList(ArrayList<Chat> chatList) {
         ((MainActivity)context).updateActivityView(chatList);
     }
@@ -199,6 +205,36 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
 
         popupMenu.show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.remove_chat_menu, menu);
+        contextMenuForChatID = v.getTag().toString();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.option_remove_chat:
+                Database.instance.closeChat(contextMenuForChatID);
+
+                // If you are removing the chat which is open right now
+                if (contextMenuForChatID.equals(currentChatID)) {
+
+                    // Assign null so it will set the the first chat ID from the chat-list
+                    // in the future (when DB updates chat-list)
+                    currentChatID = null;
+                }
+
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     public void attachBotMessage(int attachmentType) {
@@ -238,4 +274,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
 }
