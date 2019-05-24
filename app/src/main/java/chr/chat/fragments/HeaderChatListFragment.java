@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class HeaderChatListFragment extends Fragment {
 
     private LinearLayout chatListContainer;
 
+    private TextView companionName;
+
     @SuppressLint("ResourceAsColor")
     @Nullable
     @Override
@@ -32,6 +35,11 @@ public class HeaderChatListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_header_chatlist, container, false);
 
         chatListContainer = view.findViewById(R.id.chat_list_container);
+        companionName = view.findViewById(R.id.companion_name);
+
+        // Set companion name
+        Chat openingChat = ((MainActivity)getActivity()).getChatByID(MainActivity.currentChatID);
+        setCompanionName(openingChat);
 
 
         ChatIconButton chatIconButton;
@@ -54,5 +62,16 @@ public class HeaderChatListFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public void setCompanionName(Chat forChat) {
+
+        if (companionName != null) {
+            if (forChat.getUserID1().equals(MainActivity.currentUser.getID())) {
+                companionName.setText(forChat.getUserName2());
+            } else {
+                companionName.setText(forChat.getUserName1());
+            }
+        }
     }
 }

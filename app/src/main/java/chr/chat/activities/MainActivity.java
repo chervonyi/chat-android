@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     private void loadUserDataFromPhoneMemory() {
 
         if (!UniqueIdentifier.isCreatedBefore(this)) {
@@ -142,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         // Add current fragment
         fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -180,9 +177,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
-
         currentChatID = view.getTag().toString();
 
+        // Update name of the companion
+        headerChatListFragment.setCompanionName(getChatByID(currentChatID));
+
+        // Get messages for selected chat
         Database.instance.getMessagesForNewChat(currentChatID);
     }
 
