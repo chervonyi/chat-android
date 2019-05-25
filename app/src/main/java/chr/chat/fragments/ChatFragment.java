@@ -84,6 +84,9 @@ public class ChatFragment extends Fragment {
             }
         });
 
+        scrollView.setVisibility(View.INVISIBLE);
+        scrollDown();
+
         return view;
     }
 
@@ -101,13 +104,14 @@ public class ChatFragment extends Fragment {
                 appendMessage(message.getMessage(), false);
             }
         }
+
     }
 
     private void printBotMessage(String message) {
         ChatBotBlockView botBlockView = new ChatBotBlockView(getContext());
         botBlockView.setText(message);
         chatContainer.addView(botBlockView);
-        scrollDown();
+        //scrollDown();
     }
 
     /**
@@ -140,9 +144,14 @@ public class ChatFragment extends Fragment {
             public void run() {
                 scrollView.setSmoothScrollingEnabled(false);
                 scrollView.fullScroll(View.FOCUS_DOWN);
+
+                if(scrollView.getVisibility() == View.INVISIBLE) {
+                    scrollView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
+
 
     /**
      * Check if given text contains at least one of forbidden words. <br>

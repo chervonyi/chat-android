@@ -178,13 +178,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
-        currentChatID = view.getTag().toString();
 
-        // Update name of the companion
-        headerChatListFragment.setCompanionName(getChatByID(currentChatID));
+        String selectedChatID = view.getTag().toString();
 
-        // Get messages for selected chat
-        Database.instance.getMessagesForNewChat(currentChatID);
+        if (!selectedChatID.equals(currentChatID)) {
+            currentChatID = selectedChatID;
+
+            // Update name of the companion
+            headerChatListFragment.setCompanionName(getChatByID(currentChatID));
+
+            // Get messages for selected chat
+            Database.instance.getMessagesForNewChat(currentChatID);
+        }
     }
 
 
@@ -197,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
         if (currentChatID != null && currentChatID.equals(chatID)) {
             ((MainActivity)context).currentMessages = messages;
             ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
-            //((MainActivity)context).chatFragment.setMessages(messages);
+//            ((MainActivity)context).chatFragment.setMessages(messages);
+
         }
     }
 
