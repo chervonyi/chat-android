@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     public static void hideScrollView() {
         ((MainActivity)context).chatFragment.hideScrollView();
     }
-    
+
 
     public static void setChatList(ArrayList<Chat> chatList) {
         ((MainActivity)context).updateActivityView(chatList);

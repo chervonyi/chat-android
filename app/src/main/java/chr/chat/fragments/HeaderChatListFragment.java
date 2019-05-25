@@ -29,14 +29,7 @@ public class HeaderChatListFragment extends Fragment {
     private TextView companionName;
 
 
-    private int[] COLORS = new int[] {
-            R.color.blue,
-            R.color.yellow,
-            R.color.red,
-            R.color.violet,
-            R.color.green,
-            R.color.orange
-    };
+
 
     @SuppressLint("ResourceAsColor")
     @Nullable
@@ -57,11 +50,6 @@ public class HeaderChatListFragment extends Fragment {
 
         for (Chat chat : ((MainActivity)getActivity()).chatList) {
             chatIconButton = new ChatIconButton(getContext());
-
-            // Random set background color
-            int randomNum = new Random().nextInt(COLORS.length);
-            int randomColor = COLORS[randomNum];
-            chatIconButton.setBackgroundColor(randomColor);
 
             if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
                 chatIconButton.setName(chat.getUserName2());

@@ -20,6 +20,15 @@ import chr.chat.activities.MainActivity;
 @SuppressLint("AppCompatCustomView")
 public class ChatIconButton extends Button implements View.OnClickListener {
 
+    private int[] COLORS = new int[] {
+            R.color.blue,
+            R.color.yellow,
+            R.color.red,
+            R.color.violet,
+            R.color.green,
+            R.color.orange
+    };
+
     private Context context;
 
     public ChatIconButton(Context context) {
@@ -56,7 +65,6 @@ public class ChatIconButton extends Button implements View.OnClickListener {
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
         setOnClickListener(this);
-
     }
 
     public void setName(String name) {
@@ -76,6 +84,22 @@ public class ChatIconButton extends Button implements View.OnClickListener {
         }
 
         setText(shortForm);
+
+        setBackgroundForName(name);
+    }
+
+    private void setBackgroundForName(String name) {
+        // Calculate sum of all characters in given na,e
+        int sum = 0;
+        for (char c : name.toLowerCase().toCharArray()) {
+            sum += (int) c;
+        }
+
+        // Get the last digit
+        int lastDigit = sum % 10;
+
+        // Use last digit as a position of color in COLORS array
+        setBackgroundColor(COLORS[lastDigit % COLORS.length]);
     }
 
     public void setBackgroundColor(int color) {
