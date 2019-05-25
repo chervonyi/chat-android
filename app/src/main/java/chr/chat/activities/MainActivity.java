@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             if (currentChatID == null) {
                 currentChatID = chatList.get(0).getID();
             }
-            //changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
             setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
         }
@@ -189,9 +189,14 @@ public class MainActivity extends AppCompatActivity {
 
             // Get messages for selected chat
             Database.instance.getMessagesForNewChat(currentChatID);
+
         }
     }
 
+    public static void hideScrollView() {
+        ((MainActivity)context).chatFragment.hideScrollView();
+    }
+    
 
     public static void setChatList(ArrayList<Chat> chatList) {
         ((MainActivity)context).updateActivityView(chatList);
@@ -201,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
             ((MainActivity)context).currentMessages = messages;
-            ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
-//            ((MainActivity)context).chatFragment.setMessages(messages);
+//            ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
+            ((MainActivity)context).chatFragment.setMessages(messages);
 
         }
     }

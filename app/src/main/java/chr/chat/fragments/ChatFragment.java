@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -79,15 +80,35 @@ public class ChatFragment extends Fragment {
                     Message message = new Message(MainActivity.currentChatID, inputMessage, UniqueIdentifier.identifier);
                     Database.instance.appendNewMessage(message);
                 }
-
-                scrollDown();
             }
         });
 
-        scrollView.setVisibility(View.INVISIBLE);
-        scrollDown();
+        // Set listener to do a full scroll to down every time on changes
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                scrollView.post(new Runnable() {
+                    public void run() {
+                        scrollView.setSmoothScrollingEnabled(false);
+                        scrollView.fullScroll(View.FOCUS_DOWN);
 
+                        if (scrollView.getVisibility() == View.INVISIBLE) {
+                            scrollView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        });
+
+        hideScrollView();
         return view;
+    }
+
+
+    public void hideScrollView() {
+        if (scrollView != null) {
+            scrollView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void setMessages(ArrayList<Message> messages) {
@@ -95,6 +116,7 @@ public class ChatFragment extends Fragment {
         if (chatContainer == null) { return; }
 
         chatContainer.removeAllViews();
+
         for (Message message : messages) {
             if (message.getOwner().equals(BOT_MESSAGES_CODE)) {
                 printBotMessage(message.getMessage());
@@ -111,7 +133,6 @@ public class ChatFragment extends Fragment {
         ChatBotBlockView botBlockView = new ChatBotBlockView(getContext());
         botBlockView.setText(message);
         chatContainer.addView(botBlockView);
-        //scrollDown();
     }
 
     /**
@@ -133,23 +154,6 @@ public class ChatFragment extends Fragment {
         blockView.setText(message);
         blockView.setOwner(isUserMessage);
         chatContainer.addView(blockView);
-    }
-
-    /**
-     * Scroll main chat list to down position
-     */
-    private void scrollDown() {
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.setSmoothScrollingEnabled(false);
-                scrollView.fullScroll(View.FOCUS_DOWN);
-
-                if(scrollView.getVisibility() == View.INVISIBLE) {
-                    scrollView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
 
@@ -175,11 +179,8 @@ public class ChatFragment extends Fragment {
 
     public void attachBotMessage(int type) {
         String botMessage = botAttachments.getRandom(type);
-
         Message message = new Message(MainActivity.currentChatID, botMessage, BOT_MESSAGES_CODE);
         Database.instance.appendNewMessage(message);
-
-        //printBotMessage(botMessage);
     }
 
 

@@ -76,6 +76,7 @@ public class Database {
         });
     }
 
+    // On select another chat
     public void getMessagesForNewChat(final String chatID) {
 
         mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -96,6 +97,7 @@ public class Database {
                     }
                 });
 
+                MainActivity.hideScrollView();
                 MainActivity.setMessages(chatID, messages);
             }
 
