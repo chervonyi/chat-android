@@ -30,8 +30,6 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
             case R.id.menu_settings:
                 if (context instanceof MainActivity) {
                     ((MainActivity)context).goToSettings();
-                } else if (context instanceof SearchActivity) {
-                    ((SearchActivity)context).goToSettings();
                 }
                 return true;
 
@@ -39,8 +37,6 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
 
                 if (context instanceof MainActivity) {
                     ((MainActivity)context).goToChangePersonalName();
-                } else if (context instanceof SearchActivity) {
-                    ((SearchActivity)context).goToChangePersonalName();
                 }
 
                 return true;

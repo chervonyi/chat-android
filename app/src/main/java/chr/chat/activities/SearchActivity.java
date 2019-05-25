@@ -66,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(newFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
         // Add current fragment
         fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     /**
@@ -118,18 +118,6 @@ public class SearchActivity extends AppCompatActivity {
         ((SearchActivity)context).goToMainActivity();
     }
 
-    /**
-     * Listener for "Menu" button (...) to show PopupMenu
-     * @param view "Menu" button
-     */
-    public void onClickMenu(View view) {
-        // Show menu
-        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
-        popupMenu.show();
-    }
-
     private void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -137,21 +125,4 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 
-    /**
-     * Redirection to ChangeInfoActivity
-     */
-    public void goToChangePersonalName() {
-        Intent intent = new Intent(this, ChangeInfoActivity.class);
-        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-    public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
 }

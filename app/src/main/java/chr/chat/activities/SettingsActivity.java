@@ -1,6 +1,7 @@
 package chr.chat.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,13 +16,18 @@ import chr.chat.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    // Fragments:
+    private SettingsFragment settingsFragment = new SettingsFragment();
+    private HeaderSettingsFragment headerSettingsFragment = new HeaderSettingsFragment();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        changeFragment(R.id.container, new SettingsFragment(), "SettingsFragment", false);
-        changeFragment(R.id.header, new HeaderSettingsFragment(), "HeaderSettingsFragment", false);
+        changeFragment(R.id.container, settingsFragment, "SettingsFragment", false);
+        changeFragment(R.id.header, headerSettingsFragment, "HeaderSettingsFragment", false);
     }
 
     public void onClickBack(View view) {
@@ -46,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(newFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -60,6 +66,6 @@ public class SettingsActivity extends AppCompatActivity {
         // Add current fragment
         fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }

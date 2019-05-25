@@ -32,16 +32,8 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
             android:textSize="18sp"
-            android:text="Searching for a new chat"/>
+            android:text="@string/header_searching"/>
 
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_settings"
-            android:layout_gravity="center_vertical|end"
-            android:background="@null"
-            android:onClick="onClickMenu"/>
     </FrameLayout>
 
 </LinearLayout>

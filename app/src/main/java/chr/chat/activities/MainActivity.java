@@ -30,6 +30,7 @@ import chr.chat.fragments.EmptyListFragment;
 import chr.chat.R;
 import chr.chat.fragments.HeaderChatListFragment;
 import chr.chat.fragments.HeaderEmptyChatListFragment;
+import chr.chat.fragments.HeaderPreloadFragment;
 import chr.chat.views.ChatPopupAttachMenu;
 import chr.chat.views.ChatPopupMenu;
 
@@ -46,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
     private String contextMenuForChatID;
 
+    private int lastNumberOfChats = 0;
+
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
     private HeaderEmptyChatListFragment headerEmptyChatListFragment = new HeaderEmptyChatListFragment();
     private EmptyListFragment emptyListFragment = new EmptyListFragment();
     private ChatFragment chatFragment = new ChatFragment();
+    private HeaderPreloadFragment headerPreloadFragment = new HeaderPreloadFragment();
 
     private FrameLayout headerLayout;
 
@@ -67,10 +71,19 @@ public class MainActivity extends AppCompatActivity {
         loadUserDataFromPhoneMemory();
 
         headerLayout = findViewById(R.id.header);
+        preloadHeader(lastNumberOfChats);
 
         Database.instance.loadAllChats(UniqueIdentifier.identifier);
     }
 
+    private void preloadHeader(int numberOfChats) {
+        if (numberOfChats != 0) {
+            setHeaderSize(R.dimen.header_size);
+        } else {
+            setHeaderSize(R.dimen.header_size_small);
+        }
+        changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
+    }
 
     private void loadUserDataFromPhoneMemory() {
 
@@ -86,30 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.loadUserData(UniqueIdentifier.identifier);
     }
 
-    private void setHeaderSize(int height) {
-        headerLayout.getLayoutParams().height = (int) getResources().getDimension(height);
-    }
-
-    /**
-     * Redirection to SearchActivity
-     */
-    public void onClickSearch(View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-    /**
-     * Redirection to ChangeInfoActivity
-     */
-    public void goToChangePersonalName() {
-        Intent intent = new Intent(this, ChangeInfoActivity.class);
-        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
+    
 
     /**
      * Method for change any fragment on current activity
@@ -142,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(destination, newFragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void setHeaderSize(int height) {
+        headerLayout.getLayoutParams().height = (int) getResources().getDimension(height);
     }
 
     /**
@@ -178,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
-
         String selectedChatID = view.getTag().toString();
 
         if (!selectedChatID.equals(currentChatID)) {
@@ -189,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Get messages for selected chat
             Database.instance.getMessagesForNewChat(currentChatID);
-
         }
     }
 
@@ -254,16 +246,7 @@ public class MainActivity extends AppCompatActivity {
         chatFragment.attachBotMessage(attachmentType);
     }
 
-    public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-
     public void reportUser() {
-
         Chat chat = getChatByID(currentChatID);
 
         if (chat != null) {
@@ -274,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             Report report = new Report(suspectID, currentChatID);
-
             Database.instance.reportUser(report);
         }
     }
@@ -286,6 +268,34 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    /**
+     * Redirection to SearchActivity
+     */
+    public void onClickSearch(View view) {
+        lastNumberOfChats = chatList.size();
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+    public void goToChangePersonalName() {
+        lastNumberOfChats = chatList.size();
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
+        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+    public void goToSettings() {
+        lastNumberOfChats = chatList.size();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
 }

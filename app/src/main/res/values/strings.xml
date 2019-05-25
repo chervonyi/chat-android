@@ -38,4 +38,5 @@
     <string name="attach_question">Get neutral question</string>
     <string name="attach_question_for_couple">Get question for a couple</string>
     <string name="option_remove_chat">Remove</string>
+    <string name="header_searching">Searching for a new chat</string>
 </resources>
