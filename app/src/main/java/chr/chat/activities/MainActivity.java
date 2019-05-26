@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             changeFragment(R.id.header, headerEmptyChatListFragment, "HeaderEmptyChatListFragment",false);
         } else {
             // Show header and body fragments according to NOT EMPTY chat-list
-            if (currentChatID == null) {
+            if (currentChatID == null || !isContains(currentChatID)) {
                 currentChatID = chatList.get(0).getID();
             }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
@@ -190,9 +190,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
-        // TODO - remove after testing
-        //notificationManager.show(this, "SOME_NEW_CHAT_ID");
-
 
         String selectedChatID = view.getTag().toString();
 
@@ -296,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    private boolean isContains(String chatID) {
+        return getChatByID(chatID) != null;
     }
 
     /**

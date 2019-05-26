@@ -213,7 +213,8 @@ public class Database {
     private void lookForMatches(User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
 
         for (Line line : lineNodes) {
-            if (language.equals(line.getLanguage())) {
+
+            if (language.equals(line.getLanguage()) && !line.getUserID().equals(userWhichSearching.getID())) {
 
                 if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
                     if (sex.equals(line.getUserSex()) || sex.equals("any")) {
