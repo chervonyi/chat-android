@@ -49,7 +49,7 @@ public class UniqueIdentifier {
         return UUID.randomUUID().toString();
     }
 
-    private static String readIdentifier(Context context) {
+    public static String readIdentifier(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(IDENTIFIER_KEY, NOT_FOUND_VALUE);
     }

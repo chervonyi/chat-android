@@ -148,7 +148,6 @@ public class ChatFragment extends Fragment {
         if (isContainedAdultContent(message)) {
             //Toast.makeText(getContext(), "ADULT CONTENT", Toast.LENGTH_SHORT).show();
             ((MainActivity)getActivity()).showAdultContentDialog();
-            // TODO - move to the special MessageDialog
         }
 
         ChatBlockView blockView = new ChatBlockView(getContext());

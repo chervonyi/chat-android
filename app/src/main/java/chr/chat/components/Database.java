@@ -218,11 +218,12 @@ public class Database {
                 if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
                     if (sex.equals(line.getUserSex()) || sex.equals("any")) {
 
-                        // TODO - Continue from here - fix problem: why it crashes and why it does not remove line instance calling 'removeUserFromLine(line.getUserID());'
                         // Remove current user from line
                         removeUserFromLine(line.getUserID());
 
-                        Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName(), true);
+                        // Important: userWhichSearching must be added into database in chat instance as a user #1
+                        // Note: Chat instance contains pair of users: user #1 and user #2
+                        Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName());
 
                         // Create chat in database
                         Database.instance.createChat(currentChat);
@@ -238,7 +239,6 @@ public class Database {
         // Add userWhichSearching to Line
         Line line = new Line(userWhichSearching.getID(), userWhichSearching.getName(), userWhichSearching.getSex(), sex, language);
         putUserInLine(line);
-        // TODO - notify user (Change fragment about putting himself on the line)
     }
 
 

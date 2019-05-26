@@ -22,6 +22,7 @@ import java.util.List;
 
 import chr.chat.components.ChatNotificationManager;
 import chr.chat.components.Database;
+import chr.chat.components.FirebaseBackgroundService;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Message;
@@ -39,7 +40,6 @@ import chr.chat.views.ChatPopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ChatNotificationManager notificationManager;
     private static Context context;
 
     // User data
@@ -75,18 +75,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = this;
-        notificationManager = new ChatNotificationManager(this);
 
         Intent intent = getIntent();
 
         String desirableChatID = intent.getStringExtra(NEW_CHAT_FROM_NOTIFICATION);
 
         if (desirableChatID != null) {
-            Log.d("CHR_GAMES_TEST", "desirableChatID: " + desirableChatID);
-            //currentChatID = desirableChatID;
+            currentChatID = desirableChatID;
         }
 
         loadUserDataFromPhoneMemory();
+
+        startService(new Intent(this, FirebaseBackgroundService.class));
 
         headerLayout = findViewById(R.id.header);
         preloadHeader(lastNumberOfChats);
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSelectChat(View view) {
         // TODO - remove after testing
-        notificationManager.show(this, "SOME_NEW_CHAT_ID");
+        //notificationManager.show(this, "SOME_NEW_CHAT_ID");
 
 
         String selectedChatID = view.getTag().toString();
@@ -220,15 +220,12 @@ public class MainActivity extends AppCompatActivity {
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
             ((MainActivity)context).currentMessages = messages;
-//            ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
+ //           ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
             ((MainActivity)context).chatFragment.setMessages(messages);
 
         }
     }
 
-    public void showNotification() {
-
-    }
 
     public void onClickAttach(View view) {
         ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(this, view);

@@ -12,15 +12,26 @@ public class Chat {
     private String userName1;
     private String userName2;
     private boolean open;
+    private boolean notified;
 
     public Chat() {}
 
-    public Chat(String userID1, String userName1, String userID2, String userName2, boolean open) {
+    public Chat(String userID1, String userName1, String userID2, String userName2) {
+        this.userID1 = userID1;
+        this.userID2 = userID2;
+        this.userName1 = userName1;
+        this.userName2 = userName2;
+        this.open = true;
+        this.notified = false;
+    }
+
+    public Chat(String userID1, String userName1, String userID2, String userName2, boolean open, boolean notified) {
         this.userID1 = userID1;
         this.userID2 = userID2;
         this.userName1 = userName1;
         this.userName2 = userName2;
         this.open = open;
+        this.notified = notified;
     }
 
     @Exclude
@@ -52,6 +63,10 @@ public class Chat {
         return open;
     }
 
+    public boolean isNotified() {
+        return notified;
+    }
+
     @Override
     public String toString() {
         return "ID: " + ID + "\n" +
@@ -59,6 +74,7 @@ public class Chat {
                 "userID2: " + userID2 + "\n" +
                 "userName1: " + userName1 + "\n" +
                 "userName2: " + userName2 + "\n" +
-                "isOpen: " + open + "\n";
+                "isOpen: " + open + "\n" +
+                "isNotified: " + notified + "\n";
     }
 }
