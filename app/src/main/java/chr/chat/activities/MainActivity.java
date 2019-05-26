@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import chr.chat.components.ChatNotificationManager;
 import chr.chat.components.Database;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
@@ -37,18 +39,23 @@ import chr.chat.views.ChatPopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ChatNotificationManager notificationManager;
     private static Context context;
 
     // User data
     public static User currentUser;
 
+    // Current data
     public ArrayList<Message> currentMessages = new ArrayList<>();
-
     public static String currentChatID;
+    public List<Chat> chatList = new ArrayList<>();
 
+    // Vars
+    private int lastNumberOfChats = 0;
     private String contextMenuForChatID;
 
-    private int lastNumberOfChats = 0;
+    // Constants
+    public final static String NEW_CHAT_FROM_NOTIFICATION = "NEW_CHAT_CODE";
 
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
@@ -57,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
     private ChatFragment chatFragment = new ChatFragment();
     private HeaderPreloadFragment headerPreloadFragment = new HeaderPreloadFragment();
 
+    // UI
     private FrameLayout headerLayout;
 
-    public List<Chat> chatList = new ArrayList<>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -68,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = this;
+        notificationManager = new ChatNotificationManager(this);
+
+        Intent intent = getIntent();
+
+        String desirableChatID = intent.getStringExtra(NEW_CHAT_FROM_NOTIFICATION);
+
+        if (desirableChatID != null) {
+            Log.d("CHR_GAMES_TEST", "desirableChatID: " + desirableChatID);
+            //currentChatID = desirableChatID;
+        }
 
         loadUserDataFromPhoneMemory();
 
@@ -173,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectChat(View view) {
+        // TODO - remove after testing
+        notificationManager.show(this, "SOME_NEW_CHAT_ID");
+
+
         String selectedChatID = view.getTag().toString();
 
         if (!selectedChatID.equals(currentChatID)) {
@@ -203,6 +224,10 @@ public class MainActivity extends AppCompatActivity {
             ((MainActivity)context).chatFragment.setMessages(messages);
 
         }
+    }
+
+    public void showNotification() {
+
     }
 
     public void onClickAttach(View view) {

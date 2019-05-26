@@ -47,4 +47,6 @@
     <string name="dialog_info_2">Do you want to continue?</string>
     <string name="dialog_yes">yes</string>
     <string name="dialog_no">no</string>
+    <string name="notification_title">Random chat</string>
+    <string name="notification_body">We have found a new chat for you!</string>
 </resources>
