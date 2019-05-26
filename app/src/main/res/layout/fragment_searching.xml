@@ -7,14 +7,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="15dp"
-        android:text="Looking for a somebody.."
-        android:textAlignment="center"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/light_gray"
-        android:textSize="17sp" />
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@color/white"
+        android:gravity="center"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:text="@string/searching_main"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/searching_hint_1"
+            android:textAlignment="center"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/searching_hint_2"
+            android:textAlignment="center"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+    </LinearLayout>
 
 </LinearLayout>

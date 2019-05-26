@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.loadUserData(UniqueIdentifier.identifier);
     }
 
-    
+
 
     /**
      * Method for change any fragment on current activity
