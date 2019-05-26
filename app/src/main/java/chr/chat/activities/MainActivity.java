@@ -31,6 +31,7 @@ import chr.chat.R;
 import chr.chat.fragments.HeaderChatListFragment;
 import chr.chat.fragments.HeaderEmptyChatListFragment;
 import chr.chat.fragments.HeaderPreloadFragment;
+import chr.chat.views.AdultContentDialog;
 import chr.chat.views.ChatPopupAttachMenu;
 import chr.chat.views.ChatPopupMenu;
 
@@ -210,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
 
         popupMenu.show();
+    }
+
+    public void showAdultContentDialog() {
+        AdultContentDialog dialog = new AdultContentDialog(MainActivity.this, this);
+        dialog.show();
     }
 
     @Override
