@@ -27,8 +27,6 @@ import chr.chat.views.ChatPopupMenu;
 public class SearchActivity extends AppCompatActivity {
 
 
-    private static Context context;
-
     // Fragments
     private GenderQuestionFragment genderQuestionFragment = new GenderQuestionFragment();
     private LanguageQuestionFragment languageQuestionFragment = new LanguageQuestionFragment();
@@ -38,14 +36,11 @@ public class SearchActivity extends AppCompatActivity {
     private HeaderSearchingFragment headerSearchingFragment = new HeaderSearchingFragment();
 
     private String selectedGender;
-    private String selectedLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        context = this;
 
         changeFragment(R.id.container, genderQuestionFragment, "GenderQuestionFragment", false);
         changeFragment(R.id.header,headerSearchingFragment, "HeaderSearchingFragment", false);
@@ -98,11 +93,11 @@ public class SearchActivity extends AppCompatActivity {
      * @param language selected language
      */
     public void startSearching(String language) {
-        selectedLanguage = language;
 
-        // Start searching
-        Database.instance.searchSomebodyFor(MainActivity.currentUser, selectedGender, selectedLanguage);
+        // Search for appropriate chat in database
+        Database.instance.searchSomebodyFor(this, MainActivity.currentUser, selectedGender, language);
 
+        // Change appropriate fragment
         changeFragment(R.id.container, searchingFragment, "SearchingFragment", true);
     }
 
@@ -114,11 +109,7 @@ public class SearchActivity extends AppCompatActivity {
         goToMainActivity();
     }
 
-    public static void goToChat() {
-        ((SearchActivity)context).goToMainActivity();
-    }
-
-    private void goToMainActivity() {
+    public void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

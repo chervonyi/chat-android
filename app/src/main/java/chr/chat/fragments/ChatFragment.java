@@ -1,6 +1,7 @@
 package chr.chat.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,6 @@ public class ChatFragment extends Fragment {
     private final String END_PHRASE = "END_PHRASE_CODE";
 
     public static final String BOT_MESSAGES_CODE = "BOT_MESSAGES_ID_1984";
-
 
     private BotAttachments botAttachments = new BotAttachments();
 
@@ -65,7 +64,7 @@ public class ChatFragment extends Fragment {
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
 
-        setMessages(((MainActivity)getActivity()).currentMessages);
+        //setMessages(((MainActivity)getActivity()).currentMessages);
 
         // On click 'SEND'
         final ImageButton buttonSend = view.findViewById(R.id.button_send);
@@ -112,8 +111,12 @@ public class ChatFragment extends Fragment {
     }
 
     public void setMessages(ArrayList<Message> messages) {
+        Log.d("CHR_GAMES_TEST", "ChatFragment: setMessages");
 
-        if (chatContainer == null) { return; }
+        if (chatContainer == null) {
+            Log.d("CHR_GAMES_TEST", "chatContainer in ChatFragment IS NULL!!!!!");
+            return;
+        }
 
         chatContainer.removeAllViews();
 

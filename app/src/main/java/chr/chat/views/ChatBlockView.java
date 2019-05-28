@@ -23,8 +23,6 @@ public class ChatBlockView extends TextView {
 
     private boolean ownerIsUser = false;
 
-    private int MIN_HEIGHT = 50;
-
     private Context context;
 
     public ChatBlockView(Context context) {

@@ -1,5 +1,6 @@
 package chr.chat.components;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import chr.chat.activities.MainActivity;
 import chr.chat.activities.SearchActivity;
@@ -38,6 +41,11 @@ public class Database {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
+    // Listeners:
+    private Map<String, ValueEventListener> mapListenersForMessages = new HashMap<>();
+    private ValueEventListener chatsEventListener;
+    private ValueEventListener loadUserEventListener;
+
 
     // -------------------------
     // ------  MESSAGES  -------
@@ -48,9 +56,11 @@ public class Database {
         lineRef.push().setValue(messageNode);
     }
 
-    public void assignListenerOnMessagesForChat(final String chatID) {
+    public void assignListenerOnMessagesForChat(final Context context, final String chatID) {
 
-        mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addValueEventListener(new ValueEventListener() {
+        if (mapListenersForMessages.containsKey(chatID)) { return; }
+
+        ValueEventListener messagesEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Message> messages = new ArrayList<>();
@@ -68,16 +78,39 @@ public class Database {
                     }
                 });
 
-                MainActivity.setMessages(chatID, messages);
+                ((MainActivity)context).setMessages(chatID, messages);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
+        };
+
+        mapListenersForMessages.put(chatID, messagesEventListener);
+
+
+        mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addValueEventListener(messagesEventListener);
     }
 
+    private void removeMapListeners() {
+
+        if (mapListenersForMessages.size() == 0) { return; }
+
+        for (Map.Entry<String, ValueEventListener> entry : mapListenersForMessages.entrySet()) {
+            mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(entry.getKey()).removeEventListener(entry.getValue());
+        }
+
+        mapListenersForMessages.clear();
+    }
+
+    public void removeAllListener() {
+        removeMapListeners();
+        removeChatsEventListener();
+        removeLoadUserEventListener();
+    }
+
+
     // On select another chat
-    public void getMessagesForNewChat(final String chatID) {
+    public void getMessagesForNewChat(final Context context,final String chatID) {
 
         mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -97,16 +130,16 @@ public class Database {
                     }
                 });
 
-                MainActivity.hideScrollView();
-                MainActivity.setMessages(chatID, messages);
+                if (context instanceof MainActivity) {
+                    ((MainActivity)context).hideScrollView();
+                    ((MainActivity)context).setMessages(chatID, messages);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
-
-
 
 
     // -------------------------
@@ -119,16 +152,14 @@ public class Database {
 
     public void createChat(Chat chatNode) {
         DatabaseReference lineRef = mDatabase.child(CHATS).push();
-
         String pushedUniqueID = lineRef.getKey();
-
         lineRef.setValue(chatNode);
-
-        assignListenerOnMessagesForChat(pushedUniqueID);
+        //assignListenerOnMessagesForChat(pushedUniqueID);
     }
 
-    public void loadAllChats(final String userID) {
-        mDatabase.child(CHATS).addValueEventListener(new ValueEventListener() {
+    public void loadAllChats(final Context context, final String userID) {
+
+        chatsEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Chat> chats = new ArrayList<>();
@@ -142,6 +173,8 @@ public class Database {
                     chats.add(chat);
                 }
 
+                removeMapListeners();
+
                 for (Chat foundChat: chats) {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
@@ -152,17 +185,25 @@ public class Database {
                             requiredChatList.add(foundChat);
 
                             // Assign listener to load all messages for current chat
-                            assignListenerOnMessagesForChat(foundChat.getID());
+                            assignListenerOnMessagesForChat(context, foundChat.getID());
                         }
                     }
                 }
 
-                MainActivity.setChatList(requiredChatList);
+                if (context instanceof MainActivity) {
+                    ((MainActivity)context).updateActivityView(requiredChatList);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {  }
-        });
+        };
+
+        mDatabase.child(CHATS).addValueEventListener(chatsEventListener);
+    }
+
+    private void removeChatsEventListener() {
+        mDatabase.child(CHATS).removeEventListener(chatsEventListener);
     }
 
 
@@ -191,7 +232,7 @@ public class Database {
         lineRef.push().setValue(lineNode);
     }
 
-    public void searchSomebodyFor(final User user, final String sex, final String language) {
+    public void searchSomebodyFor(final Context context, final User user, final String sex, final String language) {
 
         mDatabase.child(LINE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -202,7 +243,7 @@ public class Database {
                     arrayList.add(lineNode.getValue(Line.class));
                 }
 
-                lookForMatches(user, arrayList, sex, language);
+                lookForMatches(context, user, arrayList, sex, language);
             }
 
             @Override
@@ -210,7 +251,7 @@ public class Database {
         });
     }
 
-    private void lookForMatches(User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
+    private void lookForMatches(final Context context,User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
 
         for (Line line : lineNodes) {
 
@@ -227,9 +268,11 @@ public class Database {
                         Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName());
 
                         // Create chat in database
-                        Database.instance.createChat(currentChat);
+                        createChat(currentChat);
 
-                        SearchActivity.goToChat();
+                        if (context instanceof SearchActivity) {
+                            ((SearchActivity)context).goToMainActivity();
+                        }
 
                         return;
                     }
@@ -253,7 +296,7 @@ public class Database {
 
     public void loadUserData(String ID) {
 
-        ValueEventListener loadUserListener = new ValueEventListener() {
+        loadUserEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -271,20 +314,16 @@ public class Database {
             public void onCancelled(DatabaseError databaseError) { }
         };
 
-        mDatabase.child("users").child(ID).addValueEventListener(loadUserListener);
+        mDatabase.child(USERS).child(ID).addValueEventListener(loadUserEventListener);
     }
 
-    public void updateName(String ID, String newName) {
-        mDatabase.child(USERS).child(ID).child("name").setValue(newName);
-    }
-
-    public void registerNewUser(User user) {
-        mDatabase.child(USERS).child(user.getID()).setValue(user);
+    private void removeLoadUserEventListener() {
+        mDatabase.child(USERS).child(UniqueIdentifier.identifier).removeEventListener(loadUserEventListener);
     }
 
     public void registerNewUser(String ID, String name, String sex) {
         User user = new User(ID, name, sex);
-        registerNewUser(user);
+        mDatabase.child(USERS).child(user.getID()).setValue(user);
     }
 
     // -------------------------

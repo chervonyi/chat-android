@@ -40,8 +40,6 @@ import chr.chat.views.ChatPopupMenu;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static Context context;
-
     // User data
     public static User currentUser;
 
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
     private HeaderEmptyChatListFragment headerEmptyChatListFragment = new HeaderEmptyChatListFragment();
     private EmptyListFragment emptyListFragment = new EmptyListFragment();
-    private ChatFragment chatFragment = new ChatFragment();
+    public ChatFragment chatFragment = new ChatFragment();
     private HeaderPreloadFragment headerPreloadFragment = new HeaderPreloadFragment();
 
     // UI
@@ -74,10 +72,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = this;
 
         Intent intent = getIntent();
-
         String desirableChatID = intent.getStringExtra(NEW_CHAT_FROM_NOTIFICATION);
 
         if (desirableChatID != null) {
@@ -91,8 +87,9 @@ public class MainActivity extends AppCompatActivity {
         headerLayout = findViewById(R.id.header);
         preloadHeader(lastNumberOfChats);
 
-        Database.instance.loadAllChats(UniqueIdentifier.identifier);
+        Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
+
 
     private void preloadHeader(int numberOfChats) {
         if (numberOfChats != 0) {
@@ -117,7 +114,11 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.loadUserData(UniqueIdentifier.identifier);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        Database.instance.removeAllListener();
+        super.onDestroy();
+    }
 
     /**
      * Method for change any fragment on current activity
@@ -128,13 +129,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressLint("ResourceType")
     public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
-
         // Remove current fragment if it has been added before
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(newFragment)
-                    //.commit();
                     .commitAllowingStateLoss();
         }
 
@@ -154,18 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setHeaderSize(int height) {
         headerLayout.getLayoutParams().height = (int) getResources().getDimension(height);
-    }
-
-    /**
-     * Listener on Menu button
-     * @param view "Menu" button
-     */
-    public void onClickMenu(View view) {
-        // Show menu
-        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
-        popupMenu.show();
     }
 
 
@@ -200,26 +187,22 @@ public class MainActivity extends AppCompatActivity {
             headerChatListFragment.setCompanionName(getChatByID(currentChatID));
 
             // Get messages for selected chat
-            Database.instance.getMessagesForNewChat(currentChatID);
+            Database.instance.getMessagesForNewChat(this, currentChatID);
         }
     }
 
-    public static void hideScrollView() {
-        ((MainActivity)context).chatFragment.hideScrollView();
+    public void hideScrollView() {
+        chatFragment.hideScrollView();
     }
 
 
-    public static void setChatList(ArrayList<Chat> chatList) {
-        ((MainActivity)context).updateActivityView(chatList);
-    }
+    public void setMessages(String chatID, ArrayList<Message> messages) {
 
-    public static void setMessages(String chatID, ArrayList<Message> messages) {
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
-            ((MainActivity)context).currentMessages = messages;
- //           ((MainActivity)context).changeFragment(R.id.container, ((MainActivity)context).chatFragment, "ChatFragment", false);
-            ((MainActivity)context).chatFragment.setMessages(messages);
-
+            currentMessages = messages;
+//            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+            chatFragment.setMessages(messages);
         }
     }
 
@@ -327,4 +310,15 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
     }
 
+    /**
+     * Listener on Menu button
+     * @param view "Menu" button
+     */
+    public void onClickMenu(View view) {
+        // Show menu
+        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+        popupMenu.show();
+    }
 }

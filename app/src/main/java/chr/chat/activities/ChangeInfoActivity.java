@@ -20,16 +20,18 @@ import chr.chat.R;
 
 public class ChangeInfoActivity extends AppCompatActivity {
 
+    // Fragments
     private InputNameFragment inputNameFragment = new InputNameFragment();
     private InputGenderFragment inputGenderFragment = new InputGenderFragment();
     private HeaderIntroductionFragment headerIntroductionFragment = new HeaderIntroductionFragment();
 
+    // Constants
     public static final int INPUT_ALL_INFO_CODE = 50001;
     public static final int CHANGE_NAME_CODE = 50002;
     public static final String ENTER_CODE = "ENTER_CODE";
 
+    // Vars
     private int currentEnterCode;
-
     private String enteredName;
 
     // Max length of input string (EditView)
