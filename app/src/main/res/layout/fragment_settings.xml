@@ -42,14 +42,14 @@
 
     <Switch
         android:id="@+id/switch_blur"
+        style="@style/SettingsInnerPadding"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="17sp"
-        android:checked="true"
-        android:text="@string/settings_blur_all_images"
-        android:theme="@style/SwitchTheme"
         android:background="@drawable/thin_settings_divider"
-        style="@style/SettingsInnerPadding" />
+        android:checked="false"
+        android:text="@string/settings_blur_all_images"
+        android:textSize="17sp"
+        android:theme="@style/SwitchTheme" />
 
 
     <RelativeLayout
@@ -86,13 +86,13 @@
 
         <Switch
             android:id="@+id/switch_adult_content"
+            style="@style/SettingsInnerPadding"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="17sp"
             android:layout_centerVertical="true"
-            android:checked="true"
-            android:theme="@style/SwitchTheme"
-            style="@style/SettingsInnerPadding"/>
+            android:checked="false"
+            android:textSize="17sp"
+            android:theme="@style/SwitchTheme" />
     </RelativeLayout>
 
 
@@ -117,6 +117,7 @@
         android:layout_height="50dp"
         android:textSize="17sp"
         android:text="@string/settings_dark_mode"
+        android:clickable="false"
         android:theme="@style/SwitchTheme"
         style="@style/SettingsInnerPadding" />
 
@@ -138,13 +139,13 @@
 
     <Switch
         android:id="@+id/switch_bot_message"
+        style="@style/SettingsInnerPadding"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="17sp"
-        android:checked="true"
+        android:checked="false"
         android:text="@string/settings_bot_messages"
-        android:theme="@style/SwitchTheme"
-        style="@style/SettingsInnerPadding" />
+        android:textSize="17sp"
+        android:theme="@style/SwitchTheme" />
 
 
 

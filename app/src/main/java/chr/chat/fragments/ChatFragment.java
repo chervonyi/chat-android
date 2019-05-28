@@ -25,6 +25,7 @@ import chr.chat.activities.MainActivity;
 import chr.chat.components.BotAttachments;
 import chr.chat.R;
 import chr.chat.components.Database;
+import chr.chat.components.GlobalSettings;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Line;
@@ -111,12 +112,9 @@ public class ChatFragment extends Fragment {
     }
 
     public void setMessages(ArrayList<Message> messages) {
-        Log.d("CHR_GAMES_TEST", "ChatFragment: setMessages");
 
-        if (chatContainer == null) {
-            Log.d("CHR_GAMES_TEST", "chatContainer in ChatFragment IS NULL!!!!!");
-            return;
-        }
+        boolean checkOnAdultContent = GlobalSettings.isChecked(getContext(),
+                GlobalSettings.CHECK_ON_ADULT_CONTENT);
 
         chatContainer.removeAllViews();
 
@@ -124,12 +122,11 @@ public class ChatFragment extends Fragment {
             if (message.getOwner().equals(BOT_MESSAGES_CODE)) {
                 printBotMessage(message.getMessage());
             } else if (message.getOwner().equals(UniqueIdentifier.identifier)) {
-                appendMessage(message.getMessage(), true);
+                appendMessage(message.getMessage(), true, checkOnAdultContent);
             } else {
-                appendMessage(message.getMessage(), false);
+                appendMessage(message.getMessage(), false, checkOnAdultContent);
             }
         }
-
     }
 
     private void printBotMessage(String message) {
@@ -145,12 +142,16 @@ public class ChatFragment extends Fragment {
      * <b>true</b> - it is user's message (Right)
      * <b>false</b> - it is companion's message (Left)
      */
-    private void appendMessage(String message, boolean isUserMessage) {
+    private void appendMessage(String message, boolean isUserMessage, boolean checkOnAdultContent) {
 
-        // TODO - add check for 'isUserMessage' == false
-        if (isContainedAdultContent(message)) {
-            //Toast.makeText(getContext(), "ADULT CONTENT", Toast.LENGTH_SHORT).show();
-            ((MainActivity)getActivity()).showAdultContentDialog();
+        // Check on adult content only if it's companion's message
+        // and it's allowed to check contains of messages (checkOnAdultContent)
+        if (!isUserMessage && checkOnAdultContent) {
+            if (isContainedAdultContent(message)) {
+                // TODO - Add actions for AdultContentDialog
+                // TODO - Do not append this message.
+                ((MainActivity)getActivity()).showAdultContentDialog();
+            }
         }
 
         ChatBlockView blockView = new ChatBlockView(getContext());

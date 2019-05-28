@@ -28,6 +28,13 @@ public class FirebaseBackgroundService extends Service {
         context = this;
         userID = UniqueIdentifier.readIdentifier(context);
 
+        boolean isNotificationAllowed = GlobalSettings.isChecked(context,
+                GlobalSettings.NOTIFICATION_NEW_CHAT);
+
+        if (!isNotificationAllowed) {
+            return START_STICKY;
+        }
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         notificationManager = new ChatNotificationManager(context);
 
