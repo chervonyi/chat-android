@@ -9,9 +9,20 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:paddingTop="10dp"
         android:gravity="center">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/add_new_chat_button"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:src="@drawable/ic_add_simple"
+            android:onClick="onClickSearch"/>
 
         <TextView
             android:id="@+id/companion_name"
@@ -37,7 +48,7 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:scrollbars="none"
         android:fillViewport="true">
 
@@ -46,17 +57,9 @@
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:gravity="center_vertical"
-            android:paddingTop="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="0dp"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@null"
-                android:layout_marginEnd="5dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_add"
-                android:onClick="onClickSearch"/>
         </LinearLayout>
 
     </HorizontalScrollView>

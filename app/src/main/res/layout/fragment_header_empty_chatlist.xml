@@ -10,15 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <ImageButton
-            android:id="@+id/button_add_new_chat"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@null"
-            android:layout_marginStart="10dp"
-            android:scaleType="fitXY"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_add"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/add_new_chat_button"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:src="@drawable/ic_add_simple"
             android:onClick="onClickSearch"/>
 
         <TextView
@@ -26,11 +27,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="sans-serif-medium"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/button_add_new_chat"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="18sp"
-            android:text="Find a new chat"/>
+            android:text="@string/header_empty_chatlist"/>
 
         <ImageButton
             android:layout_width="30dp"
