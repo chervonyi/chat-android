@@ -113,6 +113,8 @@ public class ChatFragment extends Fragment {
 
     public void setMessages(ArrayList<Message> messages) {
 
+        if (getContext() == null) { return; }
+
         boolean checkOnAdultContent = GlobalSettings.isChecked(getContext(),
                 GlobalSettings.CHECK_ON_ADULT_CONTENT);
 

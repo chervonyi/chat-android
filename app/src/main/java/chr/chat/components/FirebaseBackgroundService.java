@@ -23,6 +23,8 @@ public class FirebaseBackgroundService extends Service {
     private DatabaseReference mDatabase;
     private String userID;
 
+    private ValueEventListener newChatListener;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         context = this;
@@ -38,7 +40,14 @@ public class FirebaseBackgroundService extends Service {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         notificationManager = new ChatNotificationManager(context);
 
-        mDatabase.child("chats").orderByChild("userID2").equalTo(userID).addValueEventListener(new ValueEventListener() {
+        if (newChatListener != null) {
+            // If listener has been added before - remove it
+            mDatabase.child("chats").orderByChild("userID2").equalTo(userID).removeEventListener(newChatListener);
+        }
+
+
+        // Create listener
+        newChatListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -50,7 +59,7 @@ public class FirebaseBackgroundService extends Service {
                     String chatID = chatNode.getKey();
 
                     if (chat != null && chatID != null) {
-                        if (!chat.isNotified()) {
+                        if (!chat.isNotified() && chat.isOpen()) {
 
                             // Assign 'true' for current chatID for 'notified' state
                             mDatabase.child("chats").child(chatID).child("notified").setValue(true);
@@ -66,11 +75,14 @@ public class FirebaseBackgroundService extends Service {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
+        };
 
+        // Assign a new listener
+        mDatabase.child("chats").orderByChild("userID2").equalTo(userID).addValueEventListener(newChatListener);
 
         return START_STICKY;
     }
+
 
     @Nullable
     @Override

@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
             currentChatID = desirableChatID;
         }
 
-        loadUserDataFromPhoneMemory();
-
         startService(new Intent(this, FirebaseBackgroundService.class));
+
+        loadUserDataFromPhoneMemory();
 
         headerLayout = findViewById(R.id.header);
         preloadHeader(lastNumberOfChats);
