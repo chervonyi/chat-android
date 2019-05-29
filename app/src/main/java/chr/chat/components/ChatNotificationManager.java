@@ -5,8 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -40,7 +38,7 @@ public class ChatNotificationManager {
     public void show(Context context, String newChatID) {
 
         Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra(MainActivity.NEW_CHAT_FROM_NOTIFICATION, newChatID);
+        resultIntent.putExtra(MainActivity.DESIRABLE_CHAT_ID, newChatID);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(resultIntent);

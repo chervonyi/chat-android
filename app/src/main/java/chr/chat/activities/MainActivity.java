@@ -1,26 +1,20 @@
 package chr.chat.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chr.chat.components.ChatNotificationManager;
 import chr.chat.components.Database;
 import chr.chat.components.FirebaseBackgroundService;
 import chr.chat.components.UniqueIdentifier;
@@ -53,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private String contextMenuForChatID;
 
     // Constants
-    public final static String NEW_CHAT_FROM_NOTIFICATION = "NEW_CHAT_CODE";
+    public final static String DESIRABLE_CHAT_ID = "NEW_CHAT_CODE";
 
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
@@ -65,16 +59,14 @@ public class MainActivity extends AppCompatActivity {
     // UI
     private FrameLayout headerLayout;
 
-
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Intent intent = getIntent();
-        String desirableChatID = intent.getStringExtra(NEW_CHAT_FROM_NOTIFICATION);
+        String desirableChatID = intent.getStringExtra(DESIRABLE_CHAT_ID);
 
         if (desirableChatID != null) {
             currentChatID = desirableChatID;

@@ -150,10 +150,11 @@ public class Database {
         mDatabase.child(CHATS).child(chatID).child("open").setValue(false);
     }
 
-    public void createChat(Chat chatNode) {
+    public String createChat(Chat chatNode) {
         DatabaseReference lineRef = mDatabase.child(CHATS).push();
         String pushedUniqueID = lineRef.getKey();
         lineRef.setValue(chatNode);
+        return pushedUniqueID;
         //assignListenerOnMessagesForChat(pushedUniqueID);
     }
 
@@ -268,10 +269,10 @@ public class Database {
                         Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName());
 
                         // Create chat in database
-                        createChat(currentChat);
+                        String createdChatID = createChat(currentChat);
 
                         if (context instanceof SearchActivity) {
-                            ((SearchActivity)context).goToMainActivity();
+                            ((SearchActivity)context).goToMainActivity(createdChatID);
                         }
 
                         return;

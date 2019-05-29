@@ -106,11 +106,15 @@ public class SearchActivity extends AppCompatActivity {
      * @param view "Back" button
      */
     public void onClickBack(View view) {
-        goToMainActivity();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
     }
 
-    public void goToMainActivity() {
+    public void goToMainActivity(String desirableChatID) {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.DESIRABLE_CHAT_ID, desirableChatID);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_left);
