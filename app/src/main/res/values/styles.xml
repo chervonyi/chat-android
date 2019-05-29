@@ -35,4 +35,12 @@
         <item name="android:colorControlActivated">@color/accent</item>
     </style>
 
+    <style name="AdultContentDialogTheme" parent="android:style/Theme.Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimAmount">0.95</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

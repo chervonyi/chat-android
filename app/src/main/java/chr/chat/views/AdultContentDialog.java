@@ -7,8 +7,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import java.util.Objects;
@@ -26,11 +28,12 @@ public class AdultContentDialog extends Dialog {
     private Button buttonNo;
 
     public AdultContentDialog(MainActivity activity, Context context) {
-        super(context);
+        super(context, R.style.AdultContentDialogTheme);
 
         this.activity = activity;
         this.context = context;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +61,8 @@ public class AdultContentDialog extends Dialog {
                 dismiss();
             }
         });
+
+        getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        getWindow().setGravity(Gravity.CENTER);
     }
 }

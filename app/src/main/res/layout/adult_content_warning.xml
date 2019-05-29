@@ -52,6 +52,7 @@
             android:layout_weight="1"
             android:textSize="17sp"
             android:text="@string/dialog_yes"
+            android:textAllCaps="true"
             style="?android:attr/borderlessButtonStyle"/>
 
         <Button
@@ -63,6 +64,7 @@
             android:textColor="@color/red"
             android:textSize="17sp"
             android:text="@string/dialog_no"
+            android:textAllCaps="true"
             style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>

@@ -43,6 +43,7 @@ public class ChatFragment extends Fragment {
 
     private BotAttachments botAttachments = new BotAttachments();
 
+    private boolean foundAdultContent = false;
     private LinearLayout chatContainer;
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
@@ -115,6 +116,7 @@ public class ChatFragment extends Fragment {
 
         if (getContext() == null) { return; }
 
+        foundAdultContent = false;
         chatContainer.removeAllViews();
 
         for (Message message : messages) {
@@ -125,6 +127,10 @@ public class ChatFragment extends Fragment {
             } else {
                 appendMessage(message.getMessage(), false, checkOnAdultContent);
             }
+        }
+
+        if (foundAdultContent) {
+            ((MainActivity)getActivity()).showAdultContentDialog();
         }
     }
 
@@ -150,9 +156,7 @@ public class ChatFragment extends Fragment {
         // TODO: Replace on:
         //if (!isUserMessage && checkOnAdultContent) {
             if (isContainedAdultContent(message)) {
-                // TODO - Add actions for AdultContentDialog
-                // TODO - Do not append this message.
-                ((MainActivity)getActivity()).showAdultContentDialog();
+                foundAdultContent = true;
             }
         }
 
