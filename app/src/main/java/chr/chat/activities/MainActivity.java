@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,8 +16,10 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import chr.chat.components.AdultContentExclusions;
 import chr.chat.components.Database;
 import chr.chat.components.FirebaseBackgroundService;
+import chr.chat.components.GlobalSettings;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
 import chr.chat.components.models.Message;
@@ -192,9 +195,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
+            Log.d("CHR_GAMES_TEST", "currentChatID is: " + currentChatID);
             currentMessages = messages;
 //            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
-            chatFragment.setMessages(messages);
+
+            boolean switcherOnCheck = GlobalSettings.isChecked(this, GlobalSettings.CHECK_ON_ADULT_CONTENT);
+
+            boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
+
+            Log.d("CHR_GAMES_TEST", "isExclusion: " + isExclusion);
+
+            chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion));
         }
     }
 
@@ -211,6 +222,23 @@ public class MainActivity extends AppCompatActivity {
         AdultContentDialog dialog = new AdultContentDialog(MainActivity.this, this);
         dialog.show();
     }
+
+    public void adultContentDialogClick(boolean confirmed) {
+
+        if (confirmed) {
+            // Clicked 'Yes'
+            AdultContentExclusions.append(this, currentChatID);
+//            setMessages(currentChatID, currentMessages);
+        } else {
+            // Clicked 'No'
+
+            // Remove chat
+            Database.instance.closeChat(currentChatID);
+
+            currentChatID = null;
+        }
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,

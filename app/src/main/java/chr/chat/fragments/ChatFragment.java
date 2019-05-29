@@ -111,12 +111,9 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void setMessages(ArrayList<Message> messages) {
+    public void setMessages(ArrayList<Message> messages, boolean checkOnAdultContent) {
 
         if (getContext() == null) { return; }
-
-        boolean checkOnAdultContent = GlobalSettings.isChecked(getContext(),
-                GlobalSettings.CHECK_ON_ADULT_CONTENT);
 
         chatContainer.removeAllViews();
 
@@ -148,7 +145,10 @@ public class ChatFragment extends Fragment {
 
         // Check on adult content only if it's companion's message
         // and it's allowed to check contains of messages (checkOnAdultContent)
-        if (!isUserMessage && checkOnAdultContent) {
+
+        if (checkOnAdultContent) {
+        // TODO: Replace on:
+        //if (!isUserMessage && checkOnAdultContent) {
             if (isContainedAdultContent(message)) {
                 // TODO - Add actions for AdultContentDialog
                 // TODO - Do not append this message.

@@ -19,7 +19,7 @@ import chr.chat.activities.MainActivity;
 public class AdultContentDialog extends Dialog {
 
     private MainActivity activity;
-    private Context context;
+    private final Context context;
 
     // UI
     private Button buttonYes;
@@ -31,7 +31,6 @@ public class AdultContentDialog extends Dialog {
         this.activity = activity;
         this.context = context;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,7 @@ public class AdultContentDialog extends Dialog {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO - activity.YES
-
+                ((MainActivity)context).adultContentDialogClick(true);
                 dismiss();
             }
         });
@@ -56,11 +54,9 @@ public class AdultContentDialog extends Dialog {
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO - activity.NO
-
+                ((MainActivity)context).adultContentDialogClick(false);
                 dismiss();
             }
         });
     }
-
 }
