@@ -30,6 +30,8 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
             android:textSize="18sp"

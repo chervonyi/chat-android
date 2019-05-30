@@ -1,5 +1,7 @@
 package chr.chat.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -47,6 +52,7 @@ public class ChatFragment extends Fragment {
     private boolean foundAdultContent = false;
     private LinearLayout chatContainer;
     private LinearLayout chatListContainer;
+    private HorizontalScrollView chatListBlock;
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
 
@@ -67,6 +73,8 @@ public class ChatFragment extends Fragment {
         chatContainer = view.findViewById(R.id.chat_container);
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
+        chatListBlock = view.findViewById(R.id.chatlist_block);
+
 
         //setMessages(((MainActivity)getActivity()).currentMessages);
 
@@ -126,6 +134,36 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
+    public void hideChatListBlock() {
+        if (chatListBlock == null) { return; }
+
+        if (chatListBlock.getVisibility() == View.VISIBLE) {
+
+            chatListBlock.animate()
+                    .translationY(-10)
+                    .alpha(0.0f)
+                    .setDuration(150)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            chatListBlock.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+        } else {
+            chatListBlock.animate()
+                    .translationY(10)
+                    .alpha(1.0f)
+                    .setDuration(150)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            chatListBlock.setVisibility(View.VISIBLE);
+                        }
+                    });
+        }
+    }
 
     public void hideScrollView() {
         if (scrollView != null) {

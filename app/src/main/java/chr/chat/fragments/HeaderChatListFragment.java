@@ -41,6 +41,13 @@ public class HeaderChatListFragment extends Fragment {
         Chat openingChat = ((MainActivity)getActivity()).getChatByID(MainActivity.currentChatID);
         setCompanionName(openingChat);
 
+        companionName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).hideChatlistBlock();
+            }
+        });
+
 
         return view;
     }

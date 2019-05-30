@@ -241,6 +241,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void hideChatlistBlock() {
+        chatFragment.hideChatListBlock();
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
