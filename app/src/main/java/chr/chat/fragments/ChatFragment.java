@@ -171,7 +171,7 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void setMessages(ArrayList<Message> messages, boolean checkOnAdultContent) {
+    public void setMessages(ArrayList<Message> messages, boolean checkOnAdultContent, boolean withAnim) {
 
         if (getContext() == null) { return; }
 
@@ -186,6 +186,11 @@ public class ChatFragment extends Fragment {
             } else {
                 appendMessage(message.getMessage(), false, checkOnAdultContent);
             }
+        }
+
+        if (withAnim) {
+            Animation aniFade = AnimationUtils.loadAnimation(getContext().getApplicationContext(), R.anim.fade_in);
+            scrollView.startAnimation(aniFade);
         }
 
         if (foundAdultContent) {

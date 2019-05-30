@@ -180,9 +180,6 @@ public class MainActivity extends AppCompatActivity {
         if (!selectedChatID.equals(currentChatID)) {
             currentChatID = selectedChatID;
 
-            // Update name of the companion
-            headerChatListFragment.setCompanionName(getChatByID(currentChatID));
-
             // Get messages for selected chat
             Database.instance.getMessagesForNewChat(this, currentChatID);
         }
@@ -193,21 +190,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void setMessages(String chatID, ArrayList<Message> messages) {
+    public void setMessages(String chatID, ArrayList<Message> messages, boolean withAnim) {
 
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
-            Log.d("CHR_GAMES_TEST", "currentChatID is: " + currentChatID);
             currentMessages = messages;
-//            changeFragment(R.id.container, chatFragment, "ChatFragment", false);
+
+            // Update name of the companion
+            headerChatListFragment.setCompanionName(getChatByID(currentChatID));
 
             boolean switcherOnCheck = GlobalSettings.isChecked(this, GlobalSettings.CHECK_ON_ADULT_CONTENT);
 
             boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
 
-            Log.d("CHR_GAMES_TEST", "isExclusion: " + isExclusion);
-
-            chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion));
+            chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), withAnim);
         }
     }
 
@@ -230,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
         if (confirmed) {
             // Clicked 'Yes'
             AdultContentExclusions.append(this, currentChatID);
-//            setMessages(currentChatID, currentMessages);
         } else {
             // Clicked 'No'
 

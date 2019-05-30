@@ -78,7 +78,7 @@ public class Database {
                     }
                 });
 
-                ((MainActivity)context).setMessages(chatID, messages);
+                ((MainActivity)context).setMessages(chatID, messages, false);
             }
 
             @Override
@@ -132,7 +132,7 @@ public class Database {
 
                 if (context instanceof MainActivity) {
                     ((MainActivity)context).hideScrollView();
-                    ((MainActivity)context).setMessages(chatID, messages);
+                    ((MainActivity)context).setMessages(chatID, messages, true);
                 }
             }
 

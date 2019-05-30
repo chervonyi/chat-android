@@ -34,8 +34,7 @@
             android:layout_marginRight="70dp"
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
-            android:textSize="18sp"
-            android:text="Holden Caulfield"/>
+            android:textSize="18sp"/>
 
         <ImageButton
             android:layout_width="30dp"

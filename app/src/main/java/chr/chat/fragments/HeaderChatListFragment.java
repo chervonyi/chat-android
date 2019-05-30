@@ -37,10 +37,6 @@ public class HeaderChatListFragment extends Fragment {
 
         companionName = view.findViewById(R.id.companion_name);
 
-        // Set companion name
-        Chat openingChat = ((MainActivity)getActivity()).getChatByID(MainActivity.currentChatID);
-        setCompanionName(openingChat);
-
         companionName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +51,7 @@ public class HeaderChatListFragment extends Fragment {
     public void setCompanionName(Chat forChat) {
 
         if (companionName != null) {
-            if (forChat.getUserID1().equals(MainActivity.currentUser.getID())) {
+            if (forChat.getUserID1().equals(UniqueIdentifier.identifier)) {
                 companionName.setText(forChat.getUserName2());
             } else {
                 companionName.setText(forChat.getUserName1());
