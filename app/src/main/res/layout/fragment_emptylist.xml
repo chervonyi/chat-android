@@ -7,14 +7,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="15dp"
-        android:text="@string/empty_list_text"
+        android:text="Empty Chat-list"
         android:textAlignment="center"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click on button at the header to search a new chat."
+        android:textAlignment="center"
+        android:textColor="@color/hint_color"
         android:textSize="14sp" />
 
 </LinearLayout>

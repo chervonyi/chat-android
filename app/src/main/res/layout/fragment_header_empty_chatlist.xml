@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/header_color"
-    android:orientation="vertical">
+    android:background="@color/header_color">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/add_new_chat_button"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:src="@drawable/ic_add_simple"
+        android:onClick="onClickSearch" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-medium"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:text=""/>
 
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/add_new_chat_button"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:src="@drawable/ic_add_simple"
-            android:onClick="onClickSearch"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-medium"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="18sp"
-            android:text="@string/header_empty_chatlist"/>
-
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="5dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_settings"
-            android:layout_gravity="center_vertical|end"
-            android:background="@null"
-            android:onClick="onClickMenu"/>
-    </RelativeLayout>
-</LinearLayout>
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_settings"
+        android:layout_gravity="center_vertical|end"
+        android:background="@null"
+        android:onClick="onClickMenu"/>
+</RelativeLayout>

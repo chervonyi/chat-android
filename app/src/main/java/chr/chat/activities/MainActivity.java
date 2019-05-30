@@ -338,7 +338,13 @@ public class MainActivity extends AppCompatActivity {
         // Show menu
         ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+
+        if (chatList != null && chatList.size() > 0) {
+            inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+        } else {
+            inflater.inflate(R.menu.settings_menu_short, popupMenu.getMenu());
+        }
+
         popupMenu.show();
     }
 }
