@@ -7,31 +7,57 @@
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
-
-    <ScrollView
-        android:id="@+id/scrollViewChat"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:animateLayoutChanges="true"
-        android:fillViewport="true">
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/chat_container"
+        <ScrollView
+            android:id="@+id/scrollViewChat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/chat_divider"
-            android:gravity="bottom"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:showDividers="middle"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/chat_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/chat_divider"
+                android:gravity="bottom"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:showDividers="middle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:focusable="false"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chat_list_block_height"
+            android:scrollbars="none"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:focusable="false"
-            android:orientation="vertical">
+            android:background="@drawable/chat_container_block"
+            android:fillViewport="true">
 
-        </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/chat_list_container"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="0dp"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+        </HorizontalScrollView>
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

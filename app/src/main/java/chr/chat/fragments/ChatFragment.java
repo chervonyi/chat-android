@@ -33,6 +33,7 @@ import chr.chat.components.models.Message;
 import chr.chat.components.models.User;
 import chr.chat.views.ChatBlockView;
 import chr.chat.views.ChatBotBlockView;
+import chr.chat.views.ChatIconButton;
 import chr.chat.views.ChatInputMessageView;
 
 public class ChatFragment extends Fragment {
@@ -45,6 +46,7 @@ public class ChatFragment extends Fragment {
 
     private boolean foundAdultContent = false;
     private LinearLayout chatContainer;
+    private LinearLayout chatListContainer;
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
 
@@ -100,6 +102,25 @@ public class ChatFragment extends Fragment {
                 });
             }
         });
+
+
+        chatListContainer = view.findViewById(R.id.chat_list_container);
+        ChatIconButton chatIconButton;
+
+        for (Chat chat : ((MainActivity)getActivity()).chatList) {
+            chatIconButton = new ChatIconButton(getContext());
+
+            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
+                chatIconButton.setName(chat.getUserName2());
+            } else {
+                chatIconButton.setName(chat.getUserName1());
+            }
+
+            chatIconButton.setTag(chat.getID());
+
+            chatListContainer.addView(chatIconButton);
+            registerForContextMenu(chatIconButton);
+        }
 
         hideScrollView();
         return view;

@@ -81,17 +81,18 @@ public class MainActivity extends AppCompatActivity {
 
         headerLayout = findViewById(R.id.header);
         preloadHeader(lastNumberOfChats);
+        setHeaderSize(R.dimen.header_size);
 
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
 
 
     private void preloadHeader(int numberOfChats) {
-        if (numberOfChats != 0) {
-            setHeaderSize(R.dimen.header_size);
-        } else {
-            setHeaderSize(R.dimen.header_size_small);
-        }
+//        if (numberOfChats != 0) {
+//            setHeaderSize(R.dimen.header_size);
+//        } else {
+//            setHeaderSize(R.dimen.header_size_small);
+//        }
         changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
     }
 
@@ -154,11 +155,12 @@ public class MainActivity extends AppCompatActivity {
     public void updateActivityView(ArrayList<Chat> list) {
         chatList = list;
 
+
         // Check if chat-list is empty or not
         if (chatList.size() == 0) {
             // Show header and body  fragments according to EMPTY chat-list
             changeFragment(R.id.container, emptyListFragment, "EmptyListFragment", false);
-            setHeaderSize(R.dimen.header_size_small);
+//            setHeaderSize(R.dimen.header_size_small);
             changeFragment(R.id.header, headerEmptyChatListFragment, "HeaderEmptyChatListFragment",false);
         } else {
             // Show header and body fragments according to NOT EMPTY chat-list
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 currentChatID = chatList.get(0).getID();
             }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
-            setHeaderSize(R.dimen.header_size);
+//            setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
         }
     }

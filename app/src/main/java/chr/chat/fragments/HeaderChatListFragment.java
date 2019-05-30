@@ -24,11 +24,7 @@ import chr.chat.views.ChatIconButton;
 
 public class HeaderChatListFragment extends Fragment {
 
-    private LinearLayout chatListContainer;
-
     private TextView companionName;
-
-
 
 
     @SuppressLint("ResourceAsColor")
@@ -38,30 +34,13 @@ public class HeaderChatListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_header_chatlist, container, false);
 
-        chatListContainer = view.findViewById(R.id.chat_list_container);
+
         companionName = view.findViewById(R.id.companion_name);
 
         // Set companion name
         Chat openingChat = ((MainActivity)getActivity()).getChatByID(MainActivity.currentChatID);
         setCompanionName(openingChat);
 
-
-        ChatIconButton chatIconButton;
-
-        for (Chat chat : ((MainActivity)getActivity()).chatList) {
-            chatIconButton = new ChatIconButton(getContext());
-
-            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
-                chatIconButton.setName(chat.getUserName2());
-            } else {
-                chatIconButton.setName(chat.getUserName1());
-            }
-
-            chatIconButton.setTag(chat.getID());
-
-            chatListContainer.addView(chatIconButton);
-            registerForContextMenu(chatIconButton);
-        }
 
         return view;
     }
