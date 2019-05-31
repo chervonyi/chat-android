@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public List<Chat> chatList = new ArrayList<>();
 
     // Vars
-    private int lastNumberOfChats = 0;
     private String contextMenuForChatID;
 
     // Constants
@@ -59,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
     public ChatFragment chatFragment = new ChatFragment();
     private HeaderPreloadFragment headerPreloadFragment = new HeaderPreloadFragment();
 
-    // UI
-    private FrameLayout headerLayout;
 
     @SuppressLint("ResourceType")
     @Override
@@ -76,23 +73,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startService(new Intent(this, FirebaseBackgroundService.class));
-
         loadUserDataFromPhoneMemory();
-
-        headerLayout = findViewById(R.id.header);
-        preloadHeader(lastNumberOfChats);
-        setHeaderSize(R.dimen.header_size);
+        preloadHeader();
 
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
 
 
-    private void preloadHeader(int numberOfChats) {
-//        if (numberOfChats != 0) {
-//            setHeaderSize(R.dimen.header_size);
-//        } else {
-//            setHeaderSize(R.dimen.header_size_small);
-//        }
+    private void preloadHeader() {
         changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
     }
 
@@ -147,29 +135,29 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void setHeaderSize(int height) {
-        headerLayout.getLayoutParams().height = (int) getResources().getDimension(height);
-    }
-
-
     public void updateActivityView(ArrayList<Chat> list) {
+
+        List<Chat> previousChatList = chatList;
+
         chatList = list;
 
-
-        // Check if chat-list is empty or not
         if (chatList.size() == 0) {
-            // Show header and body  fragments according to EMPTY chat-list
+            // Now: empty
             changeFragment(R.id.container, emptyListFragment, "EmptyListFragment", false);
-//            setHeaderSize(R.dimen.header_size_small);
             changeFragment(R.id.header, headerEmptyChatListFragment, "HeaderEmptyChatListFragment",false);
-        } else {
-            // Show header and body fragments according to NOT EMPTY chat-list
+        }
+
+        else if (previousChatList.size() == 0) {
+            // Now: not empty. Before: empty.
             if (currentChatID == null || !isContains(currentChatID)) {
                 currentChatID = chatList.get(0).getID();
             }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
-//            setHeaderSize(R.dimen.header_size);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
+        } else {
+            // Now: not empty. Before: not empty.
+            // Update chat-list content (Messages will be updated later via Firebase listener)
+            chatFragment.setChatList(chatList);
         }
     }
 
@@ -181,16 +169,11 @@ public class MainActivity extends AppCompatActivity {
             currentChatID = selectedChatID;
 
             // Get messages for selected chat
-            Database.instance.getMessagesForNewChat(this, currentChatID);
+            Database.instance.getMessagesForNewChat(this, currentChatID, true);
         }
     }
 
-    public void hideScrollView() {
-        chatFragment.hideScrollView();
-    }
-
-
-    public void setMessages(String chatID, ArrayList<Message> messages, boolean withAnim) {
+    public void setMessages(String chatID, ArrayList<Message> messages, boolean useAnimation) {
 
         // Update messages only for current chat
         if (currentChatID != null && currentChatID.equals(chatID)) {
@@ -203,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
 
-            chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), withAnim);
+            chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), useAnimation);
         }
     }
 
@@ -212,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
         ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
-
         popupMenu.show();
     }
 
@@ -232,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
             // Remove chat
             Database.instance.closeChat(currentChatID);
 
+            // TODO - check if 'currentChatID = null;' will be OK (if it will show next chat properly)
             currentChatID = null;
         }
     }
@@ -252,22 +235,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.option_remove_chat:
-                Database.instance.closeChat(contextMenuForChatID);
+        if (item.getItemId() == R.id.option_remove_chat) {
 
-                // If you are removing the chat which is open right now
-                if (contextMenuForChatID.equals(currentChatID)) {
+            boolean useAnimation = false;
+            if (contextMenuForChatID.equals(currentChatID)) {
+                useAnimation = true;
+            }
 
-                    // Assign null so it will set the the first chat ID from the chat-list
-                    // in the future (when DB updates chat-list)
-                    currentChatID = null;
+            if (chatList.size() > 1) {
+                for (Chat chat: chatList) {
+                    if (chat.getID().equals(contextMenuForChatID)) {
+                        chatList.remove(chat);
+                        break;
+                    }
                 }
 
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+                currentChatID = chatList.get(0).getID();
+
+                // Load messages for a new chat
+                Database.instance.getMessagesForNewChat(this, currentChatID, useAnimation);
+            }
+
+            Database.instance.closeChat(contextMenuForChatID);
+
+            return true;
         }
+        return super.onContextItemSelected(item);
     }
 
     public void attachBotMessage(int attachmentType) {
@@ -306,7 +299,6 @@ public class MainActivity extends AppCompatActivity {
      * Redirection to SearchActivity
      */
     public void onClickSearch(View view) {
-        lastNumberOfChats = chatList.size();
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
         finish();
@@ -314,7 +306,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToChangePersonalName() {
-        lastNumberOfChats = chatList.size();
         Intent intent = new Intent(this, ChangeInfoActivity.class);
         intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
         startActivity(intent);
@@ -323,7 +314,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToSettings() {
-        lastNumberOfChats = chatList.size();
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         finish();

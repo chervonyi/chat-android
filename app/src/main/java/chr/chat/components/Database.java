@@ -110,7 +110,7 @@ public class Database {
 
 
     // On select another chat
-    public void getMessagesForNewChat(final Context context,final String chatID) {
+    public void getMessagesForNewChat(final Context context, final String chatID, final boolean useAnimation) {
 
         mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -131,8 +131,7 @@ public class Database {
                 });
 
                 if (context instanceof MainActivity) {
-                    ((MainActivity)context).hideScrollView();
-                    ((MainActivity)context).setMessages(chatID, messages, true);
+                    ((MainActivity)context).setMessages(chatID, messages, useAnimation);
                 }
             }
 
@@ -155,7 +154,6 @@ public class Database {
         String pushedUniqueID = lineRef.getKey();
         lineRef.setValue(chatNode);
         return pushedUniqueID;
-        //assignListenerOnMessagesForChat(pushedUniqueID);
     }
 
     public void loadAllChats(final Context context, final String userID) {

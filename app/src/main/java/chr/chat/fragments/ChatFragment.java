@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import chr.chat.activities.MainActivity;
 import chr.chat.components.BotAttachments;
@@ -104,7 +105,9 @@ public class ChatFragment extends Fragment {
                         scrollView.fullScroll(View.FOCUS_DOWN);
 
                         if (scrollView.getVisibility() == View.INVISIBLE) {
+                            Animation aniFade = AnimationUtils.loadAnimation(getContext().getApplicationContext(), R.anim.fade_in);
                             scrollView.setVisibility(View.VISIBLE);
+                            scrollView.startAnimation(aniFade);
                         }
                     }
                 });
@@ -113,22 +116,7 @@ public class ChatFragment extends Fragment {
 
 
         chatListContainer = view.findViewById(R.id.chat_list_container);
-        ChatIconButton chatIconButton;
-
-        for (Chat chat : ((MainActivity)getActivity()).chatList) {
-            chatIconButton = new ChatIconButton(getContext());
-
-            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
-                chatIconButton.setName(chat.getUserName2());
-            } else {
-                chatIconButton.setName(chat.getUserName1());
-            }
-
-            chatIconButton.setTag(chat.getID());
-
-            chatListContainer.addView(chatIconButton);
-            registerForContextMenu(chatIconButton);
-        }
+        setChatList(((MainActivity)getActivity()).chatList);
 
         hideScrollView();
         return view;
@@ -169,6 +157,29 @@ public class ChatFragment extends Fragment {
         if (scrollView != null) {
             scrollView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void setChatList(List<Chat> chatlist) {
+        ChatIconButton chatIconButton;
+
+        if (chatListContainer == null) { return; }
+
+        chatListContainer.removeAllViews();
+        for (Chat chat : chatlist) {
+            chatIconButton = new ChatIconButton(getContext());
+
+            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
+                chatIconButton.setName(chat.getUserName2());
+            } else {
+                chatIconButton.setName(chat.getUserName1());
+            }
+
+            chatIconButton.setTag(chat.getID());
+
+            chatListContainer.addView(chatIconButton);
+            registerForContextMenu(chatIconButton);
+        }
+
     }
 
     public void setMessages(ArrayList<Message> messages, boolean checkOnAdultContent, boolean withAnim) {
