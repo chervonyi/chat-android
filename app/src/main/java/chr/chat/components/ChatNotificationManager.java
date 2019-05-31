@@ -42,6 +42,7 @@ public class ChatNotificationManager {
     public void show(Context context, String newChatID) {
 
         Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         resultIntent.putExtra(MainActivity.DESIRABLE_CHAT_ID, newChatID);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

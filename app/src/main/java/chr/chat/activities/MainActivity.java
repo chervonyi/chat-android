@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Vars
     private String contextMenuForChatID;
+    private static boolean listenersRemovedBefore = false;
 
     // Constants
     public final static String DESIRABLE_CHAT_ID = "NEW_CHAT_CODE";
@@ -70,10 +71,9 @@ public class MainActivity extends AppCompatActivity {
         String desirableChatID = intent.getStringExtra(DESIRABLE_CHAT_ID);
 
         if (desirableChatID != null) {
-            // TODO - fix that
-            intent.removeExtra(DESIRABLE_CHAT_ID);
-//            Database.instance.removeAllListener();
-            startActivity(intent);
+            Database.instance.removeAllListener();
+            listenersRemovedBefore = true;
+
             currentChatID = desirableChatID;
         }
 
@@ -82,12 +82,6 @@ public class MainActivity extends AppCompatActivity {
         preloadHeader();
 
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d("CHR_GAMES_TEST", "onNewIntent");
     }
 
     private void preloadHeader() {
@@ -110,7 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Database.instance.removeAllListener();
+        if (!listenersRemovedBefore) {
+            Database.instance.removeAllListener();
+        } else {
+            listenersRemovedBefore = false;
+        }
         super.onDestroy();
     }
 

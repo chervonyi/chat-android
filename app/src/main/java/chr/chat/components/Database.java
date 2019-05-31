@@ -64,7 +64,6 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Message> messages = new ArrayList<>();
-
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     messages.add(messageSnapshot.getValue(Message.class));
                 }
@@ -179,7 +178,6 @@ public class Database {
 
                 removeMapListeners();
 
-                Log.d("CHR_GAMES_TEST", "chats.size: " + chats.size());
                 for (Chat foundChat: chats) {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
@@ -329,7 +327,6 @@ public class Database {
             mDatabase.child(USERS).child(UniqueIdentifier.identifier)
                     .removeEventListener(loadUserEventListener);
         }
-
     }
 
     public void registerNewUser(String ID, String name, String sex) {
