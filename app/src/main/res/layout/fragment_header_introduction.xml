@@ -35,12 +35,14 @@
             android:text="Introduction"/>
 
         <ImageButton
+            android:id="@+id/buttonSubmitEnterName"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="5dp"
             android:src="@drawable/ic_done"
             android:layout_gravity="center_vertical|end"
             android:background="@null"
+            android:visibility="invisible"
             android:onClick="onInputName"/>
     </FrameLayout>
 

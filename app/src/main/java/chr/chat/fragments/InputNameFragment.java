@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import chr.chat.R;
 import chr.chat.activities.ChangeInfoActivity;
 import chr.chat.views.ChatEditText;
@@ -19,10 +21,10 @@ public class InputNameFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_input_name, container, false);
-
 
         final ChatEditText editText = view.findViewById(R.id.editTextName);
 
@@ -35,10 +37,17 @@ public class InputNameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int leftCharacters = ChangeInfoActivity.MAX_LENGTH - editText.getText().length();
+                int length = editText.getText().length();
+
+                ((ChangeInfoActivity)
+                        Objects.requireNonNull(getActivity()))
+                        .changeVisibilitySubmitButton(length > 0);
+
+                int leftCharacters = ChangeInfoActivity.MAX_LENGTH - length;
 
                 // Update textView with amount of available characters
-                ((TextView)view.findViewById(R.id.textViewLeftCharacters)).setText(String.valueOf(leftCharacters));
+                ((TextView)view.findViewById(R.id.textViewLeftCharacters))
+                        .setText(String.valueOf(leftCharacters));
             }
         });
 

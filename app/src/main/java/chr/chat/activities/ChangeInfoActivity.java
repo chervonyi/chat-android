@@ -106,6 +106,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
         String input = ((ChatEditText)findViewById(R.id.editTextName)).getText().toString();
 
+        if (input.length() == 0) { return; }
+
         hideKeyboard();
 
         if (currentEnterCode == INPUT_ALL_INFO_CODE) {
@@ -126,6 +128,10 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
             goToMainActivity();
         }
+    }
+
+    public void changeVisibilitySubmitButton(boolean status) {
+        headerIntroductionFragment.setVisibilitySubmit(status);
     }
 
     /**
