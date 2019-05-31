@@ -358,4 +358,9 @@ public class MainActivity extends AppCompatActivity {
 
         popupMenu.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
