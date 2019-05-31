@@ -57,9 +57,6 @@ public class ChatFragment extends Fragment {
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
 
-    // List of forbidden words that may contain adult content, offend somebody etc.
-    private final ArrayList<String> forbiddenWords = getForbiddenWords();
-
     // List of phrases
     private HashMap<String, String> phrases_EN = getPhrases();
 
@@ -162,7 +159,7 @@ public class ChatFragment extends Fragment {
     public void setChatList(List<Chat> chatlist) {
         ChatIconButton chatIconButton;
 
-        if (chatListContainer == null) { return; }
+        if (chatListContainer == null || getContext() == null) { return; }
 
         chatListContainer.removeAllViews();
         for (Chat chat : chatlist) {
@@ -227,9 +224,7 @@ public class ChatFragment extends Fragment {
         // Check on adult content only if it's companion's message
         // and it's allowed to check contains of messages (checkOnAdultContent)
 
-        if (checkOnAdultContent) {
-        // TODO: Replace on:
-        //if (!isUserMessage && checkOnAdultContent) {
+        if (!isUserMessage && checkOnAdultContent) {
             if (isContainedAdultContent(message)) {
                 foundAdultContent = true;
             }
@@ -243,8 +238,8 @@ public class ChatFragment extends Fragment {
 
 
     /**
+     * <b>Useless checking but I think it will prevent most of the attempts to use adult content</b><br>
      * Check if given text contains at least one of forbidden words. <br>
-     * {@link #forbiddenWords} <br>
      * {@link #getForbiddenWords()}
      * @param text interested text
      * @return <b>true</b> if text contains one of forbidden words.
@@ -254,7 +249,7 @@ public class ChatFragment extends Fragment {
         text = text.toLowerCase();
 
         // Check for contains of forbidden words
-        for (String word : forbiddenWords) {
+        for (String word : getForbiddenWords()) {
             if (text.contains(word)) {
                 return true;
             }
@@ -269,7 +264,6 @@ public class ChatFragment extends Fragment {
     }
 
 
-    // TODO - Fill the list up when the app will be connected to the DB.
     private HashMap<String, String> getPhrases() {
         return new HashMap<String, String>() {{
             put("Hey, what's up?", "Fine. Have you seen Avengers: EndGame?");
@@ -281,17 +275,22 @@ public class ChatFragment extends Fragment {
         }};
     }
 
-    // TODO - Fill the list up when the app will be connected to the DB.
     private ArrayList<String> getForbiddenWords() {
         return new ArrayList<>(Arrays.asList(
-                // English
-                "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", //...
+                // English:
+                "fuck", "cum", "dick", "cunt", "boner", "tits", "nipple", "ass", "asshole",
+                "bitch", "slut", "whore", "sex", "butt", "vagina", "anus", "anus", "cock",
+                "semen", "fucking", "fucks", "gay", "penis", "pussy", "wank",
 
-                // Russian
-                "ебать", "трахать", "сосать", "член", //...
+                // Russian:
+                "ебать", "кончать", "член", "пизда", "стояк", "сиськи", "сосок", "задница", "сука",
+                "шлюха", "секс", "влагалище", "анус", "клитор", "жопа", "трахать",
+                "сперма", "трахаться", "гей", "пенис", "киска", "дрочить", "сосать",
 
-                // Ukrainian
-                "їбати", "трахати", "сосати" //...
+                // Ukrainian:
+                "їбати", "кінчати", "член", "пізда", "стояк", "груди", "сосок", "дупа", "сука",
+                "повія", "секс", "піхва", "анус", "клітор", "трахати",
+                "сперма", "трахатись", "гей", "пеніс", "дрочити", "член", "сосати"
         ));
     }
 }

@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -31,6 +33,8 @@ public class ChatNotificationManager {
         builder.setColor(context.getResources().getColor(R.color.accent));
         builder.setContentTitle(context.getString(R.string.notification_title));
         builder.setContentText(context.getString(R.string.notification_body));
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setAutoCancel(true);
     }

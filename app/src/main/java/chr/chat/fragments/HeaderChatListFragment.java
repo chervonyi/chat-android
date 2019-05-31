@@ -49,7 +49,7 @@ public class HeaderChatListFragment extends Fragment {
 
     public void setCompanionName(Chat forChat) {
 
-        if (companionName != null) {
+        if (companionName != null && forChat.getUserID1() != null) {
             if (forChat.getUserID1().equals(UniqueIdentifier.identifier)) {
                 companionName.setText(forChat.getUserName2());
             } else {

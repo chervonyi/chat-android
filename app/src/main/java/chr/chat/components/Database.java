@@ -93,10 +93,15 @@ public class Database {
 
     private void removeMapListeners() {
 
-        if (mapListenersForMessages.size() == 0) { return; }
+        if (mapListenersForMessages == null || mapListenersForMessages.size() == 0) { return; }
 
         for (Map.Entry<String, ValueEventListener> entry : mapListenersForMessages.entrySet()) {
-            mDatabase.child(MESSAGES).orderByChild("chatID").equalTo(entry.getKey()).removeEventListener(entry.getValue());
+            if (entry.getValue() != null) {
+                mDatabase.child(MESSAGES).orderByChild("chatID")
+                        .equalTo(entry.getKey())
+                        .removeEventListener(entry.getValue());
+            }
+
         }
 
         mapListenersForMessages.clear();
@@ -174,6 +179,7 @@ public class Database {
 
                 removeMapListeners();
 
+                Log.d("CHR_GAMES_TEST", "chats.size: " + chats.size());
                 for (Chat foundChat: chats) {
                     if (foundChat.getUserID1().equals(userID) ||
                         foundChat.getUserID2().equals(userID)) {
@@ -202,7 +208,9 @@ public class Database {
     }
 
     private void removeChatsEventListener() {
-        mDatabase.child(CHATS).removeEventListener(chatsEventListener);
+        if (chatsEventListener != null) {
+            mDatabase.child(CHATS).removeEventListener(chatsEventListener);
+        }
     }
 
 
@@ -317,7 +325,11 @@ public class Database {
     }
 
     private void removeLoadUserEventListener() {
-        mDatabase.child(USERS).child(UniqueIdentifier.identifier).removeEventListener(loadUserEventListener);
+        if (loadUserEventListener != null) {
+            mDatabase.child(USERS).child(UniqueIdentifier.identifier)
+                    .removeEventListener(loadUserEventListener);
+        }
+
     }
 
     public void registerNewUser(String ID, String name, String sex) {

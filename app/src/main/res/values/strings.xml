@@ -40,8 +40,8 @@
     <string name="option_remove_chat">Remove</string>
     <string name="header_searching">Searching for a new chat</string>
     <string name="searching_main">We are trying to find \n someone special for you.</string>
-    <string name="searching_hint_1">We recommend you close the app because we do not know how long it will take.</string>
-    <string name="searching_hint_2">We will inform you about the found chat.</string>
+    <string name="searching_hint_1">We recommend you to close the app because we do not know how long it will take.</string>
+    <string name="searching_hint_2">We will inform you as soon as we find a new chat.</string>
     <string name="dialog_warning">Warning!</string>
     <string name="dialog_info_1">User message may contain adult content.</string>
     <string name="dialog_info_2">Do you want to continue?</string>

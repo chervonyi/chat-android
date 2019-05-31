@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         String desirableChatID = intent.getStringExtra(DESIRABLE_CHAT_ID);
 
         if (desirableChatID != null) {
+            // TODO - fix that
+            intent.removeExtra(DESIRABLE_CHAT_ID);
+//            Database.instance.removeAllListener();
+            startActivity(intent);
             currentChatID = desirableChatID;
         }
 
@@ -79,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d("CHR_GAMES_TEST", "onNewIntent");
+    }
 
     private void preloadHeader() {
         changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
@@ -183,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             headerChatListFragment.setCompanionName(getChatByID(currentChatID));
 
             boolean switcherOnCheck = GlobalSettings.isChecked(this, GlobalSettings.CHECK_ON_ADULT_CONTENT);
-
             boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
 
             chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), useAnimation);
@@ -214,8 +223,21 @@ public class MainActivity extends AppCompatActivity {
             // Remove chat
             Database.instance.closeChat(currentChatID);
 
-            // TODO - check if 'currentChatID = null;' will be OK (if it will show next chat properly)
-            currentChatID = null;
+            if (chatList.size() > 1) {
+                for (Chat chat: chatList) {
+                    if (chat.getID().equals(currentChatID)) {
+                        chatList.remove(chat);
+                        break;
+                    }
+                }
+
+                currentChatID = chatList.get(0).getID();
+
+                // Load messages for a new chat
+                Database.instance.getMessagesForNewChat(this, currentChatID, true);
+            } else {
+                currentChatID = null;
+            }
         }
     }
 
@@ -279,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
             Report report = new Report(suspectID, currentChatID);
             Database.instance.reportUser(report);
+            Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();
         }
     }
 
