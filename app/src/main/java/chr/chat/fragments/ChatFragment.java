@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import chr.chat.activities.MainActivity;
 import chr.chat.components.BotAttachments;
@@ -113,9 +115,10 @@ public class ChatFragment extends Fragment {
 
 
         chatListContainer = view.findViewById(R.id.chat_list_container);
-        setChatList(((MainActivity)getActivity()).chatList);
+        setChatList(((MainActivity) Objects.requireNonNull(getActivity())).chatList);
 
         hideScrollView();
+
         return view;
     }
 

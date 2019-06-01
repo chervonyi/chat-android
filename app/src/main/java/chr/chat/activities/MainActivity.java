@@ -1,7 +1,10 @@
 package chr.chat.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
     private HeaderEmptyChatListFragment headerEmptyChatListFragment = new HeaderEmptyChatListFragment();
     private EmptyListFragment emptyListFragment = new EmptyListFragment();
-    public ChatFragment chatFragment = new ChatFragment();
+    private ChatFragment chatFragment = new ChatFragment();
     private HeaderPreloadFragment headerPreloadFragment = new HeaderPreloadFragment();
 
 
@@ -194,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
             boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
 
             chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), useAnimation);
+
+            showHintToast();
         }
     }
 
@@ -310,6 +315,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    public void showHintToast() {
+        final String HINT_KEY = "TOAST_CHATLIST_BOOL";
+
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(HINT_KEY, false)) {
+
+            final Context context = this;
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, R.string.hint_toast_hide_chatlist_box, Toast.LENGTH_LONG).show();
+
+                    PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putBoolean(HINT_KEY, true)
+                            .apply();
+                }
+            }, 2000);
+
+        }
     }
 
     private boolean isContains(String chatID) {
