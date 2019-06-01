@@ -32,4 +32,6 @@ public class GlobalSettings {
                 .putBoolean(SETTINGS[switcher].CODE, newValue)
                 .apply();
     }
+
+
 }

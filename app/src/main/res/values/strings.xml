@@ -51,4 +51,5 @@
     <string name="notification_body">We have found a new chat for you!</string>
     <string name="header_empty_chatlist">Find a new chat</string>
     <string name="hint_toast_hide_chatlist_box">Press on name at the header to show/hide chat-list box</string>
+    <string name="empty_chat_label">No messages here yet..</string>
 </resources>

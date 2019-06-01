@@ -20,6 +20,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -53,11 +54,14 @@ public class ChatFragment extends Fragment {
     private BotAttachments botAttachments = new BotAttachments();
 
     private boolean foundAdultContent = false;
+
+    // UI
     private LinearLayout chatContainer;
     private LinearLayout chatListContainer;
     private HorizontalScrollView chatListBlock;
     private ScrollView scrollView;
     private ChatInputMessageView inputView;
+    private TextView labelEmptyChat;
 
     // List of phrases
     private HashMap<String, String> phrases_EN = getPhrases();
@@ -74,7 +78,7 @@ public class ChatFragment extends Fragment {
         scrollView = view.findViewById(R.id.scrollViewChat);
         inputView = view.findViewById(R.id.input_message_view);
         chatListBlock = view.findViewById(R.id.chatlist_block);
-
+        labelEmptyChat = view.findViewById(R.id.textview_empty_chat);
 
         //setMessages(((MainActivity)getActivity()).currentMessages);
 
@@ -188,6 +192,14 @@ public class ChatFragment extends Fragment {
 
         foundAdultContent = false;
         chatContainer.removeAllViews();
+
+        if (messages.size() == 0) {
+            labelEmptyChat.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        labelEmptyChat.setVisibility(View.INVISIBLE);
+
 
         for (Message message : messages) {
             if (message.getOwner().equals(BOT_MESSAGES_CODE)) {

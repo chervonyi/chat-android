@@ -3,6 +3,7 @@ package chr.chat.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
     // Vars
     private String contextMenuForChatID;
     private static boolean listenersRemovedBefore = false;
+    private SharedPreferences preferences;
 
     // Constants
     public final static String DESIRABLE_CHAT_ID = "NEW_CHAT_CODE";
+    public final static String HINT_KEY = "TOAST_CHATLIST_BOOL";
 
     // Fragments:
     private HeaderChatListFragment headerChatListFragment = new HeaderChatListFragment();
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             currentChatID = desirableChatID;
         }
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         startService(new Intent(this, FirebaseBackgroundService.class));
         loadUserDataFromPhoneMemory();
         preloadHeader();
@@ -245,6 +252,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hideChatlistBlock() {
+
+        if (!preferences.getBoolean(HINT_KEY, false)) {
+            preferences.edit().putBoolean(HINT_KEY, true).apply();
+        }
+
         chatFragment.hideChatListBlock();
     }
 
@@ -318,25 +330,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showHintToast() {
-        final String HINT_KEY = "TOAST_CHATLIST_BOOL";
 
-        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(HINT_KEY, false)) {
+        if (!preferences.getBoolean(HINT_KEY, false)) {
 
             final Context context = this;
-
             final Handler handler = new Handler();
+
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, R.string.hint_toast_hide_chatlist_box, Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(context, R.string.hint_toast_hide_chatlist_box, Toast.LENGTH_LONG);
 
-                    PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit()
-                            .putBoolean(HINT_KEY, true)
-                            .apply();
+                    LinearLayout layout = (LinearLayout) toast.getView();
+                    if (layout.getChildCount() > 0) {
+                        TextView tv = (TextView) layout.getChildAt(0);
+                        tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                    }
+                    toast.show();
                 }
             }, 2000);
-
         }
     }
 

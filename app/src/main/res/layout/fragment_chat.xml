@@ -44,6 +44,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/chat_container_block"
+            android:visibility="invisible"
             android:fillViewport="true">
 
             <LinearLayout
@@ -57,6 +58,21 @@
             </LinearLayout>
 
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/textview_empty_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/empty_chatlist_label"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:text="@string/empty_chat_label"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </FrameLayout>
 
     <RelativeLayout
