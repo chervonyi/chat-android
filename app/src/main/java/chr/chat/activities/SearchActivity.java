@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
     public void startSearching(String language) {
 
         // Search for appropriate chat in database
-        Database.instance.searchSomebodyFor(this, MainActivity.currentUser, selectedGender, language);
+        Database.instance.searchSomebodyFor(this, MainActivity.getUser(), selectedGender, language);
 
         // Change appropriate fragment
         changeFragment(R.id.container, searchingFragment, "SearchingFragment", true);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chat</string>
+    <string name="app_name">Random Chat</string>
     <string name="empty_list_text">You do not have any chat yet. \nPress “+” to find a new chat</string>
     <string name="question_gender">Who would you like to chat with?</string>
     <string name="question_language">What language should it be?</string>

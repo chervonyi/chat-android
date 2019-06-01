@@ -46,7 +46,7 @@ import chr.chat.views.ChatPopupMenu;
 public class MainActivity extends AppCompatActivity {
 
     // User data
-    public static User currentUser;
+    private static User currentUser;
 
     // Current data
     public ArrayList<Message> currentMessages = new ArrayList<>();
@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        loadUserDataFromPhoneMemory();
+
         Intent intent = getIntent();
         String desirableChatID = intent.getStringExtra(DESIRABLE_CHAT_ID);
 
@@ -87,10 +90,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        startService(new Intent(this, FirebaseBackgroundService.class));
-        loadUserDataFromPhoneMemory();
         preloadHeader();
 
+        startService(new Intent(this, FirebaseBackgroundService.class));
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
 
@@ -109,7 +111,21 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        Database.instance.loadUserData(UniqueIdentifier.identifier);
+        Database.instance.loadUserData(this, UniqueIdentifier.identifier);
+    }
+
+    public void setUser(User user) {
+
+        if (user.isAvailable()) {
+            currentUser = user;
+        } else {
+            // Force close app because the fact that user has been banned before.
+            finishAndRemoveTask();
+        }
+    }
+
+    public static User getUser() {
+        return currentUser;
     }
 
     @Override

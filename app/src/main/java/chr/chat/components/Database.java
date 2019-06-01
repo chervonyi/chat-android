@@ -299,7 +299,7 @@ public class Database {
         mDatabase.child(USERS).child(ID).child("name").setValue(name);
     }
 
-    public void loadUserData(String ID) {
+    public void loadUserData(final Context context, String ID) {
 
         loadUserEventListener = new ValueEventListener() {
             @Override
@@ -312,7 +312,8 @@ public class Database {
                     user.setID(dataSnapshot.getKey());
                 }
 
-                MainActivity.currentUser = user;
+//                MainActivity.currentUser = user;
+                ((MainActivity)context).setUser(user);
             }
 
             @Override
