@@ -109,9 +109,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.INPUT_ALL_INFO_CODE);
             startActivity(intent);
             finish();
+        } else {
+            Database.instance.loadUserData(this, UniqueIdentifier.identifier);
         }
 
-        Database.instance.loadUserData(this, UniqueIdentifier.identifier);
     }
 
     public void setUser(User user) {
@@ -179,15 +180,15 @@ public class MainActivity extends AppCompatActivity {
             // Now: empty
             changeFragment(R.id.container, emptyListFragment, "EmptyListFragment", false);
             changeFragment(R.id.header, headerEmptyChatListFragment, "HeaderEmptyChatListFragment",false);
-        }
-
-        else if (previousChatList.size() == 0) {
+        } else if (previousChatList.size() == 0) {
             // Now: not empty. Before: empty.
             if (currentChatID == null || !isContains(currentChatID)) {
                 currentChatID = chatList.get(0).getID();
             }
             changeFragment(R.id.container, chatFragment, "ChatFragment", false);
             changeFragment(R.id.header, headerChatListFragment, "HeaderChatListFragment",false);
+
+            showHintToast();
         } else {
             // Now: not empty. Before: not empty.
             // Update chat-list content (Messages will be updated later via Firebase listener)
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
             chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), useAnimation);
 
-            showHintToast();
+
         }
     }
 
@@ -357,11 +358,13 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     Toast toast = Toast.makeText(context, R.string.hint_toast_hide_chatlist_box, Toast.LENGTH_LONG);
 
+                    // Set text alignment to center
                     LinearLayout layout = (LinearLayout) toast.getView();
                     if (layout.getChildCount() > 0) {
                         TextView tv = (TextView) layout.getChildAt(0);
                         tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                     }
+
                     toast.show();
                 }
             }, 2000);

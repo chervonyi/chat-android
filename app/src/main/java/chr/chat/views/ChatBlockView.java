@@ -44,7 +44,7 @@ public class ChatBlockView extends TextView {
     }
 
     private void render() {
-        setPadding(30, 20, 30, 20);
+        setPadding(40, 20, 40, 20);
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         setMaxWidth(calculateMaxWidth());
     }
