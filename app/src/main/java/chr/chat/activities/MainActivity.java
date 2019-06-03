@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUser(User user) {
 
-        if (user.isAvailable()) {
+        if (user != null && user.isAvailable()) {
             currentUser = user;
         } else {
             // Force close app because the fact that user has been banned before.

@@ -37,13 +37,11 @@ public class InputNameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int length = editText.getText().length();
-
                 ((ChangeInfoActivity)
                         Objects.requireNonNull(getActivity()))
-                        .changeVisibilitySubmitButton(length > 0);
+                        .changeVisibilitySubmitButton(checkText(editText.getText().toString()));
 
-                int leftCharacters = ChangeInfoActivity.MAX_LENGTH - length;
+                int leftCharacters = ChangeInfoActivity.MAX_LENGTH - editText.getText().length();
 
                 // Update textView with amount of available characters
                 ((TextView)view.findViewById(R.id.textViewLeftCharacters))
@@ -52,5 +50,18 @@ public class InputNameFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public boolean checkText(String text) {
+
+        int letters = 0;
+
+        for (char c: text.toCharArray()) {
+            if (Character.isLetter(c)) { letters++; }
+
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c)) { return false; }
+        }
+
+        return letters >= 3;
     }
 }

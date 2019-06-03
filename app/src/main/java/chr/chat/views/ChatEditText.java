@@ -20,8 +20,6 @@ public class ChatEditText extends EditText {
         render();
     }
 
-    // TODO - Add checking on input (only a-z, A-Z)
-
     public ChatEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
