@@ -24,7 +24,8 @@ public class ChatNotificationManager {
     private final AtomicInteger uniqueID = new AtomicInteger(0);
 
     private NotificationCompat.Builder builder;
-    
+
+    // Prepare Notification in constructor
     public ChatNotificationManager(Context context) {
         createNotificationChannel(context);
 
@@ -39,6 +40,12 @@ public class ChatNotificationManager {
         builder.setAutoCancel(true);
     }
 
+    /**
+     * Show notification which has been prepared before
+     * @see ChatNotificationManager#ChatNotificationManager(Context)
+     * @param newChatID ID of created chat which must be replaced in extra of new Intent
+     *                  to open appropriate chat by click on notification
+     */
     public void show(Context context, String newChatID) {
 
         Intent resultIntent = new Intent(context, MainActivity.class);
@@ -61,6 +68,9 @@ public class ChatNotificationManager {
         return uniqueID.incrementAndGet();
     }
 
+    /**
+     * Required method for Android 5.0+
+     */
     private void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = android.app.NotificationManager.IMPORTANCE_DEFAULT;

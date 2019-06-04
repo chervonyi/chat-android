@@ -100,7 +100,6 @@ public class Database {
                         .equalTo(entry.getKey())
                         .removeEventListener(entry.getValue());
             }
-
         }
 
         mapListenersForMessages.clear();
@@ -111,7 +110,6 @@ public class Database {
         removeChatsEventListener();
         removeLoadUserEventListener();
     }
-
 
     // On select another chat
     public void getMessagesForNewChat(final Context context, final String chatID, final boolean useAnimation) {
@@ -217,7 +215,8 @@ public class Database {
     // -------------------------
 
     public void removeUserFromLine(String ID) {
-        mDatabase.child(LINE).orderByChild("userID").equalTo(ID).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(LINE).orderByChild("userID").equalTo(ID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -237,7 +236,8 @@ public class Database {
         lineRef.push().setValue(lineNode);
     }
 
-    public void searchSomebodyFor(final Context context, final User user, final String sex, final String language) {
+    public void searchSomebodyFor(final Context context, final User user,
+                                  final String sex, final String language) {
 
         mDatabase.child(LINE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -256,21 +256,34 @@ public class Database {
         });
     }
 
-    private void lookForMatches(final Context context,User userWhichSearching, ArrayList<Line> lineNodes, String sex, String language) {
+    /**
+     * Start searching for matches.
+     * Goes through list of Line class instances and look for matches.
+     *
+     * @param userWhichSearching instance of User class which keeps data of current user
+     * @param lineNodes list of instances of Line class
+     * @param sex gender that user is looking for
+     * @param language language that user is looking for
+     */
+    private void lookForMatches(final Context context, User userWhichSearching,
+                                ArrayList<Line> lineNodes, String sex, String language) {
 
         for (Line line : lineNodes) {
 
             if (language.equals(line.getLanguage()) && !line.getUserID().equals(userWhichSearching.getID())) {
 
                 if (line.getSex().equals(userWhichSearching.getSex()) || line.getSex().equals("any")) {
+
                     if (sex.equals(line.getUserSex()) || sex.equals("any")) {
 
                         // Remove current user from line
                         removeUserFromLine(line.getUserID());
 
-                        // Important: userWhichSearching must be added into database in chat instance as a user #1
+                        // Important: userWhichSearching must be added
+                        // into database in chat instance as a user #1
                         // Note: Chat instance contains pair of users: user #1 and user #2
-                        Chat currentChat = new Chat(userWhichSearching.getID(), userWhichSearching.getName(), line.getUserID(), line.getUserName());
+                        Chat currentChat = new Chat(userWhichSearching.getID(),
+                                userWhichSearching.getName(), line.getUserID(), line.getUserName());
 
                         // Create chat in database
                         String createdChatID = createChat(currentChat);
@@ -286,7 +299,8 @@ public class Database {
         }
 
         // Add userWhichSearching to Line
-        Line line = new Line(userWhichSearching.getID(), userWhichSearching.getName(), userWhichSearching.getSex(), sex, language);
+        Line line = new Line(userWhichSearching.getID(), userWhichSearching.getName(),
+                userWhichSearching.getSex(), sex, language);
         putUserInLine(line);
     }
 
@@ -308,11 +322,9 @@ public class Database {
                 User user = dataSnapshot.getValue(User.class);
 
                 if (user != null) {
-                    // or use UniqueIdentifier
                     user.setID(dataSnapshot.getKey());
                 }
 
-//                MainActivity.currentUser = user;
                 ((MainActivity)context).setUser(user);
             }
 
@@ -343,5 +355,4 @@ public class Database {
         DatabaseReference lineRef = mDatabase.child(REPORT);
         lineRef.push().setValue(report);
     }
-
 }

@@ -21,11 +21,24 @@ public class GlobalSettings {
     public static int DARK_MODE = 3;
     public static int BOT_MESSAGES = 4;
 
+    /**
+     * Check if code of given switcher is turned on
+     *
+     * @param switcher code of required switcher
+     * @return <b>true</b> if it is turned on; <br>
+     * <b>false</b> if it is turned off.
+     */
     public static boolean isChecked(Context context, int switcher) {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(SETTINGS[switcher].CODE, SETTINGS[switcher].DEFAULT_VALUE);
     }
 
+    /**
+     * Update switcher with new state (ON | OFF)
+     *
+     * @param switcher code of required switcher
+     * @param newValue boolean value of switcher (true - is ON; false - is OFF)
+     */
     public static void setCheck(Context context, int switcher, boolean newValue) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()

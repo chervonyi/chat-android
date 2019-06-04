@@ -20,9 +20,6 @@ public class ChatPopupAttachMenu extends PopupMenu implements PopupMenu.OnMenuIt
         this.context = context;
     }
 
-    public ChatPopupAttachMenu(@NonNull Context context, @NonNull View anchor, int gravity) {
-        super(context, anchor, gravity);
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {

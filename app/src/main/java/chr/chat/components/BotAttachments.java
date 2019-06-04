@@ -14,6 +14,11 @@ public class BotAttachments {
         random = new Random();
     }
 
+    /**
+     * Returns complete Bot's message with appropriate information according to given type
+     * @param attachmentType type of required information
+     * @return Bot's message
+     */
     public String getRandom(int attachmentType) {
         switch (attachmentType) {
             case ATTACHMENTS_TOPIC:             return "Topic: "    + getRandomTopic();

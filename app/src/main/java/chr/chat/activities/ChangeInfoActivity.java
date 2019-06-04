@@ -84,12 +84,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        hideKeyboard();
-    }
-
     /**
      * Hides the forced shown keyboard.
      */
@@ -141,7 +135,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
     public void onInputGender(String gender) {
         // Register a new user into Database
         Database.instance.registerNewUser(UniqueIdentifier.identifier, enteredName, gender);
-
         goToMainActivity();
     }
 
@@ -162,6 +155,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Put app on the background
         moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hideKeyboard();
     }
 }

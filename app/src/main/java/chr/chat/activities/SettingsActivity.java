@@ -20,7 +20,6 @@ public class SettingsActivity extends AppCompatActivity {
     private SettingsFragment settingsFragment = new SettingsFragment();
     private HeaderSettingsFragment headerSettingsFragment = new HeaderSettingsFragment();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Put application on the background
         moveTaskToBack(true);
     }
 }

@@ -52,6 +52,12 @@ public class InputNameFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Check typed text on contains only letters and spaces (a-z, A-Z, ' ')
+     * @param text string to check
+     * @return true if text is ok. <br>
+     *     false if text is bad
+     */
     public boolean checkText(String text) {
 
         int letters = 0;

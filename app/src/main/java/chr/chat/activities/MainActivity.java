@@ -10,13 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
         Database.instance.loadAllChats(this, UniqueIdentifier.identifier);
     }
 
-    private void preloadHeader() {
-        changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
-    }
+
+    // --------------------------------
+    //    Main Methods
+    // --------------------------------
 
     private void loadUserDataFromPhoneMemory() {
 
@@ -112,62 +111,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Database.instance.loadUserData(this, UniqueIdentifier.identifier);
         }
-
-    }
-
-    public void setUser(User user) {
-
-        if (user != null && user.isAvailable()) {
-            currentUser = user;
-        } else {
-            // Force close app because the fact that user has been banned before.
-            finishAndRemoveTask();
-        }
-    }
-
-    public static User getUser() {
-        return currentUser;
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (!listenersRemovedBefore) {
-            Database.instance.removeAllListener();
-        } else {
-            listenersRemovedBefore = false;
-        }
-        super.onDestroy();
-    }
-
-    /**
-     * Method for change any fragment on current activity
-     * @param destination place of fragment
-     * @param newFragment instance of necessary fragment
-     * @param tag tag of string type
-     * @param animation boolean value to use animation or not
-     */
-    @SuppressLint("ResourceType")
-    public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
-        // Remove current fragment if it has been added before
-        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .remove(newFragment)
-                    .commitAllowingStateLoss();
-        }
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-        if (animation) {
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, 0);
-        } else {
-            fragmentTransaction.setCustomAnimations(0, 0);
-        }
-
-        // Add current fragment
-        fragmentTransaction.add(destination, newFragment, tag);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commitAllowingStateLoss();
     }
 
     public void updateActivityView(ArrayList<Chat> list) {
@@ -218,27 +161,104 @@ public class MainActivity extends AppCompatActivity {
             headerChatListFragment.setCompanionName(getChatByID(currentChatID));
 
             boolean switcherOnCheck = GlobalSettings.isChecked(this, GlobalSettings.CHECK_ON_ADULT_CONTENT);
-            boolean isExclusion = AdultContentExclusions.isContains(this, currentChatID);
+            boolean isExclusion = AdultContentExclusions.isContain(this, currentChatID);
 
             chatFragment.setMessages(messages, (switcherOnCheck && !isExclusion), useAnimation);
-
-
         }
     }
 
+    public void reportUser() {
+        Chat chat = getChatByID(currentChatID);
 
-    public void onClickAttach(View view) {
-        ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
-        popupMenu.show();
+        if (chat != null) {
+            String suspectID = chat.getUserID1();
+
+            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
+                suspectID = chat.getUserID2();
+            }
+
+            Report report = new Report(suspectID, currentChatID);
+            Database.instance.reportUser(report);
+            Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    /**
+     * Method for change any fragment on current activity
+     * @param destination place of fragment
+     * @param newFragment instance of necessary fragment
+     * @param tag tag of string type
+     * @param animation boolean value to use animation or not
+     */
+    @SuppressLint("ResourceType")
+    public void changeFragment(int destination, Fragment newFragment, String tag, boolean animation) {
+        // Remove current fragment if it has been added before
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(newFragment)
+                    .commitAllowingStateLoss();
+        }
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (animation) {
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, 0);
+        } else {
+            fragmentTransaction.setCustomAnimations(0, 0);
+        }
+
+        // Add current fragment
+        fragmentTransaction.add(destination, newFragment, tag);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Remove chat from chat-list
+        if (item.getItemId() == R.id.option_remove_chat) {
+
+            boolean useAnimation = false;
+            if (contextMenuForChatID.equals(currentChatID)) {
+                useAnimation = true;
+            }
+
+            if (chatList.size() > 1) {
+                for (Chat chat: chatList) {
+                    if (chat.getID().equals(contextMenuForChatID)) {
+                        chatList.remove(chat);
+                        break;
+                    }
+                }
+
+                currentChatID = chatList.get(0).getID();
+
+                // Load messages for a new chat
+                Database.instance.getMessagesForNewChat(this, currentChatID, useAnimation);
+            }
+
+            Database.instance.closeChat(contextMenuForChatID);
+
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
+    // --------------------------------
+    // Adult Content Dialog methods
+    // --------------------------------
 
     public void showAdultContentDialog() {
         AdultContentDialog dialog = new AdultContentDialog(MainActivity.this, this);
         dialog.show();
     }
 
+    /**
+     * Listener for Adult Content Dialog
+     * @param confirmed <b>true</b> - pressed YES. <b>false</b> - pressed NO.
+     */
     public void adultContentDialogClick(boolean confirmed) {
 
         if (confirmed) {
@@ -268,73 +288,88 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void hideChatlistBlock() {
+    // ----------------------------
+    //   Redirection methods
+    // ----------------------------
+    public void onClickSearch(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
 
-        if (!preferences.getBoolean(HINT_KEY, false)) {
-            preferences.edit().putBoolean(HINT_KEY, true).apply();
+    public void goToChangePersonalName() {
+        Intent intent = new Intent(this, ChangeInfoActivity.class);
+        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
+    }
+
+    // --------------------------------
+    //   Listeners
+    // --------------------------------
+
+    /**
+     * Listener on Menu button
+     * @param view "Menu" button
+     */
+    public void onClickMenu(View view) {
+        // Show menu
+        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+
+        if (chatList != null && chatList.size() > 0) {
+            inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
+        } else {
+            inflater.inflate(R.menu.settings_menu_short, popupMenu.getMenu());
         }
 
-        chatFragment.hideChatListBlock();
+        popupMenu.show();
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.remove_chat_menu, menu);
-        contextMenuForChatID = v.getTag().toString();
+    public void onBackPressed() {
+        // Put app on the background
+        moveTaskToBack(true);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.option_remove_chat) {
-
-            boolean useAnimation = false;
-            if (contextMenuForChatID.equals(currentChatID)) {
-                useAnimation = true;
-            }
-
-            if (chatList.size() > 1) {
-                for (Chat chat: chatList) {
-                    if (chat.getID().equals(contextMenuForChatID)) {
-                        chatList.remove(chat);
-                        break;
-                    }
-                }
-
-                currentChatID = chatList.get(0).getID();
-
-                // Load messages for a new chat
-                Database.instance.getMessagesForNewChat(this, currentChatID, useAnimation);
-            }
-
-            Database.instance.closeChat(contextMenuForChatID);
-
-            return true;
+    protected void onDestroy() {
+        // Remove all listeners
+        if (!listenersRemovedBefore) {
+            Database.instance.removeAllListener();
+        } else {
+            listenersRemovedBefore = false;
         }
-        return super.onContextItemSelected(item);
+        super.onDestroy();
+    }
+
+    // ----------------------------
+    //      Supporting methods
+    // ----------------------------
+
+    private void preloadHeader() {
+        changeFragment(R.id.header, headerPreloadFragment, "HeaderPreloadFragment",false);
+    }
+
+    private boolean isContains(String chatID) {
+        return getChatByID(chatID) != null;
+    }
+
+    public static User getUser() {
+        return currentUser;
     }
 
     public void attachBotMessage(int attachmentType) {
         chatFragment.attachBotMessage(attachmentType);
-    }
-
-    public void reportUser() {
-        Chat chat = getChatByID(currentChatID);
-
-        if (chat != null) {
-            String suspectID = chat.getUserID1();
-
-            if (chat.getUserID1().equals(UniqueIdentifier.identifier)) {
-                suspectID = chat.getUserID2();
-            }
-
-            Report report = new Report(suspectID, currentChatID);
-            Database.instance.reportUser(report);
-            Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public Chat getChatByID(String requiredID) {
@@ -346,8 +381,10 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Shows toast with hint to user until it is called {@link #hideChatlistBlock()}
+     */
     public void showHintToast() {
-
         if (!preferences.getBoolean(HINT_KEY, false)) {
 
             final Context context = this;
@@ -371,55 +408,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isContains(String chatID) {
-        return getChatByID(chatID) != null;
-    }
+    public void hideChatlistBlock() {
 
-    /**
-     * Redirection to SearchActivity
-     */
-    public void onClickSearch(View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-    public void goToChangePersonalName() {
-        Intent intent = new Intent(this, ChangeInfoActivity.class);
-        intent.putExtra(ChangeInfoActivity.ENTER_CODE, ChangeInfoActivity.CHANGE_NAME_CODE);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-    public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_right);
-    }
-
-    /**
-     * Listener on Menu button
-     * @param view "Menu" button
-     */
-    public void onClickMenu(View view) {
-        // Show menu
-        ChatPopupMenu popupMenu = new ChatPopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-
-        if (chatList != null && chatList.size() > 0) {
-            inflater.inflate(R.menu.settings_menu, popupMenu.getMenu());
-        } else {
-            inflater.inflate(R.menu.settings_menu_short, popupMenu.getMenu());
+        if (!preferences.getBoolean(HINT_KEY, false)) {
+            preferences.edit().putBoolean(HINT_KEY, true).apply();
         }
 
-        popupMenu.show();
+        chatFragment.hideChatListBlock();
     }
 
     @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        // Show remove chat menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.remove_chat_menu, menu);
+        contextMenuForChatID = v.getTag().toString();
+    }
+
+    public void onClickAttach(View view) {
+        ChatPopupAttachMenu popupMenu = new ChatPopupAttachMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.attach_menu, popupMenu.getMenu());
+        popupMenu.show();
+    }
+
+    /**
+     * Update instance of User class which keeps current user's data
+     * @param user a new instance of User class
+     */
+    public void setUser(User user) {
+
+        if (user != null && user.isAvailable()) {
+            currentUser = user;
+        } else {
+            // Force close app because the fact that user has been banned before.
+            finishAndRemoveTask();
+        }
     }
 }

@@ -22,7 +22,6 @@ public class FirebaseBackgroundService extends Service {
     private Context context;
     private DatabaseReference mDatabase;
     private String userID;
-
     private ValueEventListener newChatListener;
 
     @Override
@@ -44,7 +43,6 @@ public class FirebaseBackgroundService extends Service {
             // If listener has been added before - remove it
             mDatabase.child("chats").orderByChild("userID2").equalTo(userID).removeEventListener(newChatListener);
         }
-
 
         // Create listener
         newChatListener = new ValueEventListener() {

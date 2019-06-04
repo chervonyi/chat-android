@@ -3,13 +3,10 @@ package chr.chat.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -34,12 +30,9 @@ import chr.chat.activities.MainActivity;
 import chr.chat.components.BotAttachments;
 import chr.chat.R;
 import chr.chat.components.Database;
-import chr.chat.components.GlobalSettings;
 import chr.chat.components.UniqueIdentifier;
 import chr.chat.components.models.Chat;
-import chr.chat.components.models.Line;
 import chr.chat.components.models.Message;
-import chr.chat.components.models.User;
 import chr.chat.views.ChatBlockView;
 import chr.chat.views.ChatBotBlockView;
 import chr.chat.views.ChatIconButton;
@@ -48,11 +41,8 @@ import chr.chat.views.ChatInputMessageView;
 public class ChatFragment extends Fragment {
 
     private final String END_PHRASE = "END_PHRASE_CODE";
-
     public static final String BOT_MESSAGES_CODE = "BOT_MESSAGES_ID_1984";
-
     private BotAttachments botAttachments = new BotAttachments();
-
     private boolean foundAdultContent = false;
 
     // UI
@@ -126,42 +116,10 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    public void hideChatListBlock() {
-        if (chatListBlock == null) { return; }
 
-        if (chatListBlock.getVisibility() == View.VISIBLE) {
-
-            chatListBlock.animate()
-                    .translationY(-10)
-                    .alpha(0.0f)
-                    .setDuration(150)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            chatListBlock.setVisibility(View.INVISIBLE);
-                        }
-                    });
-
-        } else {
-            chatListBlock.animate()
-                    .translationY(10)
-                    .alpha(1.0f)
-                    .setDuration(150)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            chatListBlock.setVisibility(View.VISIBLE);
-                        }
-                    });
-        }
-    }
-
-    public void hideScrollView() {
-        if (scrollView != null) {
-            scrollView.setVisibility(View.INVISIBLE);
-        }
-    }
+    // --------------------------------
+    //   Main methods
+    // --------------------------------
 
     public void setChatList(List<Chat> chatlist) {
         ChatIconButton chatIconButton;
@@ -218,6 +176,48 @@ public class ChatFragment extends Fragment {
 
         if (foundAdultContent) {
             ((MainActivity)getActivity()).showAdultContentDialog();
+        }
+    }
+
+
+    // --------------------------------
+    //   Supporting methods
+    // --------------------------------
+
+    public void hideChatListBlock() {
+        if (chatListBlock == null) { return; }
+
+        if (chatListBlock.getVisibility() == View.VISIBLE) {
+
+            chatListBlock.animate()
+                    .translationY(-10)
+                    .alpha(0.0f)
+                    .setDuration(150)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            chatListBlock.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+        } else {
+            chatListBlock.animate()
+                    .translationY(10)
+                    .alpha(1.0f)
+                    .setDuration(150)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            chatListBlock.setVisibility(View.VISIBLE);
+                        }
+                    });
+        }
+    }
+
+    public void hideScrollView() {
+        if (scrollView != null) {
+            scrollView.setVisibility(View.INVISIBLE);
         }
     }
 

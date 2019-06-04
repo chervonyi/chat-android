@@ -122,6 +122,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Put app on the background
         moveTaskToBack(true);
     }
 }
