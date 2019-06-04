@@ -12,8 +12,7 @@
 > - Be safe from unwanted messages using integrated checking on adult content function.
 > - Use special Bot's attachments to get the pointers to keep the conversation going.
 
-
-
+#### [Change Log](https://github.com/chervonyi/chat-android/releases)
 
 ## Guide
 
