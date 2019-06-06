@@ -29,7 +29,9 @@ public class HeaderIntroductionFragment extends Fragment {
     }
 
     public void setVisibilitySubmit(boolean status) {
-        buttonSubmit.setVisibility(status ? View.VISIBLE : View.INVISIBLE);
+        if (buttonSubmit != null) {
+            buttonSubmit.setVisibility(status ? View.VISIBLE : View.INVISIBLE);
+        }
     }
 
 
