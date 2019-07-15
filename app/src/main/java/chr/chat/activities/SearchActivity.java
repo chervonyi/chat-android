@@ -7,22 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import chr.chat.components.Database;
-import chr.chat.components.UniqueIdentifier;
-import chr.chat.components.models.Chat;
 import chr.chat.fragments.GenderQuestionFragment;
 import chr.chat.fragments.HeaderSearchingFragment;
 import chr.chat.fragments.LanguageQuestionFragment;
 import chr.chat.R;
 import chr.chat.fragments.SearchingFragment;
-import chr.chat.views.ChatPopupMenu;
 
 public class SearchActivity extends AppCompatActivity {
 

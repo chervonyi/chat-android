@@ -27,6 +27,10 @@ public class ChatPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
                 ((MainActivity)context).reportUser();
                 return true;
 
+            case R.id.menu_close_current_chat:
+                ((MainActivity)context).closeCurrentChat();
+                return true;
+
             case R.id.menu_settings:
                 if (context instanceof MainActivity) {
                     ((MainActivity)context).goToSettings();

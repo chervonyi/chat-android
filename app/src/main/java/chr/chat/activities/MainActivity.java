@@ -246,6 +246,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void closeCurrentChat() {
+        String chatToDelete = currentChatID;
+
+        if (chatList.size() > 1) {
+            for (Chat chat: chatList) {
+                if (chat.getID().equals(currentChatID)) {
+                    chatList.remove(chat);
+                    break;
+                }
+            }
+
+            // Chat id that will be shown after removing
+            currentChatID = chatList.get(0).getID();
+
+            // Load messages for this chat
+            Database.instance.getMessagesForNewChat(this, currentChatID, true);
+        }
+
+        Database.instance.closeChat(chatToDelete);
+    }
+
+
     // --------------------------------
     // Adult Content Dialog methods
     // --------------------------------

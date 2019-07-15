@@ -5,6 +5,9 @@
         android:id="@+id/menu_report_user"
         android:title="@string/menu_report_user"/>
 
+    <item android:id="@+id/menu_close_current_chat"
+        android:title="@string/close_chat"/>
+
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"/>
 
